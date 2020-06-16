@@ -17,5 +17,16 @@ namespace TestNotification
         {
             InitializeComponent();
         }
+        async void OnSaveButtonClicked(object sender, EventArgs e)
+        {
+            //register the device on the push notification server
+            //use await!!
+        }
+
+        async void OnDeleteButtonClicked(object sender, EventArgs e)
+        {
+            //unregister the device by the push notification server
+            //use await!!
+        }
     }
 }

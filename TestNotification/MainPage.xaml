@@ -3,14 +3,41 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d"
+             Title="TestPushNotification"
              x:Class="TestNotification.MainPage">
+    <ContentPage.Resources>
+        <Style TargetType="Button"
+               ApplyToDerivedTypes="True"
+               CanCascade="True">
+            <Setter Property="FontSize" Value="Medium" />
+            <Setter Property="BackgroundColor" Value="#1976D2" />
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="CornerRadius" Value="5" />
+            <Setter Property="HeightRequest"  Value="110" />
+        </Style>
+    </ContentPage.Resources>
 
     <StackLayout>
-        <!-- Place new controls here -->
-        <Label Text="Welcome to Xamarin.Forms!" 
-           HorizontalOptions="Center"
-           VerticalOptions="CenterAndExpand" />
+        <Label Text=" Benvenuto al prototipo del sistema di push notification dell'applicazione mobile Hunext Mobile." 
+           HorizontalOptions="Fill"
+           VerticalOptions="Start" />
+        <Label Text=" Attivando il bottone switch, registrerai il tuo device al server di push notification." 
+           HorizontalOptions="Start"
+           VerticalOptions="Start" />
+        <Label Text=" Disattivandp il bottone switch, invece, il tuo device non riceverà più notifiche push." 
+           HorizontalOptions="Start"
+           VerticalOptions="Start" />
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Button Text="Registra il tuo device al server"
+                    Clicked="OnSaveButtonClicked" />
+            <Button Grid.Column="1"
+                    Text="Elimina la registrazione del tuo device dal server"
+                    Clicked="OnDeleteButtonClicked" />
+        </Grid>
     </StackLayout>
 
 </ContentPage>
