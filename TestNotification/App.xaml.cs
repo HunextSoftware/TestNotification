@@ -10,6 +10,7 @@ namespace TestNotification
         {
             InitializeComponent();
 
+            Device.SetFlags(new string[] { "RadioButton_Experimental" });
             MainPage = new MainPage();
         }
 
