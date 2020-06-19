@@ -9,7 +9,7 @@
              Title="TestPushNotification">
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Info"
-                     IconImageSource="icon.png"
+                     Icon="icon_info.jpg"
                      Clicked="OnInfoClicked" />
     </ContentPage.ToolbarItems>
     <ContentPage.Resources>
@@ -76,7 +76,8 @@
                     Clicked="OnDeleteButtonClicked" />
         </Grid>
         <Label x:Name="stateLabel"
-               Text="Stato device: non registrato."
+               Text="Stato device: &lt;strong&gt;non registrato&lt;/strong&gt;."
+               TextType="Html"
                TextColor="Red"
                HorizontalOptions="Center"
                Margin="20,0,5,5"/>

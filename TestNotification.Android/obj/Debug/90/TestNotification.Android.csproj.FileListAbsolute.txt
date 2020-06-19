@@ -589,3 +589,4 @@ C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debu
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\android\src\crc64e005ae2c7b2bb035\BroadcastMonitor.java
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\android\src\crc64e005ae2c7b2bb035\Gyroscope.java
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\android\src\crc64f10777bfd70971e3\ExtendedMasterDetailRenderer.java
+C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\res\drawable\icon_info.jpg
