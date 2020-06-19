@@ -100,7 +100,7 @@ namespace TestNotification
             {
                 isRegistered = false;
                 Console.WriteLine($"OK: This device has been unregistered by the server.");
-                Toast.MakeText(Android.App.Application.Context, "Il device è sttao dissociato dal server.", ToastLength.Long).Show();
+                Toast.MakeText(Android.App.Application.Context, "Il device è stato dissociato dal server.", ToastLength.Long).Show();
                 stateLabel.Text = $"Stato device: <strong>non registrato</strong>.";
                 stateLabel.TextColor = Color.Red;
             }
