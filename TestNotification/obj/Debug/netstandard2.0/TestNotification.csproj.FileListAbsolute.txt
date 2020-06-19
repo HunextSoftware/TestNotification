@@ -16,3 +16,4 @@ C:\Users\a.gobbo\source\repos\TestNotification\TestNotification\bin\Debug\netsta
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification\bin\Debug\netstandard2.0\Mono.Android.pdb
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification\bin\Debug\netstandard2.0\Mono.Android.xml
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification\obj\Debug\netstandard2.0\TestNotification.csproj.CopyComplete
+C:\Users\a.gobbo\source\repos\TestNotification\TestNotification\obj\Debug\netstandard2.0\InfoPage.xaml.g.cs

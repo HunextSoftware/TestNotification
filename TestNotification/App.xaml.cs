@@ -9,9 +9,7 @@ namespace TestNotification
         public App()
         {
             InitializeComponent();
-
-            Device.SetFlags(new string[] { "RadioButton_Experimental" });
-            MainPage = new MainPage();
+            MainPage = new NavigationPage(new MainPage());
         }
 
         protected override void OnStart()

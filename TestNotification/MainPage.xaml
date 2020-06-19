@@ -1,8 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             Title="TestPushNotification"
-             x:Class="TestNotification.MainPage">
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="TestNotification.MainPage"
+             Padding="10"
+             Title="TestPushNotification">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Info"
+                     IconImageSource="icon.png"
+                     Clicked="OnInfoClicked" />
+    </ContentPage.ToolbarItems>
     <ContentPage.Resources>
         <Style TargetType="Button"
                ApplyToDerivedTypes="True"
@@ -14,17 +23,9 @@
             <Setter Property="HeightRequest" Value="50" />
         </Style>
     </ContentPage.Resources>
-
     <StackLayout>
-        <Label Text=" Benvenuto al prototipo del sistema di push notification dell'applicazione mobile Hunext Mobile!"  
-           Margin="20,20,5,5"/>
-        <Label Text=" Cliccando 'Registra device', registrerai il tuo device al server di push notification e sarai in grado di ricevere notifiche in qualsiasi momento dall'app TestNotification." 
-           Margin="20,0,5,5"/>
-        <Label Text=" Cliccando 'Dissocia device', invece, simulerai la disinstallazione dell'app TestNotification e l'associazione app-device sarà rimossa dal server di push notification, quindi non riceverai più notifiche fino alla prossima installazione."  
-           Margin="20,0,5,30"/>
         <Label Text="Seleziona il tuo comparto aziendale (consentito solo uno):"
-           Margin="20,0,5,5"/>
-
+               Margin="20,0,5,5"/>
         <Grid Margin="2,0,2,20">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.10*" />
@@ -63,8 +64,7 @@
                   Text="Software"
                   VerticalOptions="Center" />
         </Grid>
-
-        <Grid Margin="20,0,20,0">
+        <Grid Margin="20,00,20,30">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*" />
@@ -75,6 +75,10 @@
                     Text="Dissocia device"
                     Clicked="OnDeleteButtonClicked" />
         </Grid>
+        <Label x:Name="stateLabel"
+               Text="Stato device: non registrato."
+               TextColor="Red"
+               HorizontalOptions="Center"
+               Margin="20,0,5,5"/>
     </StackLayout>
-
 </ContentPage>

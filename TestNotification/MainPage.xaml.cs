@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Android.Widget;
+using System;
 using System.ComponentModel;
 using TestNotification.Models;
 using Xamarin.Forms;
@@ -14,12 +15,19 @@ namespace TestNotification
         public MainPage()
         {
             InitializeComponent();
+            BindingContext = this;
+        }
+
+        async void OnInfoClicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new InfoPage());
         }
 
         static public uint countCheckbox = 0;
         static public bool isRegistered = false;
 
-        //Checkbox events
+        //**********************************************Checkbox events*************************************************
+
         void OnPayrollCheckBoxChanged(object sender, CheckedChangedEventArgs e)
         {
             if (e.Value) countCheckbox++;
@@ -41,12 +49,12 @@ namespace TestNotification
             Console.WriteLine($"INFO: Software checkbox. Total number checkboxes on: {countCheckbox}.");
         }
         
-        //Button events
+        //***********************************************Button events****************************************************
+
         void OnSaveButtonClicked(object sender, EventArgs e)
         {
             /* 1) Simulate that this app has been installed on own device.
              * 2) Register the device on the push notification server, reserved for TestNotification.
-             * --> if the method is async, use await
              */
             Console.WriteLine($"INFO: It has been clicked 'Registra device' button.");
             if (countCheckbox == 1)
@@ -54,30 +62,47 @@ namespace TestNotification
                 if (!isRegistered)
                 {
                     isRegistered = true;
-                    //FIXME fix the constructor, in a way to insert correctly the parameters
-                    _ = new AppDataToSend(1, 1);
+                    /*
+                     * Push notification server will receive this information probably by means of AppDataToSend object
+                     * _ = new AppDataToSend(deviceId, orgSectorId); 
+                    */
                     Console.WriteLine($"OK: This device has been registered on the server.");
+                    Toast.MakeText(Android.App.Application.Context, "Your device is now signed in into the server.", ToastLength.Long).Show();
+                    stateLabel.Text = $"Stato device: registrato.";
+                    stateLabel.TextColor = Color.Green;
                 }
-                else Console.WriteLine($"ERROR: This device has registered on the server yet.");
-
+                else
+                {
+                    Console.WriteLine($"ERROR: This device has registered on the server yet.");
+                    Toast.MakeText(Android.App.Application.Context, "Error: you can't sign in your device twice.", ToastLength.Long).Show();
+                }    
             }
-            else Console.WriteLine($"ERROR: Please, select only one voice.");
-
+            else
+            {
+                Console.WriteLine($"ERROR: Please, select only one voice.");
+                Toast.MakeText(Android.App.Application.Context, "Please, select only one voice.", ToastLength.Long).Show();
+            }
         }
 
         void OnDeleteButtonClicked(object sender, EventArgs e)
         {
             /* 1) Simulate that this app has been removed by own device.
              * 2) Unregister the device by the push notification server, reserved for TestNotification
-             * --> if the method is async, use await
              */
             Console.WriteLine($"INFO: It has been clicked 'Dissocia device' button.");
             if (isRegistered)
             {
                 isRegistered = false;
                 Console.WriteLine($"OK: This device has been unregistered by the server.");
+                Toast.MakeText(Android.App.Application.Context, "Your device's reference is now deleted by the server.", ToastLength.Long).Show();
+                stateLabel.Text = $"Stato device: non registrato.";
+                stateLabel.TextColor = Color.Red;
             }
-            else Console.WriteLine($"ERROR: You cannot unregister your device, cause is not registered to the server.");
+            else 
+            {
+                Console.WriteLine($"ERROR: You cannot delete your device's reference, cause is not signed in to the server.");
+                Toast.MakeText(Android.App.Application.Context, "Error: the device is not sign in into the server yet.", ToastLength.Short).Show();
+            } 
         }
     }
 }
