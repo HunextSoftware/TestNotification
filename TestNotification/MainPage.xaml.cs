@@ -78,7 +78,7 @@ namespace TestNotification
                 }
                 else
                 {
-                    Console.WriteLine($"ERROR: This device has signed in on the server yet.");
+                    Console.WriteLine($"ERROR: This device is signed in on the server yet.");
                     Toast.MakeText(Android.App.Application.Context, "Errore: device già registrato nel server.", ToastLength.Long).Show();
                 }    
             }
