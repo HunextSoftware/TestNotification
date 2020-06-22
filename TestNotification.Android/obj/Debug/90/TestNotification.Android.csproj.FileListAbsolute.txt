@@ -1,9 +1,3 @@
-C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\bin\Debug\TestNotification.Android.dll
-C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\bin\Debug\TestNotification.Android.pdb
-C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\bin\Debug\com.companyname.testnotification.apk
-C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\bin\Debug\com.companyname.testnotification.aab
-C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\bin\Debug\com.companyname.testnotification-Signed.aab
-C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\bin\Debug\com.companyname.testnotification-Signed.apk
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\bin\Debug\TestNotification.dll
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\bin\Debug\TestNotification.pdb
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\MonoAndroid,Version=v9.0.AssemblyAttributes.cs
@@ -27,12 +21,7 @@ C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debu
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\TestNotification.Android.csproj.CoreCompileInputs.cache
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\XamlC.stamp
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\TestNotification.Android.csproj.CopyComplete
-C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\TestNotification.Android.dll
-C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\TestNotification.Android.pdb
-C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\android\bin\com.companyname.testnotification.apk
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\android\bin\base.zip
-C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\android\bin\com.companyname.testnotification.aab
-C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\android\bin\com.companyname.testnotification.apks
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\res\layout\tabbar.xml
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\res\layout\toolbar.xml
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\res\values\styles.xml
@@ -96,8 +85,6 @@ C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debu
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\android\assets\System.Xml.Linq.dll
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\android\assets\System.Xml.Linq.pdb
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\android\assets\System.Xml.pdb
-C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\android\assets\TestNotification.Android.dll
-C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\android\assets\TestNotification.Android.pdb
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\android\assets\TestNotification.dll
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\android\assets\TestNotification.pdb
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\android\assets\Xamarin.Android.Arch.Core.Common.dll
@@ -379,7 +366,6 @@ C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debu
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\android\src\crc64a0e0a82d0db9a07d\TextToSpeechImplementation.java
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\android\src\crc64a98abb514ffad9f1\CustomTabsServiceConnectionImpl.java
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\android\src\crc64a98abb514ffad9f1\KeepAliveService.java
-C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\android\src\crc64deda6261fc58bf1b\MainActivity.java
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\android\src\crc64ee486da937c010f4\ButtonRenderer.java
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\android\src\crc64ee486da937c010f4\FrameRenderer.java
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\android\src\crc64ee486da937c010f4\ImageRenderer.java
@@ -438,7 +424,6 @@ C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debu
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\android\src\mono\MonoPackageManager_Resources.java
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\android\src\xamarin\essentials\fileProvider.java
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\android\bin\packaged_resources
-C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\android\src\com\companyname\testnotification\R.java
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\android\typemaps.arm64-v8a.o
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\android\typemaps.armeabi-v7a.o
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\android\typemaps.x86.o
@@ -590,3 +575,18 @@ C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debu
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\android\src\crc64e005ae2c7b2bb035\Gyroscope.java
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\android\src\crc64f10777bfd70971e3\ExtendedMasterDetailRenderer.java
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\res\drawable\icon_info.jpg
+C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\bin\Debug\com.hunext.testnotification.android.dll
+C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\bin\Debug\com.hunext.testnotification.android.pdb
+C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\bin\Debug\com.hunext.testnotification.apk
+C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\bin\Debug\com.hunext.testnotification.aab
+C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\bin\Debug\com.hunext.testnotification-Signed.aab
+C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\bin\Debug\com.hunext.testnotification-Signed.apk
+C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\com.hunext.testnotification.android.dll
+C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\com.hunext.testnotification.android.pdb
+C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\android\bin\com.hunext.testnotification.apk
+C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\android\bin\com.hunext.testnotification.aab
+C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\android\bin\com.hunext.testnotification.apks
+C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\android\assets\com.hunext.testnotification.android.dll
+C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\android\assets\com.hunext.testnotification.android.pdb
+C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\android\src\crc64b9df9d6343c7486f\MainActivity.java
+C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\android\src\com\hunext\testnotification\R.java

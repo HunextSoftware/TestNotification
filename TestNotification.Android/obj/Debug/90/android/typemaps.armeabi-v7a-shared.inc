@@ -28796,350 +28796,350 @@
 	.section	.rodata.java_type_name.4799,"aMS",%progbits,1
 	.type	.L.java_type_name.4799, %object
 .L.java_type_name.4799:
-	.asciz	"crc64bc72f1f266017cb3/GeolocationContinuousListener"
-	.size	.L.java_type_name.4799, 52
+	.asciz	"crc64b9df9d6343c7486f/MainActivity"
+	.size	.L.java_type_name.4799, 35
 
 	.section	.rodata.java_type_name.4800,"aMS",%progbits,1
 	.type	.L.java_type_name.4800, %object
 .L.java_type_name.4800:
-	.asciz	"crc64bc72f1f266017cb3/GeolocationSingleListener"
-	.size	.L.java_type_name.4800, 48
+	.asciz	"crc64bc72f1f266017cb3/GeolocationContinuousListener"
+	.size	.L.java_type_name.4800, 52
 
 	.section	.rodata.java_type_name.4801,"aMS",%progbits,1
 	.type	.L.java_type_name.4801, %object
 .L.java_type_name.4801:
-	.asciz	"crc64bceb23768ad79fc0/KeyVaultStorage_SecureData"
-	.size	.L.java_type_name.4801, 49
+	.asciz	"crc64bc72f1f266017cb3/GeolocationSingleListener"
+	.size	.L.java_type_name.4801, 48
 
 	.section	.rodata.java_type_name.4802,"aMS",%progbits,1
 	.type	.L.java_type_name.4802, %object
 .L.java_type_name.4802:
-	.asciz	"crc64bceb23768ad79fc0/Network"
-	.size	.L.java_type_name.4802, 30
+	.asciz	"crc64bceb23768ad79fc0/KeyVaultStorage_SecureData"
+	.size	.L.java_type_name.4802, 49
 
 	.section	.rodata.java_type_name.4803,"aMS",%progbits,1
 	.type	.L.java_type_name.4803, %object
 .L.java_type_name.4803:
-	.asciz	"crc64bceb23768ad79fc0/NfcDevice"
-	.size	.L.java_type_name.4803, 32
+	.asciz	"crc64bceb23768ad79fc0/Network"
+	.size	.L.java_type_name.4803, 30
 
 	.section	.rodata.java_type_name.4804,"aMS",%progbits,1
 	.type	.L.java_type_name.4804, %object
 .L.java_type_name.4804:
-	.asciz	"crc64bceb23768ad79fc0/NfcDevice_NfcMonitor"
-	.size	.L.java_type_name.4804, 43
+	.asciz	"crc64bceb23768ad79fc0/NfcDevice"
+	.size	.L.java_type_name.4804, 32
 
 	.section	.rodata.java_type_name.4805,"aMS",%progbits,1
 	.type	.L.java_type_name.4805, %object
 .L.java_type_name.4805:
-	.asciz	"crc64bceb23768ad79fc0/TextToSpeechService"
-	.size	.L.java_type_name.4805, 42
+	.asciz	"crc64bceb23768ad79fc0/NfcDevice_NfcMonitor"
+	.size	.L.java_type_name.4805, 43
 
 	.section	.rodata.java_type_name.4806,"aMS",%progbits,1
 	.type	.L.java_type_name.4806, %object
 .L.java_type_name.4806:
-	.asciz	"crc64c2dd9cd7cfc92672/CalendarArrowView"
-	.size	.L.java_type_name.4806, 40
+	.asciz	"crc64bceb23768ad79fc0/TextToSpeechService"
+	.size	.L.java_type_name.4806, 42
 
 	.section	.rodata.java_type_name.4807,"aMS",%progbits,1
 	.type	.L.java_type_name.4807, %object
 .L.java_type_name.4807:
-	.asciz	"crc64c2dd9cd7cfc92672/CalendarCellView"
-	.size	.L.java_type_name.4807, 39
+	.asciz	"crc64c2dd9cd7cfc92672/CalendarArrowView"
+	.size	.L.java_type_name.4807, 40
 
 	.section	.rodata.java_type_name.4808,"aMS",%progbits,1
 	.type	.L.java_type_name.4808, %object
 .L.java_type_name.4808:
-	.asciz	"crc64c2dd9cd7cfc92672/CalendarGridView"
+	.asciz	"crc64c2dd9cd7cfc92672/CalendarCellView"
 	.size	.L.java_type_name.4808, 39
 
 	.section	.rodata.java_type_name.4809,"aMS",%progbits,1
 	.type	.L.java_type_name.4809, %object
 .L.java_type_name.4809:
-	.asciz	"crc64c2dd9cd7cfc92672/CalendarMonthPageTransformer"
-	.size	.L.java_type_name.4809, 51
+	.asciz	"crc64c2dd9cd7cfc92672/CalendarGridView"
+	.size	.L.java_type_name.4809, 39
 
 	.section	.rodata.java_type_name.4810,"aMS",%progbits,1
 	.type	.L.java_type_name.4810, %object
 .L.java_type_name.4810:
-	.asciz	"crc64c2dd9cd7cfc92672/CalendarPickerView"
-	.size	.L.java_type_name.4810, 41
+	.asciz	"crc64c2dd9cd7cfc92672/CalendarMonthPageTransformer"
+	.size	.L.java_type_name.4810, 51
 
 	.section	.rodata.java_type_name.4811,"aMS",%progbits,1
 	.type	.L.java_type_name.4811, %object
 .L.java_type_name.4811:
-	.asciz	"crc64c2dd9cd7cfc92672/CalendarPickerView_OnPageChangeListener"
-	.size	.L.java_type_name.4811, 62
+	.asciz	"crc64c2dd9cd7cfc92672/CalendarPickerView"
+	.size	.L.java_type_name.4811, 41
 
 	.section	.rodata.java_type_name.4812,"aMS",%progbits,1
 	.type	.L.java_type_name.4812, %object
 .L.java_type_name.4812:
-	.asciz	"crc64c2dd9cd7cfc92672/CalendarRowView"
-	.size	.L.java_type_name.4812, 38
+	.asciz	"crc64c2dd9cd7cfc92672/CalendarPickerView_OnPageChangeListener"
+	.size	.L.java_type_name.4812, 62
 
 	.section	.rodata.java_type_name.4813,"aMS",%progbits,1
 	.type	.L.java_type_name.4813, %object
 .L.java_type_name.4813:
-	.asciz	"crc64c2dd9cd7cfc92672/MonthAdapter"
-	.size	.L.java_type_name.4813, 35
+	.asciz	"crc64c2dd9cd7cfc92672/CalendarRowView"
+	.size	.L.java_type_name.4813, 38
 
 	.section	.rodata.java_type_name.4814,"aMS",%progbits,1
 	.type	.L.java_type_name.4814, %object
 .L.java_type_name.4814:
-	.asciz	"crc64c2dd9cd7cfc92672/MonthCellDescriptor"
-	.size	.L.java_type_name.4814, 42
+	.asciz	"crc64c2dd9cd7cfc92672/MonthAdapter"
+	.size	.L.java_type_name.4814, 35
 
 	.section	.rodata.java_type_name.4815,"aMS",%progbits,1
 	.type	.L.java_type_name.4815, %object
 .L.java_type_name.4815:
-	.asciz	"crc64c2dd9cd7cfc92672/MonthView"
-	.size	.L.java_type_name.4815, 32
+	.asciz	"crc64c2dd9cd7cfc92672/MonthCellDescriptor"
+	.size	.L.java_type_name.4815, 42
 
 	.section	.rodata.java_type_name.4816,"aMS",%progbits,1
 	.type	.L.java_type_name.4816, %object
 .L.java_type_name.4816:
-	.asciz	"crc64d7ee051d44fe9a2b/XFormsApplicationDroid"
-	.size	.L.java_type_name.4816, 45
+	.asciz	"crc64c2dd9cd7cfc92672/MonthView"
+	.size	.L.java_type_name.4816, 32
 
 	.section	.rodata.java_type_name.4817,"aMS",%progbits,1
 	.type	.L.java_type_name.4817, %object
 .L.java_type_name.4817:
-	.asciz	"crc64de53f5b3b9eabdc6/CalendarViewRenderer"
-	.size	.L.java_type_name.4817, 43
+	.asciz	"crc64d7ee051d44fe9a2b/XFormsApplicationDroid"
+	.size	.L.java_type_name.4817, 45
 
 	.section	.rodata.java_type_name.4818,"aMS",%progbits,1
 	.type	.L.java_type_name.4818, %object
 .L.java_type_name.4818:
-	.asciz	"crc64de53f5b3b9eabdc6/CameraPreview"
-	.size	.L.java_type_name.4818, 36
+	.asciz	"crc64de53f5b3b9eabdc6/CalendarViewRenderer"
+	.size	.L.java_type_name.4818, 43
 
 	.section	.rodata.java_type_name.4819,"aMS",%progbits,1
 	.type	.L.java_type_name.4819, %object
 .L.java_type_name.4819:
-	.asciz	"crc64de53f5b3b9eabdc6/CameraViewRenderer"
-	.size	.L.java_type_name.4819, 41
+	.asciz	"crc64de53f5b3b9eabdc6/CameraPreview"
+	.size	.L.java_type_name.4819, 36
 
 	.section	.rodata.java_type_name.4820,"aMS",%progbits,1
 	.type	.L.java_type_name.4820, %object
 .L.java_type_name.4820:
-	.asciz	"crc64de53f5b3b9eabdc6/CheckBoxRenderer"
-	.size	.L.java_type_name.4820, 39
+	.asciz	"crc64de53f5b3b9eabdc6/CameraViewRenderer"
+	.size	.L.java_type_name.4820, 41
 
 	.section	.rodata.java_type_name.4821,"aMS",%progbits,1
 	.type	.L.java_type_name.4821, %object
 .L.java_type_name.4821:
-	.asciz	"crc64de53f5b3b9eabdc6/CircleImageRenderer"
-	.size	.L.java_type_name.4821, 42
+	.asciz	"crc64de53f5b3b9eabdc6/CheckBoxRenderer"
+	.size	.L.java_type_name.4821, 39
 
 	.section	.rodata.java_type_name.4822,"aMS",%progbits,1
 	.type	.L.java_type_name.4822, %object
 .L.java_type_name.4822:
-	.asciz	"crc64de53f5b3b9eabdc6/CustomTypefaceSpan"
-	.size	.L.java_type_name.4822, 41
+	.asciz	"crc64de53f5b3b9eabdc6/CircleImageRenderer"
+	.size	.L.java_type_name.4822, 42
 
 	.section	.rodata.java_type_name.4823,"aMS",%progbits,1
 	.type	.L.java_type_name.4823, %object
 .L.java_type_name.4823:
-	.asciz	"crc64de53f5b3b9eabdc6/DragContentViewRenderer"
-	.size	.L.java_type_name.4823, 46
+	.asciz	"crc64de53f5b3b9eabdc6/CustomTypefaceSpan"
+	.size	.L.java_type_name.4823, 41
 
 	.section	.rodata.java_type_name.4824,"aMS",%progbits,1
 	.type	.L.java_type_name.4824, %object
 .L.java_type_name.4824:
-	.asciz	"crc64de53f5b3b9eabdc6/DynamicListViewRenderer_1"
-	.size	.L.java_type_name.4824, 48
+	.asciz	"crc64de53f5b3b9eabdc6/DragContentViewRenderer"
+	.size	.L.java_type_name.4824, 46
 
 	.section	.rodata.java_type_name.4825,"aMS",%progbits,1
 	.type	.L.java_type_name.4825, %object
 .L.java_type_name.4825:
-	.asciz	"crc64de53f5b3b9eabdc6/DynamicListViewRenderer_1_DataSource"
-	.size	.L.java_type_name.4825, 59
+	.asciz	"crc64de53f5b3b9eabdc6/DynamicListViewRenderer_1"
+	.size	.L.java_type_name.4825, 48
 
 	.section	.rodata.java_type_name.4826,"aMS",%progbits,1
 	.type	.L.java_type_name.4826, %object
 .L.java_type_name.4826:
-	.asciz	"crc64de53f5b3b9eabdc6/ExtendedButtonRenderer"
-	.size	.L.java_type_name.4826, 45
+	.asciz	"crc64de53f5b3b9eabdc6/DynamicListViewRenderer_1_DataSource"
+	.size	.L.java_type_name.4826, 59
 
 	.section	.rodata.java_type_name.4827,"aMS",%progbits,1
 	.type	.L.java_type_name.4827, %object
 .L.java_type_name.4827:
-	.asciz	"crc64de53f5b3b9eabdc6/ExtendedEditorRenderer"
+	.asciz	"crc64de53f5b3b9eabdc6/ExtendedButtonRenderer"
 	.size	.L.java_type_name.4827, 45
 
 	.section	.rodata.java_type_name.4828,"aMS",%progbits,1
 	.type	.L.java_type_name.4828, %object
 .L.java_type_name.4828:
-	.asciz	"crc64de53f5b3b9eabdc6/ExtendedEntryRenderer"
-	.size	.L.java_type_name.4828, 44
+	.asciz	"crc64de53f5b3b9eabdc6/ExtendedEditorRenderer"
+	.size	.L.java_type_name.4828, 45
 
 	.section	.rodata.java_type_name.4829,"aMS",%progbits,1
 	.type	.L.java_type_name.4829, %object
 .L.java_type_name.4829:
-	.asciz	"crc64de53f5b3b9eabdc6/ExtendedLabelRender"
-	.size	.L.java_type_name.4829, 42
+	.asciz	"crc64de53f5b3b9eabdc6/ExtendedEntryRenderer"
+	.size	.L.java_type_name.4829, 44
 
 	.section	.rodata.java_type_name.4830,"aMS",%progbits,1
 	.type	.L.java_type_name.4830, %object
 .L.java_type_name.4830:
-	.asciz	"crc64de53f5b3b9eabdc6/ExtendedScrollViewRenderer"
-	.size	.L.java_type_name.4830, 49
+	.asciz	"crc64de53f5b3b9eabdc6/ExtendedLabelRender"
+	.size	.L.java_type_name.4830, 42
 
 	.section	.rodata.java_type_name.4831,"aMS",%progbits,1
 	.type	.L.java_type_name.4831, %object
 .L.java_type_name.4831:
-	.asciz	"crc64de53f5b3b9eabdc6/ExtendedSwitchRenderer"
-	.size	.L.java_type_name.4831, 45
+	.asciz	"crc64de53f5b3b9eabdc6/ExtendedScrollViewRenderer"
+	.size	.L.java_type_name.4831, 49
 
 	.section	.rodata.java_type_name.4832,"aMS",%progbits,1
 	.type	.L.java_type_name.4832, %object
 .L.java_type_name.4832:
-	.asciz	"crc64de53f5b3b9eabdc6/ExtendedTableViewRenderer"
-	.size	.L.java_type_name.4832, 48
+	.asciz	"crc64de53f5b3b9eabdc6/ExtendedSwitchRenderer"
+	.size	.L.java_type_name.4832, 45
 
 	.section	.rodata.java_type_name.4833,"aMS",%progbits,1
 	.type	.L.java_type_name.4833, %object
 .L.java_type_name.4833:
-	.asciz	"crc64de53f5b3b9eabdc6/GesturesContentViewRenderer"
-	.size	.L.java_type_name.4833, 50
+	.asciz	"crc64de53f5b3b9eabdc6/ExtendedTableViewRenderer"
+	.size	.L.java_type_name.4833, 48
 
 	.section	.rodata.java_type_name.4834,"aMS",%progbits,1
 	.type	.L.java_type_name.4834, %object
 .L.java_type_name.4834:
-	.asciz	"crc64de53f5b3b9eabdc6/GradientContentViewRenderer"
+	.asciz	"crc64de53f5b3b9eabdc6/GesturesContentViewRenderer"
 	.size	.L.java_type_name.4834, 50
 
 	.section	.rodata.java_type_name.4835,"aMS",%progbits,1
 	.type	.L.java_type_name.4835, %object
 .L.java_type_name.4835:
-	.asciz	"crc64de53f5b3b9eabdc6/GridDataSource"
-	.size	.L.java_type_name.4835, 37
+	.asciz	"crc64de53f5b3b9eabdc6/GradientContentViewRenderer"
+	.size	.L.java_type_name.4835, 50
 
 	.section	.rodata.java_type_name.4836,"aMS",%progbits,1
 	.type	.L.java_type_name.4836, %object
 .L.java_type_name.4836:
-	.asciz	"crc64de53f5b3b9eabdc6/GridViewCellRenderer_ViewCellContainer"
-	.size	.L.java_type_name.4836, 61
+	.asciz	"crc64de53f5b3b9eabdc6/GridDataSource"
+	.size	.L.java_type_name.4836, 37
 
 	.section	.rodata.java_type_name.4837,"aMS",%progbits,1
 	.type	.L.java_type_name.4837, %object
 .L.java_type_name.4837:
-	.asciz	"crc64de53f5b3b9eabdc6/GridViewRenderer"
-	.size	.L.java_type_name.4837, 39
+	.asciz	"crc64de53f5b3b9eabdc6/GridViewCellRenderer_ViewCellContainer"
+	.size	.L.java_type_name.4837, 61
 
 	.section	.rodata.java_type_name.4838,"aMS",%progbits,1
 	.type	.L.java_type_name.4838, %object
 .L.java_type_name.4838:
-	.asciz	"crc64de53f5b3b9eabdc6/HybridWebViewRenderer"
-	.size	.L.java_type_name.4838, 44
+	.asciz	"crc64de53f5b3b9eabdc6/GridViewRenderer"
+	.size	.L.java_type_name.4838, 39
 
 	.section	.rodata.java_type_name.4839,"aMS",%progbits,1
 	.type	.L.java_type_name.4839, %object
 .L.java_type_name.4839:
-	.asciz	"crc64de53f5b3b9eabdc6/HybridWebViewRenderer_ChromeClient"
-	.size	.L.java_type_name.4839, 57
+	.asciz	"crc64de53f5b3b9eabdc6/HybridWebViewRenderer"
+	.size	.L.java_type_name.4839, 44
 
 	.section	.rodata.java_type_name.4840,"aMS",%progbits,1
 	.type	.L.java_type_name.4840, %object
 .L.java_type_name.4840:
-	.asciz	"crc64de53f5b3b9eabdc6/HybridWebViewRenderer_Client"
-	.size	.L.java_type_name.4840, 51
+	.asciz	"crc64de53f5b3b9eabdc6/HybridWebViewRenderer_ChromeClient"
+	.size	.L.java_type_name.4840, 57
 
 	.section	.rodata.java_type_name.4841,"aMS",%progbits,1
 	.type	.L.java_type_name.4841, %object
 .L.java_type_name.4841:
-	.asciz	"crc64de53f5b3b9eabdc6/HybridWebViewRenderer_NativeWebView"
-	.size	.L.java_type_name.4841, 58
+	.asciz	"crc64de53f5b3b9eabdc6/HybridWebViewRenderer_Client"
+	.size	.L.java_type_name.4841, 51
 
 	.section	.rodata.java_type_name.4842,"aMS",%progbits,1
 	.type	.L.java_type_name.4842, %object
 .L.java_type_name.4842:
-	.asciz	"crc64de53f5b3b9eabdc6/HybridWebViewRenderer_NativeWebView_MyGestureListener"
-	.size	.L.java_type_name.4842, 76
+	.asciz	"crc64de53f5b3b9eabdc6/HybridWebViewRenderer_NativeWebView"
+	.size	.L.java_type_name.4842, 58
 
 	.section	.rodata.java_type_name.4843,"aMS",%progbits,1
 	.type	.L.java_type_name.4843, %object
 .L.java_type_name.4843:
-	.asciz	"crc64de53f5b3b9eabdc6/HybridWebViewRenderer_Xamarin"
-	.size	.L.java_type_name.4843, 52
+	.asciz	"crc64de53f5b3b9eabdc6/HybridWebViewRenderer_NativeWebView_MyGestureListener"
+	.size	.L.java_type_name.4843, 76
 
 	.section	.rodata.java_type_name.4844,"aMS",%progbits,1
 	.type	.L.java_type_name.4844, %object
 .L.java_type_name.4844:
-	.asciz	"crc64de53f5b3b9eabdc6/HyperLinkLabelRenderer"
-	.size	.L.java_type_name.4844, 45
+	.asciz	"crc64de53f5b3b9eabdc6/HybridWebViewRenderer_Xamarin"
+	.size	.L.java_type_name.4844, 52
 
 	.section	.rodata.java_type_name.4845,"aMS",%progbits,1
 	.type	.L.java_type_name.4845, %object
 .L.java_type_name.4845:
-	.asciz	"crc64de53f5b3b9eabdc6/IconButtonRenderer"
-	.size	.L.java_type_name.4845, 41
+	.asciz	"crc64de53f5b3b9eabdc6/HyperLinkLabelRenderer"
+	.size	.L.java_type_name.4845, 45
 
 	.section	.rodata.java_type_name.4846,"aMS",%progbits,1
 	.type	.L.java_type_name.4846, %object
 .L.java_type_name.4846:
-	.asciz	"crc64de53f5b3b9eabdc6/IconLabelRenderer"
-	.size	.L.java_type_name.4846, 40
+	.asciz	"crc64de53f5b3b9eabdc6/IconButtonRenderer"
+	.size	.L.java_type_name.4846, 41
 
 	.section	.rodata.java_type_name.4847,"aMS",%progbits,1
 	.type	.L.java_type_name.4847, %object
 .L.java_type_name.4847:
-	.asciz	"crc64de53f5b3b9eabdc6/ImageButtonRenderer"
-	.size	.L.java_type_name.4847, 42
+	.asciz	"crc64de53f5b3b9eabdc6/IconLabelRenderer"
+	.size	.L.java_type_name.4847, 40
 
 	.section	.rodata.java_type_name.4848,"aMS",%progbits,1
 	.type	.L.java_type_name.4848, %object
 .L.java_type_name.4848:
-	.asciz	"crc64de53f5b3b9eabdc6/ImageGalleryRenderer"
-	.size	.L.java_type_name.4848, 43
+	.asciz	"crc64de53f5b3b9eabdc6/ImageButtonRenderer"
+	.size	.L.java_type_name.4848, 42
 
 	.section	.rodata.java_type_name.4849,"aMS",%progbits,1
 	.type	.L.java_type_name.4849, %object
 .L.java_type_name.4849:
-	.asciz	"crc64de53f5b3b9eabdc6/ImageGalleryRenderer_DataSource"
-	.size	.L.java_type_name.4849, 54
+	.asciz	"crc64de53f5b3b9eabdc6/ImageGalleryRenderer"
+	.size	.L.java_type_name.4849, 43
 
 	.section	.rodata.java_type_name.4850,"aMS",%progbits,1
 	.type	.L.java_type_name.4850, %object
 .L.java_type_name.4850:
-	.asciz	"crc64de53f5b3b9eabdc6/RadioButtonRenderer"
-	.size	.L.java_type_name.4850, 42
+	.asciz	"crc64de53f5b3b9eabdc6/ImageGalleryRenderer_DataSource"
+	.size	.L.java_type_name.4850, 54
 
 	.section	.rodata.java_type_name.4851,"aMS",%progbits,1
 	.type	.L.java_type_name.4851, %object
 .L.java_type_name.4851:
-	.asciz	"crc64de53f5b3b9eabdc6/SensorBarDroidView"
-	.size	.L.java_type_name.4851, 41
+	.asciz	"crc64de53f5b3b9eabdc6/RadioButtonRenderer"
+	.size	.L.java_type_name.4851, 42
 
 	.section	.rodata.java_type_name.4852,"aMS",%progbits,1
 	.type	.L.java_type_name.4852, %object
 .L.java_type_name.4852:
-	.asciz	"crc64de53f5b3b9eabdc6/SensorBarViewRenderer"
-	.size	.L.java_type_name.4852, 44
+	.asciz	"crc64de53f5b3b9eabdc6/SensorBarDroidView"
+	.size	.L.java_type_name.4852, 41
 
 	.section	.rodata.java_type_name.4853,"aMS",%progbits,1
 	.type	.L.java_type_name.4853, %object
 .L.java_type_name.4853:
-	.asciz	"crc64de53f5b3b9eabdc6/SeparatorDroidView"
-	.size	.L.java_type_name.4853, 41
+	.asciz	"crc64de53f5b3b9eabdc6/SensorBarViewRenderer"
+	.size	.L.java_type_name.4853, 44
 
 	.section	.rodata.java_type_name.4854,"aMS",%progbits,1
 	.type	.L.java_type_name.4854, %object
 .L.java_type_name.4854:
-	.asciz	"crc64de53f5b3b9eabdc6/SeparatorRenderer"
-	.size	.L.java_type_name.4854, 40
+	.asciz	"crc64de53f5b3b9eabdc6/SeparatorDroidView"
+	.size	.L.java_type_name.4854, 41
 
 	.section	.rodata.java_type_name.4855,"aMS",%progbits,1
 	.type	.L.java_type_name.4855, %object
 .L.java_type_name.4855:
-	.asciz	"crc64de53f5b3b9eabdc6/WebImageRenderer"
-	.size	.L.java_type_name.4855, 39
+	.asciz	"crc64de53f5b3b9eabdc6/SeparatorRenderer"
+	.size	.L.java_type_name.4855, 40
 
 	.section	.rodata.java_type_name.4856,"aMS",%progbits,1
 	.type	.L.java_type_name.4856, %object
 .L.java_type_name.4856:
-	.asciz	"crc64deda6261fc58bf1b/MainActivity"
-	.size	.L.java_type_name.4856, 35
+	.asciz	"crc64de53f5b3b9eabdc6/WebImageRenderer"
+	.size	.L.java_type_name.4856, 39
 
 	.section	.rodata.java_type_name.4857,"aMS",%progbits,1
 	.type	.L.java_type_name.4857, %object
@@ -78426,8 +78426,8 @@
 	.section	.rodata.managed_type_name.6971,"aMS",%progbits,1
 	.type	.L.managed_type_name.6971, %object
 .L.managed_type_name.6971:
-	.asciz	"TestNotification.Droid.MainActivity, TestNotification.Android"
-	.size	.L.managed_type_name.6971, 62
+	.asciz	"TestNotification.Droid.MainActivity, com.hunext.testnotification.android"
+	.size	.L.managed_type_name.6971, 73
 	.section	.rodata.managed_type_name.6972,"aMS",%progbits,1
 	.type	.L.managed_type_name.6972, %object
 .L.managed_type_name.6972:

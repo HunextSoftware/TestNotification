@@ -1,8 +1,8 @@
 package mono;
 public class MonoPackageManager_Resources {
 	public static String[] Assemblies = new String[]{
-		/* We need to ensure that "TestNotification.Android.dll" comes first in this list. */
-		"TestNotification.Android.dll",
+		/* We need to ensure that "com.hunext.testnotification.android.dll" comes first in this list. */
+		"com.hunext.testnotification.android.dll",
 		"ExifLib.dll",
 		"FormsViewGroup.dll",
 		"TestNotification.dll",
