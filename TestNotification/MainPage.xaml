@@ -24,6 +24,14 @@
         </Style>
     </ContentPage.Resources>
     <StackLayout>
+        <Label Text="Inserisci i dati per accedere all'app:"
+               Margin="10,0,5,5"/>
+
+        <Editor Placeholder="URL" IsSpellCheckEnabled="false" Margin="10,0,5,5"/>
+        <Editor Placeholder="Nome azienda" IsSpellCheckEnabled="false" Margin="10,0,5,5"/>
+        <Editor Placeholder="Nome utente" IsSpellCheckEnabled="false" Margin="10,0,5,5"/>
+        <Editor Placeholder="Password" IsSpellCheckEnabled="false" Margin="10,0,5,5"/>
+        
         <Label Text="Seleziona il tuo comparto aziendale (consentito solo uno):"
                Margin="20,0,5,5"/>
         <Grid Margin="2,0,2,20">

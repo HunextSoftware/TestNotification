@@ -7,8 +7,6 @@ C:\Users\a.gobbo\source\repos\TestNotification\TestNotification\obj\Debug\netsta
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification\obj\Debug\netstandard2.0\MainPage.xaml.g.cs
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification\obj\Debug\netstandard2.0\TestNotification.AssemblyInfoInputs.cache
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification\obj\Debug\netstandard2.0\TestNotification.AssemblyInfo.cs
-C:\Users\a.gobbo\source\repos\TestNotification\TestNotification\obj\Debug\netstandard2.0\TestNotification.csproj.CoreCompileInputs.cache
-C:\Users\a.gobbo\source\repos\TestNotification\TestNotification\obj\Debug\netstandard2.0\XamlC.stamp
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification\obj\Debug\netstandard2.0\TestNotification.dll
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification\obj\Debug\netstandard2.0\ref\TestNotification.dll
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification\obj\Debug\netstandard2.0\TestNotification.pdb
@@ -17,3 +15,5 @@ C:\Users\a.gobbo\source\repos\TestNotification\TestNotification\bin\Debug\netsta
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification\bin\Debug\netstandard2.0\Mono.Android.xml
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification\obj\Debug\netstandard2.0\TestNotification.csproj.CopyComplete
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification\obj\Debug\netstandard2.0\InfoPage.xaml.g.cs
+C:\Users\a.gobbo\source\repos\TestNotification\TestNotification\obj\Debug\netstandard2.0\TestNotification.csproj.CoreCompileInputs.cache
+C:\Users\a.gobbo\source\repos\TestNotification\TestNotification\obj\Debug\netstandard2.0\XamlC.stamp

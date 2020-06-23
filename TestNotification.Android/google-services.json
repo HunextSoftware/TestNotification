@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "176003086984",
+    "firebase_url": "https://testpushnotification-49a3e.firebaseio.com",
+    "project_id": "testpushnotification-49a3e",
+    "storage_bucket": "testpushnotification-49a3e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:176003086984:android:4b166293cadd93ffaf7d3d",
+        "android_client_info": {
+          "package_name": "com.hunext.testnotification"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "176003086984-q9pn4k9r31hl89n1nkbk2g3hlnmcdln0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCTtZst2JQCNwr4tXSM5a55zkHOBDTrjs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "176003086984-q9pn4k9r31hl89n1nkbk2g3hlnmcdln0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
