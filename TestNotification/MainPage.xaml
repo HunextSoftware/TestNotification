@@ -8,9 +8,8 @@
              Padding="10"
              Title="TestPushNotification">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Info"
-                     Icon="icon_info.jpg"
-                     Clicked="OnInfoClicked" />
+    <ToolbarItem Text="Info"
+                 Clicked="OnInfoClicked" />
     </ContentPage.ToolbarItems>
     <ContentPage.Resources>
         <Style TargetType="Button"
@@ -25,12 +24,12 @@
     </ContentPage.Resources>
     <StackLayout>
         <Label Text="Inserisci i dati per accedere all'app:"
-               Margin="10,0,5,5"/>
+               Margin="10,0,5,0"/>
 
-        <Editor Placeholder="URL" IsSpellCheckEnabled="false" Margin="10,0,5,5"/>
-        <Editor Placeholder="Nome azienda" IsSpellCheckEnabled="false" Margin="10,0,5,5"/>
-        <Editor Placeholder="Nome utente" IsSpellCheckEnabled="false" Margin="10,0,5,5"/>
-        <Editor Placeholder="Password" IsSpellCheckEnabled="false" Margin="10,0,5,5"/>
+        <Editor Placeholder="URL" IsSpellCheckEnabled="false" Margin="5,0,5,0"/>
+        <Editor Placeholder="Nome azienda" IsSpellCheckEnabled="false" Margin="5,0,5,0"/>
+        <Editor Placeholder="Nome utente" IsSpellCheckEnabled="false" Margin="5,0,5,0"/>
+        <Editor Placeholder="Password" IsSpellCheckEnabled="false" Margin="5,0,5,0"/>
         
         <Label Text="Seleziona il tuo comparto aziendale (consentito solo uno):"
                Margin="20,0,5,5"/>
@@ -77,11 +76,11 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Button Text="Registra device"
-                    Clicked="OnSaveButtonClicked" />
+            <Button Text="Registra"
+                    Clicked="RegisterButtonClicked" />
             <Button Grid.Column="1"
-                    Text="Dissocia device"
-                    Clicked="OnDeleteButtonClicked" />
+                    Text="Deregistra"
+                    Clicked="DeregisterButtonClicked" />
         </Grid>
         <Label x:Name="stateLabel"
                Text="Stato device: &lt;strong&gt;non registrato&lt;/strong&gt;."

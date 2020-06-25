@@ -1,6 +1,7 @@
-﻿using System;
+﻿using TestNotification.Models;
+using TestNotification.Services;
+using Xamarin.Essentials;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace TestNotification
 {
@@ -9,6 +10,10 @@ namespace TestNotification
         public App()
         {
             InitializeComponent();
+
+            ServiceContainer.Resolve<ITestNotificationActionService>()
+                .ActionTriggered += NotificationActionTriggered;
+
             MainPage = new NavigationPage(new MainPage());
         }
 
@@ -23,5 +28,13 @@ namespace TestNotification
         protected override void OnResume()
         {
         }
+
+        void NotificationActionTriggered(object sender, TestNotificationAction e)
+            => ShowActionAlert(e);
+
+        void ShowActionAlert(TestNotificationAction action)
+            => MainThread.BeginInvokeOnMainThread(()
+                => MainPage?.DisplayAlert("TestNotification", $"{action} action received", "OK")
+                    .ContinueWith((task) => { if (task.IsFaulted) throw task.Exception; }));
     }
 }

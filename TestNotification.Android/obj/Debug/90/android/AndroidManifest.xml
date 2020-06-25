@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.hunext.testnotification" android:installLocation="preferExternal" android:versionCode="1" android:versionName="1.0">
-  <uses-sdk android:minSdkVersion="21" android:targetSdkVersion="28" />
+  <uses-sdk android:minSdkVersion="24" android:targetSdkVersion="28" />
   <uses-permission android:name="android.permission.INTERNET" />
   <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
   <uses-permission android:name="android.permission.WAKE_LOCK" />
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+  <uses-permission android:name="android.permission.READ_PHONE_STATE" />
   <uses-permission android:name="android.permission.GET_ACCOUNTS" />
   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
   <application android:name="android.app.Application" android:allowBackup="true" android:appComponentFactory="android.support.v4.app.CoreComponentFactory" android:debuggable="true" android:icon="@mipmap/icon" android:label="TestNotification.Android">
     <receiver android:name="com.google.firebase.iid.FirebaseInstanceIdInternalReceiver" android:exported="false" />
     <receiver android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver" android:exported="true" android:permission="com.google.android.c2dm.permission.SEND">
@@ -21,18 +22,15 @@
       </intent-filter>
     </receiver>
     <uses-library android:name="org.apache.http.legacy" android:required="false" />
-    <activity android:name="crc64b9df9d6343c7486f.MainActivity" android:configChanges="orientation|screenSize" android:icon="@mipmap/icon" android:label="TestNotification" android:theme="@style/MainTheme">
+    <activity android:name="crc64b9df9d6343c7486f.MainActivity" android:configChanges="orientation|screenSize" android:icon="@mipmap/icon" android:label="TestNotification" android:launchMode="singleTop" android:theme="@style/MainTheme">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
     </activity>
-    <service android:name="crc64b9df9d6343c7486f.MyFirebaseMessagingService">
+    <service android:name="crc648cf3bfd5376d8356.PushNotificationFirebaseMessagingService">
       <intent-filter>
         <action android:name="com.google.firebase.MESSAGING_EVENT" />
-      </intent-filter>
-      <intent-filter>
-        <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
       </intent-filter>
     </service>
     <service android:name="crc64a98abb514ffad9f1.KeepAliveService" />

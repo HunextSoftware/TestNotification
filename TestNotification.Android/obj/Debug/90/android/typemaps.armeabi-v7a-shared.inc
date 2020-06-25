@@ -31358,122 +31358,122 @@
 	.section	.rodata.java_type_name.5226,"aMS",%progbits,1
 	.type	.L.java_type_name.5226, %object
 .L.java_type_name.5226:
-	.asciz	"crc6495d4f5d63cc5c882/AwaitableTaskCompleteListener_1"
-	.size	.L.java_type_name.5226, 54
+	.asciz	"crc648cf3bfd5376d8356/PushNotificationFirebaseMessagingService"
+	.size	.L.java_type_name.5226, 63
 
 	.section	.rodata.java_type_name.5227,"aMS",%progbits,1
 	.type	.L.java_type_name.5227, %object
 .L.java_type_name.5227:
-	.asciz	"crc64a0e0a82d0db9a07d/AccelerometerListener"
-	.size	.L.java_type_name.5227, 44
+	.asciz	"crc6495d4f5d63cc5c882/AwaitableTaskCompleteListener_1"
+	.size	.L.java_type_name.5227, 54
 
 	.section	.rodata.java_type_name.5228,"aMS",%progbits,1
 	.type	.L.java_type_name.5228, %object
 .L.java_type_name.5228:
-	.asciz	"crc64a0e0a82d0db9a07d/ActivityLifecycleContextListener"
-	.size	.L.java_type_name.5228, 55
+	.asciz	"crc64a0e0a82d0db9a07d/AccelerometerListener"
+	.size	.L.java_type_name.5228, 44
 
 	.section	.rodata.java_type_name.5229,"aMS",%progbits,1
 	.type	.L.java_type_name.5229, %object
 .L.java_type_name.5229:
-	.asciz	"crc64a0e0a82d0db9a07d/BarometerListener"
-	.size	.L.java_type_name.5229, 40
+	.asciz	"crc64a0e0a82d0db9a07d/ActivityLifecycleContextListener"
+	.size	.L.java_type_name.5229, 55
 
 	.section	.rodata.java_type_name.5230,"aMS",%progbits,1
 	.type	.L.java_type_name.5230, %object
 .L.java_type_name.5230:
-	.asciz	"crc64a0e0a82d0db9a07d/BatteryBroadcastReceiver"
-	.size	.L.java_type_name.5230, 47
+	.asciz	"crc64a0e0a82d0db9a07d/BarometerListener"
+	.size	.L.java_type_name.5230, 40
 
 	.section	.rodata.java_type_name.5231,"aMS",%progbits,1
 	.type	.L.java_type_name.5231, %object
 .L.java_type_name.5231:
-	.asciz	"crc64a0e0a82d0db9a07d/ClipboardChangeListener"
-	.size	.L.java_type_name.5231, 46
+	.asciz	"crc64a0e0a82d0db9a07d/BatteryBroadcastReceiver"
+	.size	.L.java_type_name.5231, 47
 
 	.section	.rodata.java_type_name.5232,"aMS",%progbits,1
 	.type	.L.java_type_name.5232, %object
 .L.java_type_name.5232:
-	.asciz	"crc64a0e0a82d0db9a07d/ConnectivityBroadcastReceiver"
-	.size	.L.java_type_name.5232, 52
+	.asciz	"crc64a0e0a82d0db9a07d/ClipboardChangeListener"
+	.size	.L.java_type_name.5232, 46
 
 	.section	.rodata.java_type_name.5233,"aMS",%progbits,1
 	.type	.L.java_type_name.5233, %object
 .L.java_type_name.5233:
-	.asciz	"crc64a0e0a82d0db9a07d/EnergySaverBroadcastReceiver"
-	.size	.L.java_type_name.5233, 51
+	.asciz	"crc64a0e0a82d0db9a07d/ConnectivityBroadcastReceiver"
+	.size	.L.java_type_name.5233, 52
 
 	.section	.rodata.java_type_name.5234,"aMS",%progbits,1
 	.type	.L.java_type_name.5234, %object
 .L.java_type_name.5234:
-	.asciz	"crc64a0e0a82d0db9a07d/GyroscopeListener"
-	.size	.L.java_type_name.5234, 40
+	.asciz	"crc64a0e0a82d0db9a07d/EnergySaverBroadcastReceiver"
+	.size	.L.java_type_name.5234, 51
 
 	.section	.rodata.java_type_name.5235,"aMS",%progbits,1
 	.type	.L.java_type_name.5235, %object
 .L.java_type_name.5235:
-	.asciz	"crc64a0e0a82d0db9a07d/Listener"
-	.size	.L.java_type_name.5235, 31
+	.asciz	"crc64a0e0a82d0db9a07d/GyroscopeListener"
+	.size	.L.java_type_name.5235, 40
 
 	.section	.rodata.java_type_name.5236,"aMS",%progbits,1
 	.type	.L.java_type_name.5236, %object
 .L.java_type_name.5236:
-	.asciz	"crc64a0e0a82d0db9a07d/MagnetometerListener"
-	.size	.L.java_type_name.5236, 43
+	.asciz	"crc64a0e0a82d0db9a07d/Listener"
+	.size	.L.java_type_name.5236, 31
 
 	.section	.rodata.java_type_name.5237,"aMS",%progbits,1
 	.type	.L.java_type_name.5237, %object
 .L.java_type_name.5237:
-	.asciz	"crc64a0e0a82d0db9a07d/OrientationSensorListener"
-	.size	.L.java_type_name.5237, 48
+	.asciz	"crc64a0e0a82d0db9a07d/MagnetometerListener"
+	.size	.L.java_type_name.5237, 43
 
 	.section	.rodata.java_type_name.5238,"aMS",%progbits,1
 	.type	.L.java_type_name.5238, %object
 .L.java_type_name.5238:
-	.asciz	"crc64a0e0a82d0db9a07d/SensorListener"
-	.size	.L.java_type_name.5238, 37
+	.asciz	"crc64a0e0a82d0db9a07d/OrientationSensorListener"
+	.size	.L.java_type_name.5238, 48
 
 	.section	.rodata.java_type_name.5239,"aMS",%progbits,1
 	.type	.L.java_type_name.5239, %object
 .L.java_type_name.5239:
-	.asciz	"crc64a0e0a82d0db9a07d/SingleLocationListener"
-	.size	.L.java_type_name.5239, 45
+	.asciz	"crc64a0e0a82d0db9a07d/SensorListener"
+	.size	.L.java_type_name.5239, 37
 
 	.section	.rodata.java_type_name.5240,"aMS",%progbits,1
 	.type	.L.java_type_name.5240, %object
 .L.java_type_name.5240:
-	.asciz	"crc64a0e0a82d0db9a07d/TextToSpeechImplementation"
-	.size	.L.java_type_name.5240, 49
+	.asciz	"crc64a0e0a82d0db9a07d/SingleLocationListener"
+	.size	.L.java_type_name.5240, 45
 
 	.section	.rodata.java_type_name.5241,"aMS",%progbits,1
 	.type	.L.java_type_name.5241, %object
 .L.java_type_name.5241:
-	.asciz	"crc64a0e0a82d0db9a07d/WebAuthenticatorCallbackActivity"
-	.size	.L.java_type_name.5241, 55
+	.asciz	"crc64a0e0a82d0db9a07d/TextToSpeechImplementation"
+	.size	.L.java_type_name.5241, 49
 
 	.section	.rodata.java_type_name.5242,"aMS",%progbits,1
 	.type	.L.java_type_name.5242, %object
 .L.java_type_name.5242:
-	.asciz	"crc64a98abb514ffad9f1/CustomTabsServiceConnectionImpl"
-	.size	.L.java_type_name.5242, 54
+	.asciz	"crc64a0e0a82d0db9a07d/WebAuthenticatorCallbackActivity"
+	.size	.L.java_type_name.5242, 55
 
 	.section	.rodata.java_type_name.5243,"aMS",%progbits,1
 	.type	.L.java_type_name.5243, %object
 .L.java_type_name.5243:
-	.asciz	"crc64a98abb514ffad9f1/KeepAliveService"
-	.size	.L.java_type_name.5243, 39
+	.asciz	"crc64a98abb514ffad9f1/CustomTabsServiceConnectionImpl"
+	.size	.L.java_type_name.5243, 54
 
 	.section	.rodata.java_type_name.5244,"aMS",%progbits,1
 	.type	.L.java_type_name.5244, %object
 .L.java_type_name.5244:
-	.asciz	"crc64b9df9d6343c7486f/MainActivity"
-	.size	.L.java_type_name.5244, 35
+	.asciz	"crc64a98abb514ffad9f1/KeepAliveService"
+	.size	.L.java_type_name.5244, 39
 
 	.section	.rodata.java_type_name.5245,"aMS",%progbits,1
 	.type	.L.java_type_name.5245, %object
 .L.java_type_name.5245:
-	.asciz	"crc64b9df9d6343c7486f/MyFirebaseMessagingService"
-	.size	.L.java_type_name.5245, 49
+	.asciz	"crc64b9df9d6343c7486f/MainActivity"
+	.size	.L.java_type_name.5245, 35
 
 	.section	.rodata.java_type_name.5246,"aMS",%progbits,1
 	.type	.L.java_type_name.5246, %object
@@ -83414,8 +83414,8 @@
 	.section	.rodata.managed_type_name.7413,"aMS",%progbits,1
 	.type	.L.managed_type_name.7413, %object
 .L.managed_type_name.7413:
-	.asciz	"TestNotification.Droid.MyFirebaseMessagingService, com.hunext.testnotification.android"
-	.size	.L.managed_type_name.7413, 87
+	.asciz	"TestNotification.Droid.Services.PushNotificationFirebaseMessagingService, com.hunext.testnotification.android"
+	.size	.L.managed_type_name.7413, 110
 	.section	.rodata.managed_type_name.7414,"aMS",%progbits,1
 	.type	.L.managed_type_name.7414, %object
 .L.managed_type_name.7414:
