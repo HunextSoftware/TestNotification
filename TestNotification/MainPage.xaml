@@ -9,7 +9,7 @@
              Title="TestPushNotification">
     <ContentPage.ToolbarItems>
     <ToolbarItem Text="Info"
-                 Clicked="OnInfoClicked" />
+                 Clicked="OnInfoLoginClicked" />
     </ContentPage.ToolbarItems>
     <ContentPage.Resources>
         <Style TargetType="Button"
@@ -25,68 +25,33 @@
     <StackLayout>
         <Label Text="Inserisci i dati per accedere all'app:"
                Margin="10,0,5,0"/>
-
-        <Editor Placeholder="URL" IsSpellCheckEnabled="false" Margin="5,0,5,0"/>
-        <Editor Placeholder="Nome azienda" IsSpellCheckEnabled="false" Margin="5,0,5,0"/>
-        <Editor Placeholder="Nome utente" IsSpellCheckEnabled="false" Margin="5,0,5,0"/>
-        <Editor Placeholder="Password" IsSpellCheckEnabled="false" Margin="5,0,5,0"/>
-        
-        <Label Text="Seleziona il tuo comparto aziendale (consentito solo uno):"
-               Margin="20,0,5,5"/>
-        <Grid Margin="2,0,2,20">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.10*" />
-                <ColumnDefinition Width="0.10*" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <CheckBox Grid.Row="0"
-                  Grid.Column="1"
-                  Color="Blue"
-                  CheckedChanged="OnPayrollCheckBoxChanged"
-                  VerticalOptions="Center" />
-            <Label Grid.Row="0"
-                  Grid.Column="2"
-                  Text="Payroll"
-                  VerticalOptions="Center" />
-            <CheckBox Grid.Row="1"
-                  Grid.Column="1"
-                  Color="DodgerBlue"
-                  CheckedChanged="OnConsultingCheckBoxChanged" 
-                  VerticalOptions="Center" />
-            <Label Grid.Row="1"
-                  Grid.Column="2"
-                  Text="Consulting"
-                  VerticalOptions="Center" />
-            <CheckBox Grid.Row="2"
-                  Grid.Column="1"
-                  Color="Green"
-                  CheckedChanged="OnSoftwareCheckBoxChanged"
-                  VerticalOptions="Center" />
-            <Label Grid.Row="2"
-                  Grid.Column="2"
-                  Text="Software"
-                  VerticalOptions="Center" />
-        </Grid>
-        <Grid Margin="20,00,20,30">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Button Text="Registra"
-                    Clicked="RegisterButtonClicked" />
-            <Button Grid.Column="1"
-                    Text="Deregistra"
-                    Clicked="DeregisterButtonClicked" />
-        </Grid>
-        <Label x:Name="stateLabel"
-               Text="Stato device: &lt;strong&gt;non registrato&lt;/strong&gt;."
-               TextType="Html"
-               TextColor="Red"
-               HorizontalOptions="Center"
-               Margin="20,0,5,5"/>
+        <Entry x:Name="urlEntry"
+               Placeholder="URL"
+               ClearButtonVisibility="WhileEditing"
+               IsSpellCheckEnabled="false" 
+               IsTextPredictionEnabled="false" 
+               TextChanged="OnEditorUrlChanged"
+               Completed="OnEditorUrlCompleted"
+               Margin="5,0,5,0" />
+        <Entry x:Name="usernameEntry"
+               Placeholder="Nome utente"
+               ClearButtonVisibility="WhileEditing"
+               IsSpellCheckEnabled="false" 
+               IsTextPredictionEnabled="false" 
+               TextChanged="OnEditorUsernameChanged"
+               Completed="OnEditorUsernameCompleted"
+               Margin="5,0,5,0"/>
+        <Entry x:Name="passwordEntry"
+               Placeholder="Password"
+               ClearButtonVisibility="WhileEditing"
+               IsPassword="true"
+               IsSpellCheckEnabled="false" 
+               IsTextPredictionEnabled="false" 
+               TextChanged="OnEditorPasswordChanged"
+               Completed="OnEditorPasswordCompleted"
+               Margin="5,0,5,0" />
+        <Button Text="Login"
+                Clicked="OnLoginButtonClicked"
+                HorizontalOptions="Center" />
     </StackLayout>
 </ContentPage>

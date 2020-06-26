@@ -5,6 +5,7 @@ public class MonoPackageManager_Resources {
 		"com.hunext.testnotification.android.dll",
 		"ExifLib.dll",
 		"FormsViewGroup.dll",
+		"LiteDB.dll",
 		"Newtonsoft.Json.dll",
 		"TestNotification.dll",
 		"Xamarin.Android.Arch.Core.Common.dll",

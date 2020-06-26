@@ -9,6 +9,7 @@
     ".NETStandard,Version=v2.0/": {
       "TestNotification/1.0.0": {
         "dependencies": {
+          "LiteDB": "5.0.8",
           "NETStandard.Library": "2.0.3",
           "Newtonsoft.Json": "12.0.3",
           "Xamarin.Essentials": "1.5.3.2",
@@ -17,6 +18,14 @@
         },
         "runtime": {
           "TestNotification.dll": {}
+        }
+      },
+      "LiteDB/5.0.8": {
+        "runtime": {
+          "lib/netstandard2.0/LiteDB.dll": {
+            "assemblyVersion": "5.0.8.0",
+            "fileVersion": "5.0.8.0"
+          }
         }
       },
       "Microsoft.NETCore.Platforms/1.1.0": {},
@@ -83,6 +92,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "LiteDB/5.0.8": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-lqwQnweoa3Lko87uo9FzZYf6BFh3AULas5yosG95LPVHIoACtJJ2BjBPQ7d7vUYDQYSV3rUco2+vMilVoBQ3WA==",
+      "path": "litedb/5.0.8",
+      "hashPath": "litedb.5.0.8.nupkg.sha512"
     },
     "Microsoft.NETCore.Platforms/1.1.0": {
       "type": "package",

@@ -4,7 +4,9 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="TestNotification.InfoPage">
+             x:Class="TestNotification.InfoLoginPage"
+             Padding="10"
+             Title="Login Information">
     <ContentPage.Content>
         <StackLayout>
             <Label Text="Benvenuto al prototipo del sistema di push notification dell'applicazione mobile Hunext Mobile!"  
@@ -14,6 +16,8 @@
             <Label Text="Cliccando 'Dissocia device', invece, simulerai la disinstallazione dell'app TestNotification e l'associazione app-device sarà rimossa dal server di push notification, quindi non riceverai più notifiche fino alla prossima installazione."  
                 Margin="20,0,5,20"/>
             <Label Text="Inoltre, è possibile visualizzare lo stato corrente del device."  
+                Margin="20,0,5,0"/>
+            <Label Text="DA CORREGGERE"  
                 Margin="20,0,5,0"/>
         </StackLayout>
     </ContentPage.Content>

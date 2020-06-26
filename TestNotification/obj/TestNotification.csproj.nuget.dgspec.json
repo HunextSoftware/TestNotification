@@ -49,6 +49,10 @@
       "frameworks": {
         "netstandard2.0": {
           "dependencies": {
+            "LiteDB": {
+              "target": "Package",
+              "version": "[5.0.8, )"
+            },
             "NETStandard.Library": {
               "suppressParent": "All",
               "target": "Package",

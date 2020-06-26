@@ -18,7 +18,7 @@ namespace TestNotification
         }
 
         protected override void OnStart()
-        {
+        { 
         }
 
         protected override void OnSleep()
