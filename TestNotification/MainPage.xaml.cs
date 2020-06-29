@@ -64,18 +64,21 @@ namespace TestNotification
                 using (var db = new LiteDatabase((Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "UserDataDb.db"))))
                 {
                     var collection = db.GetCollection<UserData>("UserData");
-                    var result = collection.Find(x => x.Url.Equals(urlEntry.Text) && x.Username.Equals(usernameEntry.Text) && x.Password.Equals(passwordEntry.Text));
-                    if (result.Count() == 1)
+                    var result = collection.FindOne(x => x.Url.Equals(urlEntry.Text) && x.Username.Equals(usernameEntry.Text) && x.Password.Equals(passwordEntry.Text));
+
+                    try
                     {
-                        //TODO Change "Navigation" -> it must be possible to turn back to Login Page only if user tap logout button
-                        //FIXME solve this problem
                         await Navigation.PushAsync(new AuthorizedUserPage(result.Username, result.Company, result.SectorCompany));
                         Toast.MakeText(Android.App.Application.Context, "Login riuscito.", ToastLength.Short).Show();
-                    } else
+                    }
+                    catch
+                    {
                         Toast.MakeText(Android.App.Application.Context, "Login non riuscito: campi inseriti non corretti.", ToastLength.Long).Show();
+                    }
                 }
-            } else 
+            } else
                 Toast.MakeText(Android.App.Application.Context, "Errore: compilare tutti i campi.", ToastLength.Long).Show();
+
         }
     }
 }
