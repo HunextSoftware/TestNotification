@@ -706,11 +706,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\a.gobbo\\source\\repos\\TestNotification\\TestNotification\\TestNotification.csproj",
+      "projectUniqueName": "C:\\Users\\a.gobbo\\source\\repos\\Buono\\TestNotification\\TestNotification.csproj",
       "projectName": "TestNotification",
-      "projectPath": "C:\\Users\\a.gobbo\\source\\repos\\TestNotification\\TestNotification\\TestNotification.csproj",
+      "projectPath": "C:\\Users\\a.gobbo\\source\\repos\\Buono\\TestNotification\\TestNotification.csproj",
       "packagesPath": "C:\\Users\\a.gobbo\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\a.gobbo\\source\\repos\\TestNotification\\TestNotification\\obj\\",
+      "outputPath": "C:\\Users\\a.gobbo\\source\\repos\\Buono\\TestNotification\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\",

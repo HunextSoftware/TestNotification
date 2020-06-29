@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "e73ArjZo8ACEHVl5qK/AmNQbtQj0mCZ8ZY4iyNl2wbY40ZGvzDCI9vV6EImLXjFnPxoKi2RUcS7DBLyJznqNyQ==",
+  "dgSpecHash": "bqMRnahFiZfQzE5x++2kcPfdmPyz33d54tiZjBJ7qT5UzcJAnVgEflB5GP7YvjTHG8dSuZgC8NhNYFQIWdPWgg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\a.gobbo\\source\\repos\\TestNotification\\TestNotification.Android\\TestNotification.Android.csproj",
+  "projectFilePath": "C:\\Users\\a.gobbo\\source\\repos\\Buono\\TestNotification.Android\\TestNotification.Android.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\a.gobbo\\.nuget\\packages\\exiflib.pcl\\1.0.1\\exiflib.pcl.1.0.1.nupkg.sha512",
     "C:\\Users\\a.gobbo\\.nuget\\packages\\litedb\\5.0.8\\litedb.5.0.8.nupkg.sha512",

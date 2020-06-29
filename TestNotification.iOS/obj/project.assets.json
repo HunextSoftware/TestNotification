@@ -1116,11 +1116,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\a.gobbo\\source\\repos\\TestNotification\\TestNotification.iOS\\TestNotification.iOS.csproj",
+      "projectUniqueName": "C:\\Users\\a.gobbo\\source\\repos\\Buono\\TestNotification.iOS\\TestNotification.iOS.csproj",
       "projectName": "TestNotification.iOS",
-      "projectPath": "C:\\Users\\a.gobbo\\source\\repos\\TestNotification\\TestNotification.iOS\\TestNotification.iOS.csproj",
+      "projectPath": "C:\\Users\\a.gobbo\\source\\repos\\Buono\\TestNotification.iOS\\TestNotification.iOS.csproj",
       "packagesPath": "C:\\Users\\a.gobbo\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\a.gobbo\\source\\repos\\TestNotification\\TestNotification.iOS\\obj\\",
+      "outputPath": "C:\\Users\\a.gobbo\\source\\repos\\Buono\\TestNotification.iOS\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "fallbackFolders": [
@@ -1147,8 +1147,8 @@
       "frameworks": {
         "xamarinios10": {
           "projectReferences": {
-            "C:\\Users\\a.gobbo\\source\\repos\\TestNotification\\TestNotification\\TestNotification.csproj": {
-              "projectPath": "C:\\Users\\a.gobbo\\source\\repos\\TestNotification\\TestNotification\\TestNotification.csproj"
+            "C:\\Users\\a.gobbo\\source\\repos\\Buono\\TestNotification\\TestNotification.csproj": {
+              "projectPath": "C:\\Users\\a.gobbo\\source\\repos\\Buono\\TestNotification\\TestNotification.csproj"
             }
           }
         }
