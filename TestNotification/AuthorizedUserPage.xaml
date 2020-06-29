@@ -36,18 +36,8 @@
                Text="Settore:"
                TextType="Html"
                Margin="20,0,5,5"/>
-        <Grid Margin="20,00,20,30">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Button Text="Registra"
-                    Clicked="RegisterButtonClicked" />
-            <Button Grid.Column="1"
-                    Text="Deregistra"
-                    Clicked="DeregisterButtonClicked" />
-        </Grid>
-        <Button Text="Logout"
+        <Button Margin="20,00,20,30" 
+                Text="Logout"
                 HorizontalOptions="Center"
                 Clicked="OnLogoutButtonClicked" />
     </StackLayout>

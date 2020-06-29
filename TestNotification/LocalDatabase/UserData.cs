@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Text;
-
-namespace TestNotification.LocalDatabase
+﻿namespace TestNotification.LocalDatabase
 {
     public class UserData
     {
+        // it could be a GUID data type
         public int Id { get; set; }
         public string Url { get; set; }
         public string Username { get; set; }

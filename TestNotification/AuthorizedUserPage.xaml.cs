@@ -1,11 +1,6 @@
 ﻿using Android.Widget;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TestNotification.Services;
-using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -16,6 +11,7 @@ namespace TestNotification
     {
         readonly INotificationRegistrationService _notificationRegistrationService;
 
+        //Disable back button to avoid pop navigation
         protected override bool OnBackButtonPressed() => true;
 
         public AuthorizedUserPage(string username, string company, string sectorCompany)
@@ -29,6 +25,7 @@ namespace TestNotification
             sectorCompanyLabel.Text = "Settore aziendale: <strong>" + sectorCompany + "</strong>";
         }
 
+
         async void OnInfoAuthorizedUserClicked(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new InfoAuthorizedUserPage());
@@ -36,39 +33,27 @@ namespace TestNotification
 
         async void OnLogoutButtonClicked(object sender, EventArgs e)
         {
-            //deregistrazione dispositivo
             await Navigation.PushAsync(new MainPage());
             Toast.MakeText(Android.App.Application.Context, "Logout riuscito: dispositivo non più registrato.", ToastLength.Short).Show();
+
             usernameLabel.Text = "Nome utente:";
             companyLabel.Text = "Azienda:";
             sectorCompanyLabel.Text = "Settore aziendale:";
+
+            deregistrationDevice();
         }
-
-        //TO DELETE
-        void RegisterButtonClicked(object sender, EventArgs e)
-            => _notificationRegistrationService.RegisterDeviceAsync().ContinueWith((task)
-                => {
-                    ShowAlert(task.IsFaulted ?
-                       task.Exception.Message :
-                       $"Device registered");
-                });
-
-        //TO DELETE
-        void DeregisterButtonClicked(object sender, EventArgs e)
-            => _notificationRegistrationService.DeregisterDeviceAsync().ContinueWith((task)
-                => {
-                    ShowAlert(task.IsFaulted ?
-                      task.Exception.Message :
-                      $"Device deregistered");
-                });
-
-        void ShowAlert(string message)
-            => MainThread.BeginInvokeOnMainThread(()
-                => Toast.MakeText(Android.App.Application.Context, message, ToastLength.Long).Show());
-
-        private void ToolbarItem_Clicked(object sender, EventArgs e)
+        
+        async void deregistrationDevice()
         {
-
+            await _notificationRegistrationService.DeregisterDeviceAsync().ContinueWith((task)
+                => {
+                    if (task.IsFaulted)
+                        Console.WriteLine($"Exception: {task.Exception.Message}");
+                    else
+                    {
+                        Console.WriteLine("Device deregistered: now is not longer available to receive push notification until next user login.");
+                    }
+                });
         }
     }
 }

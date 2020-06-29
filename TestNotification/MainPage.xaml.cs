@@ -1,25 +1,30 @@
 ﻿using Android.Widget;
+using Java.Security;
 using LiteDB;
 using System;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using TestNotification.LocalDatabase;
 using TestNotification.Services;
-using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace TestNotification
 {
     [DesignTimeVisible(false)]
     public partial class MainPage : ContentPage
-    { 
+    {
+        readonly INotificationRegistrationService _notificationRegistrationService;
+
+        //Disable back button to avoid pop navigation
+        protected override bool OnBackButtonPressed() => true;
+
         public MainPage()
         {
             InitializeComponent();
+
+            _notificationRegistrationService = ServiceContainer.Resolve<INotificationRegistrationService>();
         }
 
-        protected override bool OnBackButtonPressed() => true;
 
         async void OnInfoLoginClicked(object sender, EventArgs e)
         {
@@ -69,10 +74,11 @@ namespace TestNotification
                     var result = collection.FindOne(x => x.Url.Equals(urlEntry.Text) && x.Username.Equals(usernameEntry.Text) && x.Password.Equals(passwordEntry.Text));
 
                     try
-                    {
-                        //registrazione dispositivo
+                    {         
                         await Navigation.PushAsync(new AuthorizedUserPage(result.Username, result.Company, result.SectorCompany));
                         Toast.MakeText(Android.App.Application.Context, "Login riuscito: dispositivo registrato.", ToastLength.Short).Show();
+
+                        registrationDevice();
                     }
                     catch
                     {
@@ -81,7 +87,19 @@ namespace TestNotification
                 }
             } else
                 Toast.MakeText(Android.App.Application.Context, "Errore: compilare tutti i campi.", ToastLength.Long).Show();
+        }
 
+        async void registrationDevice()
+        {
+            await _notificationRegistrationService.RegisterDeviceAsync().ContinueWith((task)
+                                    => {
+                                        if (task.IsFaulted)
+                                            Console.WriteLine($"Exception: {task.Exception.Message}");
+                                        else
+                                        {
+                                            Console.WriteLine("Device registered: now is available to receive push notification.");
+                                        }          
+                                    });
         }
     }
 }
