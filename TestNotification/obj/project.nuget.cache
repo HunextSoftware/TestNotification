@@ -1,12 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "yZF1T/k8jEMTVAnLODGqoSgPRilBBFhTLbwxtTg4okoHK3T8YkiwAnN2I6CMCAw+UWeM1+B5hp+qctQAghL7/w==",
+  "dgSpecHash": "/7+ju+Jhineua2Krx+2aF96Ar53WGRTT2iow18bYR6xfdIY1zrO/MCQyQGu4j8HJrVaiJNymbx4z4HT8rpf+Wg==",
   "success": true,
   "projectFilePath": "C:\\Users\\a.gobbo\\source\\repos\\TestNotification\\TestNotification\\TestNotification.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\a.gobbo\\.nuget\\packages\\litedb\\5.0.8\\litedb.5.0.8.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512",
-    "C:\\Users\\a.gobbo\\.nuget\\packages\\sqlite\\3.13.0\\sqlite.3.13.0.nupkg.sha512",
+    "C:\\Users\\a.gobbo\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512",
     "C:\\Users\\a.gobbo\\.nuget\\packages\\system.numerics.vectors\\4.5.0\\system.numerics.vectors.4.5.0.nupkg.sha512",
     "C:\\Users\\a.gobbo\\.nuget\\packages\\xamarin.essentials\\1.5.3.2\\xamarin.essentials.1.5.3.2.nupkg.sha512",
     "C:\\Users\\a.gobbo\\.nuget\\packages\\xamarin.forms\\4.7.0.968\\xamarin.forms.4.7.0.968.nupkg.sha512"

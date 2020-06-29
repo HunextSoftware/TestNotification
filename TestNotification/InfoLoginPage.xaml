@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="TestNotification.InfoLoginPage"
+             Padding="10"
+             Title="Login Information">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Welcome to the TestPushNotification cross-platform mobile application used to show how works a push notification system."  
+                Margin="10,10,5,0"/>
+            <Label Text="This prototype will be integrated on the already existing &lt;strong&gt;Hunext Mobile&lt;/strong&gt; application, written by Hunext Software company." 
+                TextType="Html"   
+                Margin="10,0,5,15"/>
+            <Label Text="On this page, the user must insert the following required fields:" 
+                Margin="10,0,5,0"/>
+            <Label Text="- &lt;strong&gt;URL&lt;/strong&gt;: the URL address related to the company which uses Hunext services." 
+                TextType="Html"  
+                Margin="10,0,5,0"/>
+            <Label Text="- &lt;strong&gt;Username&lt;/strong&gt;: the username to log into the services of mobile application."
+                TextType="Html"  
+                Margin="10,0,5,0"/>
+            <Label Text="- &lt;strong&gt;Password&lt;/strong&gt;: the password to log into the services of mobile application."
+                TextType="Html"  
+                Margin="10,0,5,15"/>
+            <Label Text="Pressing &lt;strong&gt;Login&lt;/strong&gt; button, you can log into the system. If the credentials are right, the user will be redirect to the next page and the user device will be registered into the Azure push notification server."
+                TextType="Html" 
+                Margin="10,10,5,0"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "Zbobe5Uc91BrrZ8lFwlB074ephdlP6fLUu99pnCewHj/cHSvGY+9C9jFSNMUa0JIM8MPWvB1Gv3Ypee6T66uGQ==",
+  "dgSpecHash": "e73ArjZo8ACEHVl5qK/AmNQbtQj0mCZ8ZY4iyNl2wbY40ZGvzDCI9vV6EImLXjFnPxoKi2RUcS7DBLyJznqNyQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\a.gobbo\\source\\repos\\TestNotification\\TestNotification.Android\\TestNotification.Android.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\a.gobbo\\.nuget\\packages\\exiflib.pcl\\1.0.1\\exiflib.pcl.1.0.1.nupkg.sha512",
-    "C:\\Users\\a.gobbo\\.nuget\\packages\\sqlite\\3.13.0\\sqlite.3.13.0.nupkg.sha512",
+    "C:\\Users\\a.gobbo\\.nuget\\packages\\litedb\\5.0.8\\litedb.5.0.8.nupkg.sha512",
+    "C:\\Users\\a.gobbo\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512",
     "C:\\Microsoft\\Xamarin\\NuGet\\xamarin.android.arch.core.common\\1.1.1.3\\xamarin.android.arch.core.common.1.1.1.3.nupkg.sha512",
     "C:\\Microsoft\\Xamarin\\NuGet\\xamarin.android.arch.core.runtime\\1.1.1.3\\xamarin.android.arch.core.runtime.1.1.1.3.nupkg.sha512",
     "C:\\Microsoft\\Xamarin\\NuGet\\xamarin.android.arch.lifecycle.common\\1.1.1.3\\xamarin.android.arch.lifecycle.common.1.1.1.3.nupkg.sha512",

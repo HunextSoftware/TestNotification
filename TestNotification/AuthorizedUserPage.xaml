@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="TestNotification.AuthorizedUserPage"
+             NavigationPage.HasBackButton="False"
+             Padding="10"
+             Title="TestPushNotification">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Info"
+                 Clicked="OnInfoAuthorizedUserClicked" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Resources>
+        <Style TargetType="Button"
+               ApplyToDerivedTypes="True"
+               CanCascade="True">
+            <Setter Property="FontSize" Value="Medium" />
+            <Setter Property="BackgroundColor" Value="#1976D2" />
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="CornerRadius" Value="5" />
+            <Setter Property="HeightRequest" Value="50" />
+        </Style>
+    </ContentPage.Resources>
+    <StackLayout>
+        <Label x:Name="usernameLabel"
+               Text="Username:"
+               TextType="Html"
+               Margin="20,0,5,5"/>
+        <Label x:Name="companyLabel"
+               Text="Company:"
+               TextType="Html"
+               Margin="20,0,5,5"/>
+        <Label x:Name="sectorCompanyLabel"
+               Text="Sector company:"
+               TextType="Html"
+               Margin="20,0,5,5"/>
+        <Button Margin="20,00,20,30" 
+                Text="Logout"
+                HorizontalOptions="Center"
+                Clicked="OnLogoutButtonClicked" />
+    </StackLayout>
+</ContentPage>

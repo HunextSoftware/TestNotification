@@ -4,9 +4,9 @@ using Xamarin.Forms.Xaml;
 namespace TestNotification
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class InfoPage : ContentPage
+    public partial class InfoAuthorizedUserPage : ContentPage
     {
-        public InfoPage()
+        public InfoAuthorizedUserPage()
         {
             InitializeComponent();
         }
