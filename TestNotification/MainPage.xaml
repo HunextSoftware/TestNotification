@@ -24,7 +24,7 @@
         </Style>
     </ContentPage.Resources>
     <StackLayout>
-        <Label Text="Inserisci i dati per accedere all'app:"
+        <Label Text="Insert your personal data:"
                Margin="10,0,5,0"/>
         <Entry x:Name="urlEntry"
                Placeholder="URL"
@@ -35,7 +35,7 @@
                Completed="OnEditorUrlCompleted"
                Margin="5,0,5,0" />
         <Entry x:Name="usernameEntry"
-               Placeholder="Nome utente"
+               Placeholder="Username"
                ClearButtonVisibility="WhileEditing"
                IsSpellCheckEnabled="false" 
                IsTextPredictionEnabled="false" 

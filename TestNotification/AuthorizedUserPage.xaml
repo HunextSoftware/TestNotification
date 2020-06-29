@@ -25,15 +25,15 @@
     </ContentPage.Resources>
     <StackLayout>
         <Label x:Name="usernameLabel"
-               Text="Nome utente:"
+               Text="Username:"
                TextType="Html"
                Margin="20,0,5,5"/>
         <Label x:Name="companyLabel"
-               Text="Azienda:"
+               Text="Company:"
                TextType="Html"
                Margin="20,0,5,5"/>
         <Label x:Name="sectorCompanyLabel"
-               Text="Settore:"
+               Text="Sector company:"
                TextType="Html"
                Margin="20,0,5,5"/>
         <Button Margin="20,00,20,30" 

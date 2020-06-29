@@ -9,10 +9,23 @@
              Title="Authorized user information">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Info su cosa succede a questo punto"  
-                Margin="20,20,5,20"/>
-            <Label Text="TO DO"  
-                Margin="20,0,5,0"/>
+            <Label Text="On this page the user is logged, so it can receive notifications by the system."  
+                Margin="10,10,5,15"/>
+            <Label Text="The user can see all the following information:" 
+                TextType="Html"   
+                Margin="10,5,5,0"/>
+            <Label Text="- &lt;strong&gt;Username&lt;/strong&gt;: the username the user has used to log in." 
+                TextType="Html"  
+                Margin="10,0,5,0"/>
+            <Label Text="- &lt;strong&gt;Company&lt;/strong&gt;: the name of the company in which the user works."
+                TextType="Html"  
+                Margin="10,0,5,0"/>
+            <Label Text="- &lt;strong&gt;Sector company&lt;/strong&gt;: the specific sector company in which the user works."
+                TextType="Html"  
+                Margin="10,0,5,15"/>
+            <Label Text="Pressing &lt;strong&gt;Logout&lt;/strong&gt; button, you can log out by the system. This operation involves not receiving notifications."
+                TextType="Html" 
+                Margin="10,10,5,0"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

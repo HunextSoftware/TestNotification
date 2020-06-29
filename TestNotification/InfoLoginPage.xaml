@@ -9,16 +9,25 @@
              Title="Login Information">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Benvenuto al prototipo del sistema di push notification dell'applicazione mobile Hunext Mobile!"  
-                Margin="20,20,5,20"/>
-            <Label Text="Cliccando 'Registra device', registrerai il tuo device al server di push notification e sarai in grado di ricevere notifiche in qualsiasi momento dall'app TestNotification." 
-                Margin="20,0,5,5"/>
-            <Label Text="Cliccando 'Dissocia device', invece, simulerai la disinstallazione dell'app TestNotification e l'associazione app-device sarà rimossa dal server di push notification, quindi non riceverai più notifiche fino alla prossima installazione."  
-                Margin="20,0,5,20"/>
-            <Label Text="Inoltre, è possibile visualizzare lo stato corrente del device."  
-                Margin="20,0,5,0"/>
-            <Label Text="DA CORREGGERE"  
-                Margin="20,0,5,0"/>
+            <Label Text="Welcome to the TestPushNotification cross-platform mobile application used to show how works a push notification system."  
+                Margin="10,10,5,0"/>
+            <Label Text="This prototype will be integrated on the already existing &lt;strong&gt;Hunext Mobile&lt;/strong&gt; application, written by Hunext Software company." 
+                TextType="Html"   
+                Margin="10,0,5,15"/>
+            <Label Text="On this page, the user must insert the following required fields:" 
+                Margin="10,0,5,0"/>
+            <Label Text="- &lt;strong&gt;URL&lt;/strong&gt;: the URL address related to the company which uses Hunext services." 
+                TextType="Html"  
+                Margin="10,0,5,0"/>
+            <Label Text="- &lt;strong&gt;Username&lt;/strong&gt;: the username to log into the services of mobile application."
+                TextType="Html"  
+                Margin="10,0,5,0"/>
+            <Label Text="- &lt;strong&gt;Password&lt;/strong&gt;: the password to log into the services of mobile application."
+                TextType="Html"  
+                Margin="10,0,5,15"/>
+            <Label Text="Pressing &lt;strong&gt;Login&lt;/strong&gt; button, you can log into the system. If the credentials are right, the user will be redirect to the next page and the user device will be registered into the Azure push notification server."
+                TextType="Html" 
+                Margin="10,10,5,0"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

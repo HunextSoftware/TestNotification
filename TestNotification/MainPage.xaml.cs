@@ -76,17 +76,17 @@ namespace TestNotification
                     try
                     {         
                         await Navigation.PushAsync(new AuthorizedUserPage(result.Username, result.Company, result.SectorCompany));
-                        Toast.MakeText(Android.App.Application.Context, "Login riuscito: dispositivo registrato.", ToastLength.Short).Show();
+                        Toast.MakeText(Android.App.Application.Context, "Successful login: device registered.", ToastLength.Short).Show();
 
                         registrationDevice();
                     }
                     catch
                     {
-                        Toast.MakeText(Android.App.Application.Context, "Login non riuscito: campi inseriti non corretti.", ToastLength.Long).Show();
+                        Toast.MakeText(Android.App.Application.Context, "Login error: inserted fields not right.", ToastLength.Long).Show();
                     }
                 }
             } else
-                Toast.MakeText(Android.App.Application.Context, "Errore: compilare tutti i campi.", ToastLength.Long).Show();
+                Toast.MakeText(Android.App.Application.Context, "Error: fill in all fields.", ToastLength.Long).Show();
         }
 
         async void registrationDevice()

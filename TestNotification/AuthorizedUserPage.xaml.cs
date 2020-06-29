@@ -20,9 +20,9 @@ namespace TestNotification
 
             _notificationRegistrationService = ServiceContainer.Resolve<INotificationRegistrationService>();
 
-            usernameLabel.Text = "Nome utente: <strong>" + username + "</strong>";
-            companyLabel.Text = "Azienda: <strong>" + company + "</strong>";
-            sectorCompanyLabel.Text = "Settore aziendale: <strong>" + sectorCompany + "</strong>";
+            usernameLabel.Text = "Username: <strong>" + username + "</strong>";
+            companyLabel.Text = "Company: <strong>" + company + "</strong>";
+            sectorCompanyLabel.Text = "Sector company: <strong>" + sectorCompany + "</strong>";
         }
 
 
@@ -34,11 +34,11 @@ namespace TestNotification
         async void OnLogoutButtonClicked(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new MainPage());
-            Toast.MakeText(Android.App.Application.Context, "Logout riuscito: dispositivo non più registrato.", ToastLength.Short).Show();
+            Toast.MakeText(Android.App.Application.Context, "Successful logout: device no longer registered.", ToastLength.Short).Show();
 
-            usernameLabel.Text = "Nome utente:";
-            companyLabel.Text = "Azienda:";
-            sectorCompanyLabel.Text = "Settore aziendale:";
+            usernameLabel.Text = "Username:";
+            companyLabel.Text = "Company:";
+            sectorCompanyLabel.Text = "Sector company:";
 
             deregistrationDevice();
         }
