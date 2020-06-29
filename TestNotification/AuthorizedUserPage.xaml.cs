@@ -16,15 +16,17 @@ namespace TestNotification
     {
         readonly INotificationRegistrationService _notificationRegistrationService;
 
+        protected override bool OnBackButtonPressed() => true;
+
         public AuthorizedUserPage(string username, string company, string sectorCompany)
         {
             InitializeComponent();
 
             _notificationRegistrationService = ServiceContainer.Resolve<INotificationRegistrationService>();
 
-            usernameLabel.Text = "Nome utente: <strong style=\"color:blue\">" + username + "</strong>";
-            companyLabel.Text = "Azienda: <strong style=\"color:blue\">" + company + "</strong>";
-            sectorCompanyLabel.Text = "Nome utente: <strong style=\"color:blue\">" + sectorCompany + "</strong>";
+            usernameLabel.Text = "Nome utente: <strong>" + username + "</strong>";
+            companyLabel.Text = "Azienda: <strong>" + company + "</strong>";
+            sectorCompanyLabel.Text = "Settore aziendale: <strong>" + sectorCompany + "</strong>";
         }
 
         async void OnInfoAuthorizedUserClicked(object sender, EventArgs e)
@@ -32,14 +34,17 @@ namespace TestNotification
             await Navigation.PushAsync(new InfoAuthorizedUserPage());
         }
 
+        async void OnLogoutButtonClicked(object sender, EventArgs e)
+        {
+            //deregistrazione dispositivo
+            await Navigation.PushAsync(new MainPage());
+            Toast.MakeText(Android.App.Application.Context, "Logout riuscito: dispositivo non più registrato.", ToastLength.Short).Show();
+            usernameLabel.Text = "Nome utente:";
+            companyLabel.Text = "Azienda:";
+            sectorCompanyLabel.Text = "Settore aziendale:";
+        }
 
-
-
-        // Set all the 3 labels:
-        // Nome utente: xxxx
-        // Azienda: yyyy
-        // Settore: zzzz
-
+        //TO DELETE
         void RegisterButtonClicked(object sender, EventArgs e)
             => _notificationRegistrationService.RegisterDeviceAsync().ContinueWith((task)
                 => {
@@ -48,6 +53,7 @@ namespace TestNotification
                        $"Device registered");
                 });
 
+        //TO DELETE
         void DeregisterButtonClicked(object sender, EventArgs e)
             => _notificationRegistrationService.DeregisterDeviceAsync().ContinueWith((task)
                 => {

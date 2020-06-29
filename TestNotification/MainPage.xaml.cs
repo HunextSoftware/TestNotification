@@ -19,6 +19,8 @@ namespace TestNotification
             InitializeComponent();
         }
 
+        protected override bool OnBackButtonPressed() => true;
+
         async void OnInfoLoginClicked(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new InfoLoginPage());
@@ -68,8 +70,9 @@ namespace TestNotification
 
                     try
                     {
+                        //registrazione dispositivo
                         await Navigation.PushAsync(new AuthorizedUserPage(result.Username, result.Company, result.SectorCompany));
-                        Toast.MakeText(Android.App.Application.Context, "Login riuscito.", ToastLength.Short).Show();
+                        Toast.MakeText(Android.App.Application.Context, "Login riuscito: dispositivo registrato.", ToastLength.Short).Show();
                     }
                     catch
                     {

@@ -5,6 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="TestNotification.AuthorizedUserPage"
+             NavigationPage.HasBackButton="False"
              Padding="10"
              Title="TestPushNotification">
     <ContentPage.ToolbarItems>
@@ -46,5 +47,8 @@
                     Text="Deregistra"
                     Clicked="DeregisterButtonClicked" />
         </Grid>
+        <Button Text="Logout"
+                HorizontalOptions="Center"
+                Clicked="OnLogoutButtonClicked" />
     </StackLayout>
 </ContentPage>
