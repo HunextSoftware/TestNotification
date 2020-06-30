@@ -2608,11 +2608,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\a.gobbo\\source\\repos\\Buono\\TestNotification.Android\\TestNotification.Android.csproj",
+      "projectUniqueName": "C:\\Users\\a.gobbo\\source\\repos\\TestNotification\\TestNotification.Android\\TestNotification.Android.csproj",
       "projectName": "TestNotification.Android",
-      "projectPath": "C:\\Users\\a.gobbo\\source\\repos\\Buono\\TestNotification.Android\\TestNotification.Android.csproj",
+      "projectPath": "C:\\Users\\a.gobbo\\source\\repos\\TestNotification\\TestNotification.Android\\TestNotification.Android.csproj",
       "packagesPath": "C:\\Users\\a.gobbo\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\a.gobbo\\source\\repos\\Buono\\TestNotification.Android\\obj\\",
+      "outputPath": "C:\\Users\\a.gobbo\\source\\repos\\TestNotification\\TestNotification.Android\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "fallbackFolders": [
@@ -2639,8 +2639,8 @@
       "frameworks": {
         "monoandroid90": {
           "projectReferences": {
-            "C:\\Users\\a.gobbo\\source\\repos\\Buono\\TestNotification\\TestNotification.csproj": {
-              "projectPath": "C:\\Users\\a.gobbo\\source\\repos\\Buono\\TestNotification\\TestNotification.csproj"
+            "C:\\Users\\a.gobbo\\source\\repos\\TestNotification\\TestNotification\\TestNotification.csproj": {
+              "projectPath": "C:\\Users\\a.gobbo\\source\\repos\\TestNotification\\TestNotification\\TestNotification.csproj"
             }
           }
         }

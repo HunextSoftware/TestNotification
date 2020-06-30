@@ -1,10 +1,9 @@
 ﻿using Android.Widget;
-using Java.Security;
 using LiteDB;
 using System;
 using System.ComponentModel;
 using System.IO;
-using TestNotification.LocalDatabase;
+using TestNotification.Models;
 using TestNotification.Services;
 using Xamarin.Forms;
 
@@ -68,7 +67,7 @@ namespace TestNotification
         {
             if(urlEntry.Text != null && usernameEntry.Text != null && passwordEntry.Text != null)
             {
-                using (var db = new LiteDatabase((Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "UserDataDb.db"))))
+                using (var db = new LiteDatabase((Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "data.db"))))
                 {
                     var collection = db.GetCollection<UserData>("UserData");
                     var result = collection.FindOne(x => x.Url.Equals(urlEntry.Text) && x.Username.Equals(usernameEntry.Text) && x.Password.Equals(passwordEntry.Text));

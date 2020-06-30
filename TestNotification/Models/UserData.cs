@@ -1,9 +1,12 @@
-﻿namespace TestNotification.LocalDatabase
+﻿using LiteDB;
+using System;
+
+namespace TestNotification.Models
 {
     public class UserData
     {
-        // it could be a GUID data type
-        public int Id { get; set; }
+        [BsonId]
+        public Guid GUID { get; set; }
         public string Url { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
