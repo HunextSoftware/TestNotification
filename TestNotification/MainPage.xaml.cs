@@ -79,7 +79,7 @@ namespace TestNotification
                         Toast.MakeText(Android.App.Application.Context, "Successful login: device registered.", ToastLength.Short).Show();
 
                         //Adding tags which correspond to company and sectorCompany
-                        string[] tags = new string[] {Regex.Replace(result.Company, " ", ""), Regex.Replace(result.SectorCompany, @"s", "")};
+                        string[] tags = new string[] {Regex.Replace(result.Company, " ", ""), Regex.Replace(result.SectorCompany, " ", "")};
 
                         registrationDevice(tags);
                     }
