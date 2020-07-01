@@ -17,6 +17,14 @@ public class NotificationsController : ControllerBase
         _notificationService = notificationService;
     }
 
+    [HttpGet]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    public string GetHomePage()
+    {
+        return "Welcome to the TestPushNotification backend!";
+    } 
+
     [HttpPut]
     [Route("installations")]
     [ProducesResponseType((int)HttpStatusCode.OK)]

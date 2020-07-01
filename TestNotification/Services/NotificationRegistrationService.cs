@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,8 +14,8 @@ namespace TestNotification.Services
         // const string CachedDeviceTokenKey = "cached_device_token";
         const string RequestUrl = "/api/notifications/installations";
 
-        string _baseApiUrl;
-        HttpClient _client;
+        readonly string _baseApiUrl;
+        readonly HttpClient _client;
         IDeviceInstallationService _deviceInstallationService;
 
         //public NotificationRegistrationService(string baseApiUri, string apiKey)

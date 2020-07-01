@@ -40,10 +40,10 @@ namespace TestNotification
             companyLabel.Text = "Company:";
             sectorCompanyLabel.Text = "Sector company:";
 
-            deregistrationDevice();
+            DeregistrationDevice();
         }
         
-        async void deregistrationDevice()
+        async void DeregistrationDevice()
         {
             await _notificationRegistrationService.DeregisterDeviceAsync().ContinueWith((task)
                 => {

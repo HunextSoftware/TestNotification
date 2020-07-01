@@ -114,6 +114,7 @@ namespace TestNotificationBackend.Services
                     // This will broadcast to all users registered in the notification hub
                     await SendPlatformNotificationsAsync(androidPayload, iOSPayload, token);
                 }
+
                 //else if (notificationRequest.Tags.Length <= 20)
                 //{
                 //    await SendPlatformNotificationsAsync(androidPayload, iOSPayload, notificationRequest.Tags, token);
@@ -127,11 +128,23 @@ namespace TestNotificationBackend.Services
 
                 //    await Task.WhenAll(notificationTasks);
                 //}
-                else if(notificationRequest.Tags.Length <= 6)
+
+                // 6 is the tag limit for any boolean expression constructed using the logical operators AND (&&), OR (||), NOT (!)
+                else if (notificationRequest.Tags.Length <= 6)
                 {
-                    string tagExpression = "topic:Company";
-                    await SendPlatformNotificationsAsync(androidPayload, iOSPayload, tagExpression, token);
+                    var tagExpression = new System.Text.StringBuilder();
+                    for (int i = 0; i < notificationRequest.Tags.Length; i++)
+                    {
+                        if (i == 0)
+                            tagExpression.Append(notificationRequest.Tags[i] + " ");
+                        else
+                            tagExpression.Append("AND " + notificationRequest.Tags[i] + " ");
+                    }
+
+                    await SendPlatformNotificationsAsync(androidPayload, iOSPayload, tagExpression.ToString(), token);
                 }
+                else
+                    _logger.LogError("Error: tags number not allowed. The valid tags number is from 0 to 6.");
 
                 return true;
             }
