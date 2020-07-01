@@ -15,6 +15,8 @@ namespace TestNotificationBackend.Models
         [Required]
         public string PushChannel { get; set; }
 
-        public IList<string> Tags { get; set; } = Array.Empty<string>();
+        //Tags are the same at every registration
+        [Required]
+        public string[] Tags { get; set; } = {/*"single:GUID",*/ "topic:Company" /*,"topic:SectorCompany"*/};
     }
 }

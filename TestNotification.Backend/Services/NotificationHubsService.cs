@@ -35,7 +35,8 @@ namespace TestNotificationBackend.Services
         {
             if (string.IsNullOrWhiteSpace(deviceInstallation?.InstallationId) ||
                 string.IsNullOrWhiteSpace(deviceInstallation?.Platform) ||
-                string.IsNullOrWhiteSpace(deviceInstallation?.PushChannel))
+                string.IsNullOrWhiteSpace(deviceInstallation?.PushChannel) ||
+                deviceInstallation.Tags.Equals(null))
                 return false;
 
             var installation = new Installation()
@@ -113,18 +114,23 @@ namespace TestNotificationBackend.Services
                     // This will broadcast to all users registered in the notification hub
                     await SendPlatformNotificationsAsync(androidPayload, iOSPayload, token);
                 }
-                else if (notificationRequest.Tags.Length <= 20)
-                {
-                    await SendPlatformNotificationsAsync(androidPayload, iOSPayload, notificationRequest.Tags, token);
-                }
-                else
-                {
-                    var notificationTasks = notificationRequest.Tags
-                        .Select((value, index) => (value, index))
-                        .GroupBy(g => g.index / 20, i => i.value)
-                        .Select(tags => SendPlatformNotificationsAsync(androidPayload, iOSPayload, tags, token));
+                //else if (notificationRequest.Tags.Length <= 20)
+                //{
+                //    await SendPlatformNotificationsAsync(androidPayload, iOSPayload, notificationRequest.Tags, token);
+                //}
+                //else
+                //{
+                //    var notificationTasks = notificationRequest.Tags
+                //        .Select((value, index) => (value, index))
+                //        .GroupBy(g => g.index / 20, i => i.value)
+                //        .Select(tags => SendPlatformNotificationsAsync(androidPayload, iOSPayload, tags, token));
 
-                    await Task.WhenAll(notificationTasks);
+                //    await Task.WhenAll(notificationTasks);
+                //}
+                else if(notificationRequest.Tags.Length <= 6)
+                {
+                    string tagExpression = "topic:Company";
+                    await SendPlatformNotificationsAsync(androidPayload, iOSPayload, tagExpression, token);
                 }
 
                 return true;
@@ -151,15 +157,27 @@ namespace TestNotificationBackend.Services
             return Task.WhenAll(sendTasks);
         }
 
-        Task SendPlatformNotificationsAsync(string androidPayload, string iOSPayload, IEnumerable<string> tags, CancellationToken token)
+        //Task SendPlatformNotificationsAsync(string androidPayload, string iOSPayload, IEnumerable<string> tags, CancellationToken token)
+        //{
+        //    var sendTasks = new Task[]
+        //    {
+        //        _hub.SendFcmNativeNotificationAsync(androidPayload, tags, token),
+        //        _hub.SendAppleNativeNotificationAsync(iOSPayload, tags, token)
+        //    };
+
+        //    return Task.WhenAll(sendTasks);
+        //}
+
+        Task SendPlatformNotificationsAsync(string androidPayload, string iOSPayload, string tagExpression, CancellationToken token)
         {
             var sendTasks = new Task[]
             {
-                _hub.SendFcmNativeNotificationAsync(androidPayload, tags, token),
-                _hub.SendAppleNativeNotificationAsync(iOSPayload, tags, token)
+                _hub.SendFcmNativeNotificationAsync(androidPayload, tagExpression, token),
+                _hub.SendAppleNativeNotificationAsync(iOSPayload, tagExpression, token)
             };
 
             return Task.WhenAll(sendTasks);
         }
+
     }
 }

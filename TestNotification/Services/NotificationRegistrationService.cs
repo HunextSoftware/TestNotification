@@ -12,6 +12,7 @@ namespace TestNotification.Services
     public class NotificationRegistrationService : INotificationRegistrationService
     {
         const string CachedTagsKey = "cached_tags";
+        // const string CachedDeviceTokenKey = "cached_device_token";
         const string RequestUrl = "/api/notifications/installations";
 
         string _baseApiUrl;
@@ -60,19 +61,33 @@ namespace TestNotification.Services
             if (string.IsNullOrWhiteSpace(deviceInstallation.PushChannel))
                 throw new Exception($"No {nameof(deviceInstallation.PushChannel)} value for {nameof(DeviceInstallation)}");
 
+            if (deviceInstallation.Tags.Equals(null))
+                throw new Exception($"No {nameof(deviceInstallation.Tags)} value for {nameof(DeviceInstallation)}");
+
             await SendAsync<DeviceInstallation>(HttpMethod.Put, RequestUrl, deviceInstallation)
                 .ConfigureAwait(false);
 
             var serializedTags = JsonConvert.SerializeObject(tags);
+            Console.WriteLine($"SerializedTags: {serializedTags}");
             await SecureStorage.SetAsync(CachedTagsKey, serializedTags);
+            Console.WriteLine($"Deserialize values of CachedTagsKey: {SecureStorage.GetAsync(CachedTagsKey)}");
         }
 
         public async Task RefreshRegistrationAsync()
         {
-            var serializedTags = await SecureStorage.GetAsync(CachedTagsKey)
-                 .ConfigureAwait(false);
+            // var cachedToken = await SecureStorage.GetAsync(CachedDeviceTokenKey).ConfigureAwait(false);
 
-            if (string.IsNullOrWhiteSpace(serializedTags))
+            var serializedTags = await SecureStorage.GetAsync(CachedTagsKey)
+                .ConfigureAwait(false);
+
+            /*if (string.IsNullOrWhiteSpace(cachedToken) ||
+                string.IsNullOrWhiteSpace(serializedTags) ||
+                string.IsNullOrWhiteSpace(DeviceInstallationService.Token) ||
+                cachedToken == DeviceInstallationService.Token)
+                return;*/
+
+            if (string.IsNullOrWhiteSpace(serializedTags) ||
+                string.IsNullOrWhiteSpace(DeviceInstallationService.Token))
                 return;
 
             var tags = JsonConvert.DeserializeObject<string[]>(serializedTags);

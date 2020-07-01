@@ -3,6 +3,7 @@ using LiteDB;
 using System;
 using System.ComponentModel;
 using System.IO;
+using System.Text.RegularExpressions;
 using TestNotification.Models;
 using TestNotification.Services;
 using Xamarin.Forms;
@@ -77,7 +78,10 @@ namespace TestNotification
                         await Navigation.PushAsync(new AuthorizedUserPage(result.Username, result.Company, result.SectorCompany));
                         Toast.MakeText(Android.App.Application.Context, "Successful login: device registered.", ToastLength.Short).Show();
 
-                        registrationDevice();
+                        //Adding tags which correspond to company and sectorCompany
+                        string[] tags = new string[] {Regex.Replace(result.Company, " ", ""), Regex.Replace(result.SectorCompany, @"s", "")};
+
+                        registrationDevice(tags);
                     }
                     catch
                     {
@@ -88,9 +92,9 @@ namespace TestNotification
                 Toast.MakeText(Android.App.Application.Context, "Error: fill in all fields.", ToastLength.Long).Show();
         }
 
-        async void registrationDevice()
+        async void registrationDevice(string[] tags)
         {
-            await _notificationRegistrationService.RegisterDeviceAsync().ContinueWith((task)
+            await _notificationRegistrationService.RegisterDeviceAsync(tags).ContinueWith((task)
                                     => {
                                         if (task.IsFaulted)
                                             Console.WriteLine($"Exception: {task.Exception.Message}");
