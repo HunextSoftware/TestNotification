@@ -62,14 +62,16 @@ namespace TestNotification
 
         async void RegistrationDevice(string[] tags)
         {
-            await _notificationRegistrationService.RegisterDeviceAsync(tags).ContinueWith((task)
+            await _notificationRegistrationService.RegisterDeviceAsync(tags).ContinueWith(async (task)
                                     => {
                                         if (task.IsFaulted)
-                                            Console.WriteLine($"Exception: {task.Exception.Message}");
-                                        else
                                         {
+                                            Console.WriteLine($"Exception: {task.Exception.Message}");
+                                            await Navigation.PushAsync(new MainPage());
+                                            Toast.MakeText(Android.App.Application.Context, "Error during device registration: retry to log in.", ToastLength.Long).Show();
+                                        }
+                                        else
                                             Console.WriteLine("Device registered: now is available to receive push notification.");
-                                        }          
                                     });
         }
     }
