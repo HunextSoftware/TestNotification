@@ -136,9 +136,9 @@ namespace TestNotificationBackend.Services
                     for (int i = 0; i < notificationRequest.Tags.Length; i++)
                     {
                         if (i == 0)
-                            tagExpression.Append(notificationRequest.Tags[i] + " ");
+                            tagExpression.Append(notificationRequest.Tags[i]);
                         else
-                            tagExpression.Append("AND " + notificationRequest.Tags[i] + " ");
+                            tagExpression.Append(" && " + notificationRequest.Tags[i]);
                     }
 
                     await SendPlatformNotificationsAsync(androidPayload, iOSPayload, tagExpression.ToString(), token);
