@@ -2,7 +2,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TestNotificationBackend.Models;
 using TestNotificationBackend.Services;
@@ -17,6 +16,14 @@ public class NotificationsController : ControllerBase
     {
         _notificationService = notificationService;
     }
+
+    [HttpGet]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    public string GetHomePage()
+    {
+        return "Welcome to the TestPushNotification backend!";
+    } 
 
     [HttpPut]
     [Route("installations")]

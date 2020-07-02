@@ -35,7 +35,8 @@ namespace TestNotificationBackend.Services
         {
             if (string.IsNullOrWhiteSpace(deviceInstallation?.InstallationId) ||
                 string.IsNullOrWhiteSpace(deviceInstallation?.Platform) ||
-                string.IsNullOrWhiteSpace(deviceInstallation?.PushChannel))
+                string.IsNullOrWhiteSpace(deviceInstallation?.PushChannel) ||
+                deviceInstallation.Tags.Equals(null))
                 return false;
 
             var installation = new Installation()
@@ -113,19 +114,26 @@ namespace TestNotificationBackend.Services
                     // This will broadcast to all users registered in the notification hub
                     await SendPlatformNotificationsAsync(androidPayload, iOSPayload, token);
                 }
-                else if (notificationRequest.Tags.Length <= 20)
+
+                // 6 is the tag limit for any boolean expression constructed using the logical operators AND (&&), OR (||), NOT (!)
+                else if (notificationRequest.Tags.Length <= 6)
                 {
-                    await SendPlatformNotificationsAsync(androidPayload, iOSPayload, notificationRequest.Tags, token);
+                    // Build the expression about which tags are involved in the notification, bringing tags by JSON request body
+                    var tagExpression = new System.Text.StringBuilder();
+                    for (int i = 0; i < notificationRequest.Tags.Length; i++)
+                    {
+                        if (i == 0)
+                            tagExpression.Append(notificationRequest.Tags[i]);
+                        else
+                            tagExpression.Append(" && " + notificationRequest.Tags[i]);
+                    }
+
+                    await SendPlatformNotificationsAsync(androidPayload, iOSPayload, tagExpression.ToString(), token);
+
+                    Console.WriteLine("Status notification: all right.");
                 }
                 else
-                {
-                    var notificationTasks = notificationRequest.Tags
-                        .Select((value, index) => (value, index))
-                        .GroupBy(g => g.index / 20, i => i.value)
-                        .Select(tags => SendPlatformNotificationsAsync(androidPayload, iOSPayload, tags, token));
-
-                    await Task.WhenAll(notificationTasks);
-                }
+                    _logger.LogError("Error: tags number not allowed. The valid tags number is from 0 to 6.");
 
                 return true;
             }
@@ -151,15 +159,27 @@ namespace TestNotificationBackend.Services
             return Task.WhenAll(sendTasks);
         }
 
-        Task SendPlatformNotificationsAsync(string androidPayload, string iOSPayload, IEnumerable<string> tags, CancellationToken token)
+        //Task SendPlatformNotificationsAsync(string androidPayload, string iOSPayload, IEnumerable<string> tags, CancellationToken token)
+        //{
+        //    var sendTasks = new Task[]
+        //    {
+        //        _hub.SendFcmNativeNotificationAsync(androidPayload, tags, token),
+        //        _hub.SendAppleNativeNotificationAsync(iOSPayload, tags, token)
+        //    };
+
+        //    return Task.WhenAll(sendTasks);
+        //}
+
+        Task SendPlatformNotificationsAsync(string androidPayload, string iOSPayload, string tagExpression, CancellationToken token)
         {
             var sendTasks = new Task[]
             {
-                _hub.SendFcmNativeNotificationAsync(androidPayload, tags, token),
-                _hub.SendAppleNativeNotificationAsync(iOSPayload, tags, token)
+                _hub.SendFcmNativeNotificationAsync(androidPayload, tagExpression, token),
+                _hub.SendAppleNativeNotificationAsync(iOSPayload, tagExpression, token)
             };
 
             return Task.WhenAll(sendTasks);
         }
+
     }
 }

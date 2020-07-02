@@ -3,6 +3,7 @@ using LiteDB;
 using System;
 using System.ComponentModel;
 using System.IO;
+using System.Text.RegularExpressions;
 using TestNotification.Models;
 using TestNotification.Services;
 using Xamarin.Forms;
@@ -30,39 +31,6 @@ namespace TestNotification
             await Navigation.PushAsync(new InfoLoginPage());
         }
 
-        void OnEditorUrlChanged(object sender, TextChangedEventArgs e)
-        {
-            string oldText = e.OldTextValue;
-            string newText = e.NewTextValue;
-        }
-
-        void OnEditorUsernameChanged(object sender, TextChangedEventArgs e)
-        {
-            string oldText = e.OldTextValue;
-            string newText = e.NewTextValue;
-        }
-
-        void OnEditorPasswordChanged(object sender, TextChangedEventArgs e)
-        {
-            string oldText = e.OldTextValue;
-            string newText = e.NewTextValue;
-        }
-
-        void OnEditorUrlCompleted(object sender, EventArgs e)
-        {
-            var text = ((Entry)sender).Text; 
-        }
-
-        void OnEditorUsernameCompleted(object sender, EventArgs e)
-        {
-            var text = ((Entry)sender).Text; 
-        }
-
-        void OnEditorPasswordCompleted(object sender, EventArgs e)
-        {
-            var text = ((Entry)sender).Text; 
-        }
-
         async void OnLoginButtonClicked(object sender, EventArgs e)
         {
             if(urlEntry.Text != null && usernameEntry.Text != null && passwordEntry.Text != null)
@@ -77,7 +45,11 @@ namespace TestNotification
                         await Navigation.PushAsync(new AuthorizedUserPage(result.Username, result.Company, result.SectorCompany));
                         Toast.MakeText(Android.App.Application.Context, "Successful login: device registered.", ToastLength.Short).Show();
 
-                        registrationDevice();
+                        //TODO --> Is GUID needed as tag?? Understand it talking with tutor, explaining the reason why I chose not to put it
+                        //Adding tags which correspond to company and sectorCompany
+                        string[] tags = new string[] {Regex.Replace(result.Company, " ", ""), Regex.Replace(result.SectorCompany, " ", "")};
+
+                        RegistrationDevice(tags);
                     }
                     catch
                     {
@@ -88,16 +60,18 @@ namespace TestNotification
                 Toast.MakeText(Android.App.Application.Context, "Error: fill in all fields.", ToastLength.Long).Show();
         }
 
-        async void registrationDevice()
+        async void RegistrationDevice(string[] tags)
         {
-            await _notificationRegistrationService.RegisterDeviceAsync().ContinueWith((task)
+            await _notificationRegistrationService.RegisterDeviceAsync(tags).ContinueWith(async (task)
                                     => {
                                         if (task.IsFaulted)
-                                            Console.WriteLine($"Exception: {task.Exception.Message}");
-                                        else
                                         {
-                                            Console.WriteLine("Device registered: now is available to receive push notification.");
-                                        }          
+                                            Console.WriteLine($"Exception: {task.Exception.Message}");
+                                            await Navigation.PushAsync(new MainPage());
+                                            Toast.MakeText(Android.App.Application.Context, "Error during device registration: retry to log in.", ToastLength.Long).Show();
+                                        }
+                                        else
+                                            Console.WriteLine("Device registered: now is available to receive push notification."); 
                                     });
         }
     }

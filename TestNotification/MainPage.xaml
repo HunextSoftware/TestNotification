@@ -17,7 +17,7 @@
                ApplyToDerivedTypes="True"
                CanCascade="True">
             <Setter Property="FontSize" Value="Medium" />
-            <Setter Property="BackgroundColor" Value="#1976D2" />
+            <Setter Property="BackgroundColor" Value="#F44336" />
             <Setter Property="TextColor" Value="White" />
             <Setter Property="CornerRadius" Value="5" />
             <Setter Property="HeightRequest" Value="50" />
@@ -28,29 +28,29 @@
                Margin="10,0,5,0"/>
         <Entry x:Name="urlEntry"
                Placeholder="URL"
+               Keyboard="Url"
+               ReturnType="Next"
                ClearButtonVisibility="WhileEditing"
                IsSpellCheckEnabled="false" 
-               IsTextPredictionEnabled="false" 
-               TextChanged="OnEditorUrlChanged"
-               Completed="OnEditorUrlCompleted"
+               IsTextPredictionEnabled="false"
                Margin="5,0,5,0" />
         <Entry x:Name="usernameEntry"
                Placeholder="Username"
+               Keyboard="Text"
+               ReturnType="Next"
                ClearButtonVisibility="WhileEditing"
                IsSpellCheckEnabled="false" 
                IsTextPredictionEnabled="false" 
-               TextChanged="OnEditorUsernameChanged"
-               Completed="OnEditorUsernameCompleted"
-               Margin="5,0,5,0"/>
+               Margin="5,0,5,0" />
         <Entry x:Name="passwordEntry"
                Placeholder="Password"
+               Keyboard="Text"
+               ReturnType="Done"
                ClearButtonVisibility="WhileEditing"
                IsPassword="true"
                IsSpellCheckEnabled="false" 
-               IsTextPredictionEnabled="false" 
-               TextChanged="OnEditorPasswordChanged"
-               Completed="OnEditorPasswordCompleted"
-               Margin="5,0,5,0" />
+               IsTextPredictionEnabled="false"
+               Margin="5,0,5,50" />
         <Button Text="Login"
                 Clicked="OnLoginButtonClicked"
                 HorizontalOptions="Center" />
