@@ -41,7 +41,7 @@ namespace TestNotification
             DeregistrationDevice();
         }
         
-        async void DeregistrationDevice()
+        public async void DeregistrationDevice()
         {
             await _notificationRegistrationService.DeregisterDeviceAsync().ContinueWith(async (task)
                 => {

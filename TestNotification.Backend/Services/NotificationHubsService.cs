@@ -115,23 +115,10 @@ namespace TestNotificationBackend.Services
                     await SendPlatformNotificationsAsync(androidPayload, iOSPayload, token);
                 }
 
-                //else if (notificationRequest.Tags.Length <= 20)
-                //{
-                //    await SendPlatformNotificationsAsync(androidPayload, iOSPayload, notificationRequest.Tags, token);
-                //}
-                //else
-                //{
-                //    var notificationTasks = notificationRequest.Tags
-                //        .Select((value, index) => (value, index))
-                //        .GroupBy(g => g.index / 20, i => i.value)
-                //        .Select(tags => SendPlatformNotificationsAsync(androidPayload, iOSPayload, tags, token));
-
-                //    await Task.WhenAll(notificationTasks);
-                //}
-
                 // 6 is the tag limit for any boolean expression constructed using the logical operators AND (&&), OR (||), NOT (!)
                 else if (notificationRequest.Tags.Length <= 6)
                 {
+                    // Build the expression about which tags are involved in the notification, bringing tags by JSON request body
                     var tagExpression = new System.Text.StringBuilder();
                     for (int i = 0; i < notificationRequest.Tags.Length; i++)
                     {
@@ -142,6 +129,8 @@ namespace TestNotificationBackend.Services
                     }
 
                     await SendPlatformNotificationsAsync(androidPayload, iOSPayload, tagExpression.ToString(), token);
+
+                    Console.WriteLine("Status notification: all right.");
                 }
                 else
                     _logger.LogError("Error: tags number not allowed. The valid tags number is from 0 to 6.");

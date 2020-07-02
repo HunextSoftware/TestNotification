@@ -1,12 +1,9 @@
 ﻿using Android.App;
-using Android.Content.PM;
-using Android.Runtime;
-using Android.OS;
-using Android.Util;
-using Android.Gms.Common;
-using System;
 using Android.Content;
+using Android.Content.PM;
+using Android.OS;
 using Firebase.Iid;
+using System;
 using TestNotification.Droid.Services;
 using TestNotification.Services;
 
@@ -14,11 +11,11 @@ namespace TestNotification.Droid
 {
     [Activity(
         Label = "TestNotification",
-        LaunchMode = LaunchMode.SingleTop, 
-        Icon = "@mipmap/icon", 
-        Theme = "@style/MainTheme", 
-        MainLauncher = true, 
-        ConfigurationChanges = 
+        LaunchMode = LaunchMode.SingleTop,
+        Icon = "@mipmap/icon",
+        Theme = "@style/MainTheme",
+        MainLauncher = true,
+        ConfigurationChanges =
         ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity, Android.Gms.Tasks.IOnSuccessListener
     {
@@ -59,10 +56,17 @@ namespace TestNotification.Droid
             ProcessNotificationActions(Intent);
         }
 
+        public override void OnBackPressed()
+        {
+            using var alert = new AlertDialog.Builder(this);
+            alert.SetTitle("Confirm Exit");
+            alert.SetMessage("Are you sure you want to exit?");
+            alert.SetPositiveButton("Yes", (sender, args) => { Finish(); });
+            alert.SetNegativeButton("No", (sender, args) => { });
 
-
-
-
+            var dialog = alert.Create();
+            dialog.Show();
+        }
 
         protected override void OnNewIntent(Intent intent)
         {

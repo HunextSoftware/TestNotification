@@ -71,7 +71,7 @@ namespace TestNotification
                                             Toast.MakeText(Android.App.Application.Context, "Error during device registration: retry to log in.", ToastLength.Long).Show();
                                         }
                                         else
-                                            Console.WriteLine("Device registered: now is available to receive push notification.");
+                                            Console.WriteLine("Device registered: now is available to receive push notification."); 
                                     });
         }
     }
