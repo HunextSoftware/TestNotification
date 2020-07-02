@@ -17,7 +17,7 @@
                ApplyToDerivedTypes="True"
                CanCascade="True">
             <Setter Property="FontSize" Value="Medium" />
-            <Setter Property="BackgroundColor" Value="#1976D2" />
+            <Setter Property="BackgroundColor" Value="#F44336" />
             <Setter Property="TextColor" Value="White" />
             <Setter Property="CornerRadius" Value="5" />
             <Setter Property="HeightRequest" Value="50" />
@@ -44,7 +44,7 @@
                IsPassword="true"
                IsSpellCheckEnabled="false" 
                IsTextPredictionEnabled="false"
-               Margin="5,0,5,0" />
+               Margin="5,0,5,50" />
         <Button Text="Login"
                 Clicked="OnLoginButtonClicked"
                 HorizontalOptions="Center" />
