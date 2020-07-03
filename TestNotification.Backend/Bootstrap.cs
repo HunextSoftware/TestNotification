@@ -1,7 +1,7 @@
 ﻿using System;
-using TestNotification.Services;
+using TestNotificationBackend.Services;
 
-namespace TestNotification
+namespace TestNotificationBackend
 {
     public static class Bootstrap
     {

@@ -10,98 +10,58 @@ namespace TestNotification.Services
 {
     public class NotificationRegistrationService : INotificationRegistrationService
     {
-        const string CachedTagsKey = "cached_tags";
-        // const string CachedDeviceTokenKey = "cached_device_token";
+        const string CachedGUIDKey = "cached_guid";
         const string RequestUrl = "/api/notifications/installations";
 
         readonly string _baseApiUrl;
         readonly HttpClient _client;
-        IDeviceInstallationService _deviceInstallationService;
+        //IDeviceInstallationService _deviceInstallationService;
 
-        //public NotificationRegistrationService(string baseApiUri, string apiKey)
         public NotificationRegistrationService(string baseApiUri)
         {
             _client = new HttpClient();
             _client.DefaultRequestHeaders.Add("Accept", "application/json");
-            //_client.DefaultRequestHeaders.Add("apikey", apiKey);
 
             _baseApiUrl = baseApiUri;
         }
 
-        IDeviceInstallationService DeviceInstallationService
-            => _deviceInstallationService ??
-                (_deviceInstallationService = ServiceContainer.Resolve<IDeviceInstallationService>());
+        //IDeviceInstallationService DeviceInstallationService
+        //    => _deviceInstallationService ??
+        //        (_deviceInstallationService = ServiceContainer.Resolve<IDeviceInstallationService>());
 
-        public Task DeregisterDeviceAsync()
+        public async Task RegisterDeviceAsync(string guid)
         {
-            var deviceId = DeviceInstallationService?.GetDeviceId();
+            var serializedGUID = JsonConvert.SerializeObject(guid);
+            await SecureStorage.SetAsync(CachedGUIDKey, serializedGUID);
 
-            if (string.IsNullOrWhiteSpace(deviceId))
-                throw new Exception("Unable to resolve an ID for the device.");
-
-            SecureStorage.Remove(CachedTagsKey);
-
-            return SendAsync(HttpMethod.Delete, $"{RequestUrl}/{deviceId}");
-        }
-
-        public async Task RegisterDeviceAsync(params string[] tags)
-        {
-            var deviceInstallation = DeviceInstallationService?.GetDeviceInstallation(tags);
-
-            if (deviceInstallation == null)
-                throw new Exception($"Unable to get device installation information.");
-
-            if (string.IsNullOrWhiteSpace(deviceInstallation.InstallationId))
-                throw new Exception($"No {nameof(deviceInstallation.InstallationId)} value for {nameof(DeviceInstallation)}");
-
-            if (string.IsNullOrWhiteSpace(deviceInstallation.Platform))
-                throw new Exception($"No {nameof(deviceInstallation.Platform)} value for {nameof(DeviceInstallation)}");
-
-            if (string.IsNullOrWhiteSpace(deviceInstallation.PushChannel))
-                throw new Exception($"No {nameof(deviceInstallation.PushChannel)} value for {nameof(DeviceInstallation)}");
-
-            if (deviceInstallation.Tags.Equals(null))
-                throw new Exception($"No {nameof(deviceInstallation.Tags)} value for {nameof(DeviceInstallation)}");
-
-            await SendAsync<DeviceInstallation>(HttpMethod.Put, RequestUrl, deviceInstallation)
+            await SendAsync(HttpMethod.Put, RequestUrl, guid)
                 .ConfigureAwait(false);
-
-            var serializedTags = JsonConvert.SerializeObject(tags);
-            Console.WriteLine($"SerializedTags: {serializedTags}");
-            await SecureStorage.SetAsync(CachedTagsKey, serializedTags);
-            Console.WriteLine($"Deserialize values of CachedTagsKey: {SecureStorage.GetAsync(CachedTagsKey)}");
         }
 
         public async Task RefreshRegistrationAsync()
         {
-            // var cachedToken = await SecureStorage.GetAsync(CachedDeviceTokenKey).ConfigureAwait(false);
-
-            var serializedTags = await SecureStorage.GetAsync(CachedTagsKey)
+            var serializedGUID = await SecureStorage.GetAsync(CachedGUIDKey)
                 .ConfigureAwait(false);
 
-            /*if (string.IsNullOrWhiteSpace(cachedToken) ||
-                string.IsNullOrWhiteSpace(serializedTags) ||
-                string.IsNullOrWhiteSpace(DeviceInstallationService.Token) ||
-                cachedToken == DeviceInstallationService.Token)
-                return;*/
-
-            if (string.IsNullOrWhiteSpace(serializedTags) ||
-                string.IsNullOrWhiteSpace(DeviceInstallationService.Token))
+            if (string.IsNullOrWhiteSpace(serializedGUID))
                 return;
 
-            var tags = JsonConvert.DeserializeObject<string[]>(serializedTags);
+            var guid = JsonConvert.DeserializeObject<string>(serializedGUID);
 
-            await RegisterDeviceAsync(tags);
+            await RegisterDeviceAsync(guid);
         }
-    
-        private async Task SendAsync<T>(HttpMethod requestType, string requestUri, T obj)
-        {
-            string serializedContent = null;
 
-            await Task.Run(() => serializedContent = JsonConvert.SerializeObject(obj))
+        public async Task DeregisterDeviceAsync()
+        {
+            var serializedGUID = await SecureStorage.GetAsync(CachedGUIDKey)
                 .ConfigureAwait(false);
 
-            await SendAsync(requestType, requestUri, serializedContent);
+            if (string.IsNullOrWhiteSpace(serializedGUID))
+                throw new Exception("Unable to resolve an ID for the device.");
+
+            SecureStorage.Remove(CachedGUIDKey);
+
+            await SendAsync(HttpMethod.Delete, $"{RequestUrl}/{serializedGUID}");
         }
 
         private async Task SendAsync(HttpMethod requestType,

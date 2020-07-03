@@ -39,7 +39,7 @@ namespace TestNotification.Droid
 
             base.OnCreate(savedInstanceState);
 
-            Bootstrap.Begin(() => new DeviceInstallationService());
+            Bootstrap.Begin(() => new Services.DeviceInstallationService());
 
             if (DeviceInstallationService.NotificationsSupported)
             {

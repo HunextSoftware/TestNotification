@@ -1,11 +1,12 @@
 ﻿using Android.Widget;
 using LiteDB;
+using Newtonsoft.Json;
 using System;
 using System.ComponentModel;
 using System.IO;
-using System.Text.RegularExpressions;
 using TestNotification.Models;
 using TestNotification.Services;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace TestNotification
@@ -14,6 +15,7 @@ namespace TestNotification
     public partial class MainPage : ContentPage
     {
         readonly INotificationRegistrationService _notificationRegistrationService;
+        const string CachedDataAuthorizedUserKey = "cached_userdata_authorized";
 
         //Disable back button to avoid pop navigation
         protected override bool OnBackButtonPressed() => true;
@@ -35,21 +37,27 @@ namespace TestNotification
         {
             if(urlEntry.Text != null && usernameEntry.Text != null && passwordEntry.Text != null)
             {
+                // former-string
                 using (var db = new LiteDatabase((Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "data.db"))))
+                // Localhost backend
+                //using (var db = new LiteDatabase("data.db"))
+                // Azure backend (the same of localhost)
+                //using (var db = new LiteDatabase(Config.BackendServiceEndpoint + "/dev/wwwroot/data.db"))
                 {
                     var collection = db.GetCollection<UserData>("UserData");
                     var result = collection.FindOne(x => x.Url.Equals(urlEntry.Text) && x.Username.Equals(usernameEntry.Text) && x.Password.Equals(passwordEntry.Text));
 
                     try
-                    {         
+                    {
                         await Navigation.PushAsync(new AuthorizedUserPage(result.Username, result.Company, result.SectorCompany));
                         Toast.MakeText(Android.App.Application.Context, "Successful login: device registered.", ToastLength.Short).Show();
 
-                        //TODO --> Is GUID needed as tag?? Understand it talking with tutor, explaining the reason why I chose not to put it
-                        //Adding tags which correspond to company and sectorCompany
-                        string[] tags = new string[] {Regex.Replace(result.Company, " ", ""), Regex.Replace(result.SectorCompany, " ", "")};
+                        // USEFUL TO RECOVER AuthorizedUserPage ACTIVITY, WHEN APP IS CLOSED AND THE USER IS LOGGED IN YET
+                        string[] userDataAuthorized = { result.Username, result.Company, result.SectorCompany };
+                        var serializeduserDataAuthorized = JsonConvert.SerializeObject(userDataAuthorized);
+                        await SecureStorage.SetAsync(CachedDataAuthorizedUserKey, serializeduserDataAuthorized);
 
-                        RegistrationDevice(tags);
+                        StartingRegistrationDevice(result.Id.ToString());
                     }
                     catch
                     {
@@ -60,9 +68,9 @@ namespace TestNotification
                 Toast.MakeText(Android.App.Application.Context, "Error: fill in all fields.", ToastLength.Long).Show();
         }
 
-        async void RegistrationDevice(string[] tags)
+        async void StartingRegistrationDevice(string guid)
         {
-            await _notificationRegistrationService.RegisterDeviceAsync(tags).ContinueWith(async (task)
+            await _notificationRegistrationService.RegisterDeviceAsync(guid).ContinueWith(async (task)
                                     => {
                                         if (task.IsFaulted)
                                         {

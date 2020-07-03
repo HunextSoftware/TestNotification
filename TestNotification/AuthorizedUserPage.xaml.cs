@@ -11,7 +11,7 @@ namespace TestNotification
     {
         readonly INotificationRegistrationService _notificationRegistrationService;
 
-        //Disable back button to avoid pop navigation
+        // Disable back button to avoid pop navigation
         protected override bool OnBackButtonPressed() => true;
 
         public AuthorizedUserPage() { }
@@ -38,10 +38,10 @@ namespace TestNotification
             await Navigation.PushAsync(new MainPage());
             Toast.MakeText(Android.App.Application.Context, "Successful logout: device no longer registered.", ToastLength.Short).Show();
 
-            DeregistrationDevice();
+            StartingDeregistrationDevice();
         }
         
-        public async void DeregistrationDevice()
+        public async void StartingDeregistrationDevice()
         {
             await _notificationRegistrationService.DeregisterDeviceAsync().ContinueWith(async (task)
                 => {

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace TestNotification.Services
+namespace TestNotificationBackend.Services
 {
-    // This is a trimmed-down version of the ServiceContainer class from the XamCAT repository. It will be used as a light-weight IoC (Inversion of Control) container.
+    //This is a trimmed-down version of the ServiceContainer class from the XamCAT repository. It will be used as a light-weight IoC (Inversion of Control) container.
     public class ServiceContainer
     {
         static readonly Dictionary<Type, Lazy<object>> services

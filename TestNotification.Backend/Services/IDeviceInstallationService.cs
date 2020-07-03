@@ -1,6 +1,6 @@
-﻿using TestNotification.Models;
+﻿using TestNotificationBackend.Models;
 
-namespace TestNotification.Services
+namespace TestNotificationBackend.Services
 {
     //This interface will be implemented and bootstrapped by each target later to provide the platform-specific functionality and DeviceInstallation information required by the backend service.
     public interface IDeviceInstallationService
