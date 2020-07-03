@@ -1,6 +1,7 @@
 ﻿using Android.Widget;
 using System;
 using TestNotification.Services;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -11,7 +12,7 @@ namespace TestNotification
     {
         readonly INotificationRegistrationService _notificationRegistrationService;
 
-        //Disable back button to avoid pop navigation
+        // Disable back button to avoid pop navigation
         protected override bool OnBackButtonPressed() => true;
 
         public AuthorizedUserPage() { }
@@ -53,6 +54,9 @@ namespace TestNotification
                     }
                     else
                     {
+                        // Remove authenticated user data
+                        SecureStorage.Remove(App.CachedDataAuthorizedUserKey);
+
                         Console.WriteLine("Device deregistered: now is not longer available to receive push notification until next user login.");
                         usernameLabel.Text = "Username:";
                         companyLabel.Text = "Company:";

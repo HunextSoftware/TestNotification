@@ -1,11 +1,13 @@
 ﻿using Android.Widget;
 using LiteDB;
+using Newtonsoft.Json;
 using System;
 using System.ComponentModel;
 using System.IO;
 using System.Text.RegularExpressions;
 using TestNotification.Models;
 using TestNotification.Services;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace TestNotification
@@ -15,7 +17,7 @@ namespace TestNotification
     {
         readonly INotificationRegistrationService _notificationRegistrationService;
 
-        //Disable back button to avoid pop navigation
+        // Disable back button to avoid pop navigation
         protected override bool OnBackButtonPressed() => true;
 
         public MainPage()
@@ -45,9 +47,19 @@ namespace TestNotification
                         await Navigation.PushAsync(new AuthorizedUserPage(result.Username, result.Company, result.SectorCompany));
                         Toast.MakeText(Android.App.Application.Context, "Successful login: device registered.", ToastLength.Short).Show();
 
-                        //TODO --> Is GUID needed as tag?? Understand it talking with tutor, explaining the reason why I chose not to put it
-                        //Adding tags which correspond to company and sectorCompany
+                        // TODO --> Is GUID needed as tag?? Understand it talking with tutor, explaining the reason why I chose not to put it
+                        // Adding tags which correspond to company and sectorCompany
                         string[] tags = new string[] {Regex.Replace(result.Company, " ", ""), Regex.Replace(result.SectorCompany, " ", "")};
+                        
+                        //TO USE 
+                        // Adding tag which correspond to GUID user
+                        //string[] tags = new string[] { Regex.Replace(result.GUID.ToString(), " ", "") };
+
+
+                        // USEFUL TO RECOVER AuthorizedUserPage ACTIVITY, WHEN APP IS CLOSED AND THE USER IS LOGGED IN YET
+                        string[] userDataAuthorized = { result.Username, result.Company, result.SectorCompany };
+                        var serializeduserDataAuthorized = JsonConvert.SerializeObject(userDataAuthorized);
+                        await SecureStorage.SetAsync(App.CachedDataAuthorizedUserKey, serializeduserDataAuthorized);
 
                         RegistrationDevice(tags);
                     }
