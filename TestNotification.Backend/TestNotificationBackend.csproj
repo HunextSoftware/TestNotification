@@ -6,16 +6,25 @@
     <StartupObject>TestNotificationBackend.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="data-log.db" />
+    <None Remove="data.db" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="data-log.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="data.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="LiteDB" Version="5.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.AzureKeyVault.HostingStartup" Version="2.0.4" />
     <PackageReference Include="Microsoft.Azure.NotificationHubs" Version="3.3.0" />
   </ItemGroup>
   <ItemGroup>
-    <None Update="data-log.db">
+    <Compile Update="Program.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="data.db">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </Compile>
   </ItemGroup>
 </Project>

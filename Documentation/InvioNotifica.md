@@ -21,3 +21,13 @@ I tag possono essere in un numero che va da 0 fino a 6.
 
 *Silent* è un valore booleano che indica se la notifica deve essere visibile solo all'interno dell'app (true) oppure in tutti gli stati che passa l'applicazione (false).
 - cliccare il bottone **Send** e inviare la notifica
+
+## NOTE A MARGINE
+
+Come descritto nella issue #8, l'invio della notifica comporta una risposta HTTP 422. 
+
+Questo errore semantico è dovuto al fatto che è stato configurato FCM (Google) ma non APN (Apple), infatti il codice backend è già predisposto per l'invio di notifiche a dispositivi Apple.
+
+È stato testato che, rimuovendo il codice specifico di TestNotification.Backend in Model/PushTemplates e Services/NotificationHubsService, l'invio della notifica comporta una risposta HTTP 200, con avvenuta ricezione della notifica.
+
+Ergo, questo problema verrà risolto non appena verrà ultimata la configurazione dell'APN, con il codice che deve rimanere intatto.

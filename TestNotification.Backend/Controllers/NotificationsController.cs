@@ -76,6 +76,7 @@ public class NotificationsController : ControllerBase
         var success = await _notificationService
             .RequestNotificationAsync(notificationRequest, HttpContext.RequestAborted);
 
+        // This endpoint will return always 422 until APN configuration is not done. Otherwise, it will return 200.
         if (!success)
             return new UnprocessableEntityResult();
 

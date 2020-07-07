@@ -1,11 +1,14 @@
 ﻿using Android.Widget;
 using LiteDB;
+using Newtonsoft.Json;
 using System;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using TestNotification.Models;
 using TestNotification.Services;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace TestNotification
@@ -15,7 +18,7 @@ namespace TestNotification
     {
         readonly INotificationRegistrationService _notificationRegistrationService;
 
-        //Disable back button to avoid pop navigation
+        // Disable back button to avoid pop navigation
         protected override bool OnBackButtonPressed() => true;
 
         public MainPage()
@@ -35,7 +38,8 @@ namespace TestNotification
         {
             if(urlEntry.Text != null && usernameEntry.Text != null && passwordEntry.Text != null)
             {
-                using (var db = new LiteDatabase((Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "data.db"))))
+                // using (var db = new LiteDatabase("data.db"))
+                using (var db = new LiteDatabase((Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "data.db")))) 
                 {
                     var collection = db.GetCollection<UserData>("UserData");
                     var result = collection.FindOne(x => x.Url.Equals(urlEntry.Text) && x.Username.Equals(usernameEntry.Text) && x.Password.Equals(passwordEntry.Text));
@@ -45,9 +49,13 @@ namespace TestNotification
                         await Navigation.PushAsync(new AuthorizedUserPage(result.Username, result.Company, result.SectorCompany));
                         Toast.MakeText(Android.App.Application.Context, "Successful login: device registered.", ToastLength.Short).Show();
 
-                        //TODO --> Is GUID needed as tag?? Understand it talking with tutor, explaining the reason why I chose not to put it
-                        //Adding tags which correspond to company and sectorCompany
-                        string[] tags = new string[] {Regex.Replace(result.Company, " ", ""), Regex.Replace(result.SectorCompany, " ", "")};
+                        // This row gives the possibility to insert tags, in a way that every user can be discriminated by the notification hub --> in our case, we need a GUID associated with the personal device 
+                        string[] tags = new string[] { Regex.Replace(result.GUID, " ", "") };
+
+                        // This block needs to recover AuthorizedUserPage activity, when the app is closed but the user has logged in yet
+                        string[] userDataAuthorized = { result.Username, result.Company, result.SectorCompany };
+                        var serializedUserDataAuthorized = JsonConvert.SerializeObject(userDataAuthorized);
+                        await SecureStorage.SetAsync(App.CachedDataAuthorizedUserKey, serializedUserDataAuthorized);
 
                         RegistrationDevice(tags);
                     }
