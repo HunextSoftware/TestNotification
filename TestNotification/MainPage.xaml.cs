@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using TestNotification.Models;
 using TestNotification.Services;
@@ -48,15 +49,13 @@ namespace TestNotification
                         await Navigation.PushAsync(new AuthorizedUserPage(result.Username, result.Company, result.SectorCompany));
                         Toast.MakeText(Android.App.Application.Context, "Successful login: device registered.", ToastLength.Short).Show();
 
-                        // TO USE 
-                        // Adding tag which correspond to GUID user
-                        // string[] tags = new string[] { Regex.Replace(result.GUID.ToString(), " ", "") };
-                        string[] tags = new string[] { Regex.Replace(result.Company, " ", ""), Regex.Replace(result.SectorCompany, " ", "") };
+                        // This row gives the possibility to insert tags, in a way that every user can be discriminated by the notification hub --> in our case, we need a GUID associated with the personal device 
+                        string[] tags = new string[] { Regex.Replace(result.GUID, " ", "") };
 
-                        // USEFUL TO RECOVER AuthorizedUserPage ACTIVITY, WHEN APP IS CLOSED AND THE USER IS LOGGED IN YET
+                        // This block needs to recover AuthorizedUserPage activity, when the app is closed but the user has logged in yet
                         string[] userDataAuthorized = { result.Username, result.Company, result.SectorCompany };
-                        var serializeduserDataAuthorized = JsonConvert.SerializeObject(userDataAuthorized);
-                        await SecureStorage.SetAsync(App.CachedDataAuthorizedUserKey, serializeduserDataAuthorized);
+                        var serializedUserDataAuthorized = JsonConvert.SerializeObject(userDataAuthorized);
+                        await SecureStorage.SetAsync(App.CachedDataAuthorizedUserKey, serializedUserDataAuthorized);
 
                         RegistrationDevice(tags);
                     }

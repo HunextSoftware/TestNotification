@@ -10,9 +10,11 @@ C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debu
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\googsvcsjson\values\goog_svcs_json.xml
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\build.props
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\adb.props
+C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\TestNotification.Android.csprojAssemblyReference.cache
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\_VerifyXamarinAndroidSupportVersions.stamp
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\stamp\_BuildLibraryImportsCache.stamp
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\res.flag
+C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\stamp\E40DA88E08A2A53C.stamp
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\flata\E40DA88E08A2A53C.stamp
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\flata\3AA2EC1C3152DD19.stamp
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\flata\E67FE06258528EB1.stamp
@@ -650,4 +652,3 @@ C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debu
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\stamp\_GenerateJavaStubs.stamp
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\stamp\_GeneratePackageManagerJava.stamp
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\stamp\_ResolveLibraryProjectImports.stamp
-C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\TestNotification.Android.csprojAssemblyReference.cache
