@@ -37,7 +37,8 @@ namespace TestNotification
         {
             if(urlEntry.Text != null && usernameEntry.Text != null && passwordEntry.Text != null)
             {
-                using (var db = new LiteDatabase((Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "data.db"))))
+                // using (var db = new LiteDatabase("data.db"))
+                using (var db = new LiteDatabase((Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "data.db")))) 
                 {
                     var collection = db.GetCollection<UserData>("UserData");
                     var result = collection.FindOne(x => x.Url.Equals(urlEntry.Text) && x.Username.Equals(usernameEntry.Text) && x.Password.Equals(passwordEntry.Text));
@@ -47,14 +48,10 @@ namespace TestNotification
                         await Navigation.PushAsync(new AuthorizedUserPage(result.Username, result.Company, result.SectorCompany));
                         Toast.MakeText(Android.App.Application.Context, "Successful login: device registered.", ToastLength.Short).Show();
 
-                        // TODO --> Is GUID needed as tag?? Understand it talking with tutor, explaining the reason why I chose not to put it
-                        // Adding tags which correspond to company and sectorCompany
-                        string[] tags = new string[] {Regex.Replace(result.Company, " ", ""), Regex.Replace(result.SectorCompany, " ", "")};
-                        
-                        //TO USE 
+                        // TO USE 
                         // Adding tag which correspond to GUID user
-                        //string[] tags = new string[] { Regex.Replace(result.GUID.ToString(), " ", "") };
-
+                        // string[] tags = new string[] { Regex.Replace(result.GUID.ToString(), " ", "") };
+                        string[] tags = new string[] { Regex.Replace(result.Company, " ", ""), Regex.Replace(result.SectorCompany, " ", "") };
 
                         // USEFUL TO RECOVER AuthorizedUserPage ACTIVITY, WHEN APP IS CLOSED AND THE USER IS LOGGED IN YET
                         string[] userDataAuthorized = { result.Username, result.Company, result.SectorCompany };

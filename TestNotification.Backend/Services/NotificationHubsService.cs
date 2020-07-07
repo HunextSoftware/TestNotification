@@ -129,8 +129,6 @@ namespace TestNotificationBackend.Services
                     }
 
                     await SendPlatformNotificationsAsync(androidPayload, iOSPayload, tagExpression.ToString(), token);
-
-                    Console.WriteLine("Status notification: all right.");
                 }
                 else
                     _logger.LogError("Error: tags number not allowed. The valid tags number is from 0 to 6.");
@@ -158,17 +156,6 @@ namespace TestNotificationBackend.Services
 
             return Task.WhenAll(sendTasks);
         }
-
-        //Task SendPlatformNotificationsAsync(string androidPayload, string iOSPayload, IEnumerable<string> tags, CancellationToken token)
-        //{
-        //    var sendTasks = new Task[]
-        //    {
-        //        _hub.SendFcmNativeNotificationAsync(androidPayload, tags, token),
-        //        _hub.SendAppleNativeNotificationAsync(iOSPayload, tags, token)
-        //    };
-
-        //    return Task.WhenAll(sendTasks);
-        //}
 
         Task SendPlatformNotificationsAsync(string androidPayload, string iOSPayload, string tagExpression, CancellationToken token)
         {
