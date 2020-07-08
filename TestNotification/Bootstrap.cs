@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using TestNotification.Services;
 
 namespace TestNotification
@@ -18,12 +16,6 @@ namespace TestNotification
             ServiceContainer.Register<INotificationRegistrationService>(()
                 => new NotificationRegistrationService(
                     Config.BackendServiceEndpoint));
-
-            //Available only if ApiKey is configured
-            //ServiceContainer.Register<INotificationRegistrationService>(()
-            //    => new NotificationRegistrationService(
-            //        Config.BackendServiceEndpoint,
-            //        Config.ApiKey));
         }
     }
 }

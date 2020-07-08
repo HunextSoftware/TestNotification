@@ -1,9 +1,7 @@
-
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using LiteDB;
 using Microsoft.AspNetCore.Mvc;
 using TestNotificationBackend.Models;
 using TestNotificationBackend.Services;
