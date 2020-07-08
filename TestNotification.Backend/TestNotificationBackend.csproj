@@ -6,13 +6,9 @@
     <StartupObject>TestNotificationBackend.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="data-log.db" />
     <None Remove="data.db" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="data-log.db">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
     <Resource Include="data.db">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>

@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <Folder Include="Services\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Config.local_secrets" />

@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace TestNotification.Models
 {
-    public class Login
+    public class LoginRequest
     {
         [JsonProperty("url")]
         public string Url { get; set; }
@@ -14,7 +13,7 @@ namespace TestNotification.Models
         [JsonProperty("password")]
         public string Password { get; set; }
 
-        public Login(string url, string username, string password)
+        public LoginRequest(string url, string username, string password)
         {
             Url = url;
             Username = username;
