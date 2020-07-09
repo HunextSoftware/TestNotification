@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using LiteDB;
 using Microsoft.AspNetCore.Mvc;
@@ -12,10 +11,19 @@ namespace TestNotificationBackend.Controllers
     [Route("login")]
     public class LoginController : ControllerBase
     {
+        ////readonly ILoginService _loginService;
+        //readonly ILiteDatabase _liteDatabase;
+
+        //public LoginController(/*ILoginService loginService,*/ string connectionStringDB = "data.db")
+        //{
+        //    //_loginService = loginService;
+        //    _liteDatabase = new LiteDatabase(connectionStringDB);
+        //}
+
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
-        public async Task<ActionResult<LoginRequest>> PostLogin([Required] LoginRequest login)
+        public async Task<ActionResult<LoginResponse>> PostLogin([Required] LoginRequest login)
         {
             using (var db = new LiteDatabase("data.db"))
             {
@@ -23,18 +31,32 @@ namespace TestNotificationBackend.Controllers
                 var result = collection.FindOne(x => x.Url.Equals(login.Url) && x.Username.Equals(login.Username) && x.Password.Equals(login.Password));
 
                 if (result.Equals(null))
-                //{
-                    //Unauthorized();
-                    //return new LoginResponse(false);
                     return Unauthorized(new LoginResponse(false));
-                //}
                 else
-                //{
-                    //Ok();
-                    //return new LoginResponse(true, result.GUID, result.Username, result.Company, result.SectorCompany);
                     return Ok(new LoginResponse(true, result.GUID, result.Username, result.Company, result.SectorCompany));
-                //}  
             }
+
+
+
+            //var success = await _loginService.TryToLogin(login, HttpContext.RequestAborted);
+
+            //var task = new Task<ActionResult<LoginResponse>>( () =>
+            //{
+            //    using (_liteDatabase)
+            //    {
+            //        var collection = _liteDatabase.GetCollection<UserData>("UserData");
+            //        var result = collection.FindOne(x => x.Url.Equals(login.Url) && x.Username.Equals(login.Username) && x.Password.Equals(login.Password));
+
+            //        if (result.Equals(null))
+            //            return Unauthorized(new LoginResponse(false));
+            //        else
+            //            return Ok(new LoginResponse(true, result.GUID, result.Username, result.Company, result.SectorCompany));
+            //    }
+            //});
+
+            //return await task;
+
+            
         }
     }
 }

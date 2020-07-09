@@ -14,7 +14,7 @@
             this.isThereUser = isThereUser;
         }
 
-        // ...otherwise send this
+        // ... otherwise send this
         public LoginResponse(bool isThereUser, string GUID, string Username, string Company, string SectorCompany)
         {
             this.isThereUser = isThereUser;
