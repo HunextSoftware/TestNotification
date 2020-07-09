@@ -11,15 +11,6 @@ namespace TestNotificationBackend.Controllers
     [Route("login")]
     public class LoginController : ControllerBase
     {
-        ////readonly ILoginService _loginService;
-        //readonly ILiteDatabase _liteDatabase;
-
-        //public LoginController(/*ILoginService loginService,*/ string connectionStringDB = "data.db")
-        //{
-        //    //_loginService = loginService;
-        //    _liteDatabase = new LiteDatabase(connectionStringDB);
-        //}
-
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
@@ -30,33 +21,11 @@ namespace TestNotificationBackend.Controllers
                 var collection = db.GetCollection<UserData>("UserData");
                 var result = collection.FindOne(x => x.Url.Equals(login.Url) && x.Username.Equals(login.Username) && x.Password.Equals(login.Password));
 
-                if (result.Equals(null))
-                    return Unauthorized(new LoginResponse(false));
+                if (result == null)
+                    return Unauthorized(new LoginResponse());
                 else
-                    return Ok(new LoginResponse(true, result.GUID, result.Username, result.Company, result.SectorCompany));
+                    return Ok(new LoginResponse(result.GUID, result.Username, result.Company, result.SectorCompany));
             }
-
-
-
-            //var success = await _loginService.TryToLogin(login, HttpContext.RequestAborted);
-
-            //var task = new Task<ActionResult<LoginResponse>>( () =>
-            //{
-            //    using (_liteDatabase)
-            //    {
-            //        var collection = _liteDatabase.GetCollection<UserData>("UserData");
-            //        var result = collection.FindOne(x => x.Url.Equals(login.Url) && x.Username.Equals(login.Username) && x.Password.Equals(login.Password));
-
-            //        if (result.Equals(null))
-            //            return Unauthorized(new LoginResponse(false));
-            //        else
-            //            return Ok(new LoginResponse(true, result.GUID, result.Username, result.Company, result.SectorCompany));
-            //    }
-            //});
-
-            //return await task;
-
-            
         }
     }
 }

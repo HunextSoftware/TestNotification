@@ -3,8 +3,6 @@ using Newtonsoft.Json;
 using System;
 using System.ComponentModel;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using TestNotification.Models;
 using TestNotification.Services;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -42,30 +40,23 @@ namespace TestNotification
                 {
                     var result = await _loginService.Login(urlEntry.Text, usernameEntry.Text, passwordEntry.Text);
 
-                    if (result.IsThereUser)
-                    {
-                        await Navigation.PushAsync(new AuthorizedUserPage(result.Username, result.Company, result.SectorCompany));
-                        Toast.MakeText(Android.App.Application.Context, "Successful login: device registered.", ToastLength.Short).Show();
+                    // This row gives the possibility to insert tags, in a way that every user can be discriminated by the notification hub --> in our case, we need a GUID associated with the personal device 
+                    string[] tags = new string[] { Regex.Replace(result.GUID, " ", "") };
+                    RegistrationDevice(tags);
 
-                        // This row gives the possibility to insert tags, in a way that every user can be discriminated by the notification hub --> in our case, we need a GUID associated with the personal device 
-                        string[] tags = new string[] { Regex.Replace(result.GUID, " ", "") };
+                    await Navigation.PushAsync(new AuthorizedUserPage(result.Username, result.Company, result.SectorCompany));
+                    Toast.MakeText(Android.App.Application.Context, "Successful login: device registered.", ToastLength.Short).Show();
 
-                        // This block needs to recover AuthorizedUserPage activity, when the app is closed but the user has logged in yet
-                        string[] userDataAuthorized = { result.Username, result.Company, result.SectorCompany };
-                        var serializedUserDataAuthorized = JsonConvert.SerializeObject(userDataAuthorized);
-                        await SecureStorage.SetAsync(App.CachedDataAuthorizedUserKey, serializedUserDataAuthorized);
-
-                        RegistrationDevice(tags);
-                    }
-                    else
-                        Toast.MakeText(Android.App.Application.Context, "Login error: inserted fields not right.", ToastLength.Long).Show();
+                    // This block needs to recover AuthorizedUserPage activity, when the app is closed but the user has logged in yet
+                    string[] userDataAuthorized = { result.Username, result.Company, result.SectorCompany };
+                    var serializedUserDataAuthorized = JsonConvert.SerializeObject(userDataAuthorized);
+                    await SecureStorage.SetAsync(App.CachedDataAuthorizedUserKey, serializedUserDataAuthorized);  
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine($"Exception: {ex.Message}");
-                    Toast.MakeText(Android.App.Application.Context, "Unexpected error: retry to log in.", ToastLength.Long).Show();
+                    Toast.MakeText(Android.App.Application.Context, "Login error: inserted fields not right.", ToastLength.Long).Show();
                 }
-
             }
             else
                 Toast.MakeText(Android.App.Application.Context, "Please, complete all the fields.", ToastLength.Long).Show();

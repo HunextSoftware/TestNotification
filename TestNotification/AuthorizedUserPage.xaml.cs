@@ -36,10 +36,10 @@ namespace TestNotification
 
         async void OnLogoutButtonClicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new MainPage());
-            Toast.MakeText(Android.App.Application.Context, "Successful logout: device no longer registered.", ToastLength.Short).Show();
-
             DeregistrationDevice();
+
+            await Navigation.PushAsync(new MainPage());
+            Toast.MakeText(Android.App.Application.Context, "Successful logout: device no longer registered.", ToastLength.Short).Show(); 
         }
         
         public async void DeregistrationDevice()
