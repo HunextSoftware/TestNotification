@@ -1,15 +1,19 @@
-﻿using LiteDB;
+﻿using Newtonsoft.Json;
 
 namespace TestNotification.Models
 {
-    public class UserData
+    public class LoginResponse
     {
-        [BsonId]
+        [JsonProperty("GUID")]
         public string GUID { get; set; }
-        public string Url { get; set; }
+
+        [JsonProperty("Username")]
         public string Username { get; set; }
-        public string Password { get; set; }
+
+        [JsonProperty("Company")]
         public string Company { get; set; }
+
+        [JsonProperty("SectorCompany")]
         public string SectorCompany { get; set; }
     }
 }

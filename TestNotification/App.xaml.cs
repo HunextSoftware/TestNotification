@@ -43,6 +43,7 @@ namespace TestNotification
         {
         }
 
+        // TODO ************************** change this rows *************************************
         void NotificationActionTriggered(object sender, TestNotificationAction e)
             => ShowActionAlert(e);
 
@@ -50,5 +51,6 @@ namespace TestNotification
             => MainThread.BeginInvokeOnMainThread(()
                 => MainPage?.DisplayAlert("TestNotification", $"{action} action received", "OK")
                     .ContinueWith((task) => { if (task.IsFaulted) throw task.Exception; }));
+        //****************************************************************************************
     }
 }

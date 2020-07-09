@@ -10,7 +10,16 @@ namespace TestNotification.Droid.Services
     //This class provides a unique ID (using Secure.AndroidId) as part of the notification hub registration payload.
     public class DeviceInstallationService : IDeviceInstallationService
     {
-        public string Token { get; set; }
+        private string token;
+
+        public string Token
+        {
+            get { return token; }
+            set { 
+                token = value; 
+            }
+        }
+
 
         public bool NotificationsSupported
             => GoogleApiAvailability.Instance

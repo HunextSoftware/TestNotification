@@ -25,21 +25,11 @@ namespace TestNotification.Services
             _baseApiUrl = baseApiUri;
         }
 
+
         IDeviceInstallationService DeviceInstallationService
             => _deviceInstallationService ??
                 (_deviceInstallationService = ServiceContainer.Resolve<IDeviceInstallationService>());
 
-        public Task DeregisterDeviceAsync()
-        {
-            var deviceId = DeviceInstallationService?.GetDeviceId();
-
-            if (string.IsNullOrWhiteSpace(deviceId))
-                throw new Exception("Unable to resolve an ID for the device.");
-
-            SecureStorage.Remove(CachedTagsKey);
-
-            return SendAsync(HttpMethod.Delete, $"{RequestUrl}/{deviceId}");
-        }
 
         public async Task RegisterDeviceAsync(params string[] tags)
         {
@@ -79,7 +69,19 @@ namespace TestNotification.Services
 
             await RegisterDeviceAsync(tags);
         }
-    
+
+        public Task DeregisterDeviceAsync()
+        {
+            var deviceId = DeviceInstallationService?.GetDeviceId();
+
+            if (string.IsNullOrWhiteSpace(deviceId))
+                throw new Exception("Unable to resolve an ID for the device.");
+
+            SecureStorage.Remove(CachedTagsKey);
+
+            return SendAsync(HttpMethod.Delete, $"{RequestUrl}/{deviceId}");
+        }
+
         private async Task SendAsync<T>(HttpMethod requestType, string requestUri, T obj)
         {
             string serializedContent = null;
