@@ -36,6 +36,7 @@ namespace TestNotification
         {
             if (urlEntry.Text != null && usernameEntry.Text != null && passwordEntry.Text != null)
             {
+                loginActivityIndicator.IsRunning = true;
                 try
                 {
                     var result = await _loginService.Login(urlEntry.Text, usernameEntry.Text, passwordEntry.Text);
@@ -44,6 +45,7 @@ namespace TestNotification
                     string[] tags = new string[] { Regex.Replace(result.GUID, " ", "") };
                     RegistrationDevice(tags);
 
+                    loginActivityIndicator.IsRunning = false;
                     await Navigation.PushAsync(new AuthorizedUserPage(result.Username, result.Company, result.SectorCompany));
                     Toast.MakeText(Android.App.Application.Context, "Successful login: device registered.", ToastLength.Short).Show();
 
@@ -54,6 +56,7 @@ namespace TestNotification
                 }
                 catch (Exception ex)
                 {
+                    loginActivityIndicator.IsRunning = false;
                     Console.WriteLine($"Exception: {ex.Message}");
                     Toast.MakeText(Android.App.Application.Context, "Login error: inserted fields not right.", ToastLength.Long).Show();
                 }

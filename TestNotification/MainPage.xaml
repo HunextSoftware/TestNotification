@@ -54,5 +54,10 @@
         <Button Text="Login"
                 Clicked="OnLoginButtonClicked"
                 HorizontalOptions="Center" />
+        <ActivityIndicator x:Name="loginActivityIndicator"
+                           Color="#F44336"
+                           IsRunning="False"
+                           VerticalOptions="CenterAndExpand"
+                           HorizontalOptions="Fill" />
     </StackLayout>
 </ContentPage>
