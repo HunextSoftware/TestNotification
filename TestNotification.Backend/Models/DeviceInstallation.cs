@@ -14,8 +14,5 @@ namespace TestNotificationBackend.Models
 
         [Required]
         public string PushChannel { get; set; }
-
-        [Required]
-        public IList<string> Tags { get; set; } = Array.Empty<string>();
     }
 }

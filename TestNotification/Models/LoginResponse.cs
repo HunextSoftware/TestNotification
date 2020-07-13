@@ -4,9 +4,6 @@ namespace TestNotification.Models
 {
     public class LoginResponse
     {
-        [JsonProperty("GUID")]
-        public string GUID { get; set; }
-
         [JsonProperty("Username")]
         public string Username { get; set; }
 

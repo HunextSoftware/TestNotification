@@ -10,6 +10,7 @@ namespace TestNotification.Services
 {
     public class NotificationRegistrationService : INotificationRegistrationService
     {
+        const string CachedDeviceTokenKey = "cached_device_token";
         const string CachedTagsKey = "cached_tags";
         const string RequestUrl = "/api/notifications/installations";
 
@@ -31,9 +32,9 @@ namespace TestNotification.Services
                 (_deviceInstallationService = ServiceContainer.Resolve<IDeviceInstallationService>());
 
 
-        public async Task RegisterDeviceAsync(params string[] tags)
+        public async Task RegisterDeviceAsync()
         {
-            var deviceInstallation = DeviceInstallationService?.GetDeviceInstallation(tags);
+            var deviceInstallation = DeviceInstallationService?.GetDeviceInstallation();
 
             if (deviceInstallation == null)
                 throw new Exception($"Unable to get device installation information.");
@@ -47,39 +48,54 @@ namespace TestNotification.Services
             if (string.IsNullOrWhiteSpace(deviceInstallation.PushChannel))
                 throw new Exception($"No {nameof(deviceInstallation.PushChannel)} value for {nameof(DeviceInstallation)}");
 
-            if (deviceInstallation.Tags.Equals(null))
-                throw new Exception($"No {nameof(deviceInstallation.Tags)} value for {nameof(DeviceInstallation)}");
+            // REFACTOR IT!!
+            string serializedContent = null;
+            await Task.Run(() => serializedContent = JsonConvert.SerializeObject(deviceInstallation)).ConfigureAwait(false);
+            HttpResponseMessage response = await _client.PutAsync(new Uri($"{_baseApiUrl}{RequestUrl}"), new StringContent(serializedContent, Encoding.UTF8, "application/json")).ConfigureAwait(false);
+            response.EnsureSuccessStatusCode();
 
-            await SendAsync<DeviceInstallation>(HttpMethod.Put, RequestUrl, deviceInstallation)
+            await SecureStorage.SetAsync(CachedDeviceTokenKey, deviceInstallation.PushChannel)
                 .ConfigureAwait(false);
 
-            await SecureStorage.SetAsync(CachedTagsKey, JsonConvert.SerializeObject(tags));
+            await SecureStorage.SetAsync(CachedTagsKey, JsonConvert.SerializeObject(JsonConvert.DeserializeObject<string[]>(await response.Content.ReadAsStringAsync())));
         }
 
         public async Task RefreshRegistrationAsync()
         {
+            var cachedToken = await SecureStorage.GetAsync(CachedDeviceTokenKey)
+                .ConfigureAwait(false);
+
             var serializedTags = await SecureStorage.GetAsync(CachedTagsKey)
                 .ConfigureAwait(false);
 
-            if (string.IsNullOrWhiteSpace(serializedTags) ||
-                string.IsNullOrWhiteSpace(DeviceInstallationService.Token))
+            if (string.IsNullOrWhiteSpace(cachedToken) ||
+                string.IsNullOrWhiteSpace(serializedTags) ||
+                string.IsNullOrWhiteSpace(DeviceInstallationService.Token) ||
+                cachedToken == DeviceInstallationService.Token)
                 return;
 
-            var tags = JsonConvert.DeserializeObject<string[]>(serializedTags);
+            //var tags = JsonConvert.DeserializeObject<string[]>(serializedTags);
 
-            await RegisterDeviceAsync(tags);
+            await RegisterDeviceAsync();
         }
 
-        public Task DeregisterDeviceAsync()
+        public async Task DeregisterDeviceAsync()
         {
+            var cachedToken = await SecureStorage.GetAsync(CachedDeviceTokenKey)
+                .ConfigureAwait(false);
+
+            if (cachedToken == null)
+                return;
+
             var deviceId = DeviceInstallationService?.GetDeviceId();
 
             if (string.IsNullOrWhiteSpace(deviceId))
                 throw new Exception("Unable to resolve an ID for the device.");
 
+            await SendAsync(HttpMethod.Delete, $"{RequestUrl}/{deviceId}");
+            
+            SecureStorage.Remove(CachedDeviceTokenKey);
             SecureStorage.Remove(CachedTagsKey);
-
-            return SendAsync(HttpMethod.Delete, $"{RequestUrl}/{deviceId}");
         }
 
         private async Task SendAsync<T>(HttpMethod requestType, string requestUri, T obj)
@@ -101,9 +117,7 @@ namespace TestNotification.Services
             if (jsonRequest != null)
                 request.Content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
 
-            var response = await _client.SendAsync(request).ConfigureAwait(false);
-
-            response.EnsureSuccessStatusCode();
+            await _client.SendAsync(request).ConfigureAwait(false);
         }
     }
 }

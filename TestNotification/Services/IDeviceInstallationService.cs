@@ -8,6 +8,6 @@ namespace TestNotification.Services
         string Token { get; set; }
         bool NotificationsSupported { get; }
         string GetDeviceId();
-        DeviceInstallation GetDeviceInstallation(params string[] tags);
+        DeviceInstallation GetDeviceInstallation();
     }
 }

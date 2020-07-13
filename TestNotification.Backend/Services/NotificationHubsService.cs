@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.Azure.NotificationHubs;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using TestNotificationBackend.Controllers;
 using TestNotificationBackend.Models;
 
 namespace TestNotificationBackend.Services
@@ -29,25 +30,24 @@ namespace TestNotificationBackend.Services
             };
         }
 
-        public async Task<bool> CreateOrUpdateInstallationAsync(DeviceInstallation deviceInstallation, CancellationToken token)
+        public async Task<string[]> CreateOrUpdateInstallationAsync(DeviceInstallation deviceInstallation, CancellationToken token)
         {
             if (string.IsNullOrWhiteSpace(deviceInstallation?.InstallationId) ||
                 string.IsNullOrWhiteSpace(deviceInstallation?.Platform) ||
-                string.IsNullOrWhiteSpace(deviceInstallation?.PushChannel) ||
-                deviceInstallation.Tags.Equals(null))
-                return false;
+                string.IsNullOrWhiteSpace(deviceInstallation?.PushChannel))
+                return null;
 
             var installation = new Installation()
             {
                 InstallationId = deviceInstallation.InstallationId,
                 PushChannel = deviceInstallation.PushChannel,
-                Tags = deviceInstallation.Tags
+                Tags = LoginController.tags
             };
 
             if (_installationPlatform.TryGetValue(deviceInstallation.Platform, out var platform))
                 installation.Platform = platform;
             else
-                return false;
+                return null;
 
             try
             {
@@ -55,10 +55,10 @@ namespace TestNotificationBackend.Services
             }
             catch
             {
-                return false;
+                return null;
             }
 
-            return true;
+            return LoginController.tags;
         }
 
         public async Task<bool> DeleteInstallationByIdAsync(string installationId, CancellationToken token)
