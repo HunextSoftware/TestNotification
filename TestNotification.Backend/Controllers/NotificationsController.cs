@@ -32,16 +32,16 @@ namespace TestNotificationBackend.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.UnprocessableEntity)]
-        public async Task<IActionResult> UpdateInstallation(
+        public async Task<ActionResult<string[]>> UpdateInstallation(
         [Required] DeviceInstallation deviceInstallation)
         {
             var success = await _notificationService
                 .CreateOrUpdateInstallationAsync(deviceInstallation, HttpContext.RequestAborted);
 
-            if (!success)
-                return new UnprocessableEntityResult();
+            if (success == null)
+                return UnprocessableEntity();
 
-            return new OkResult();
+            return Ok(success);
         }
 
         [HttpDelete()]

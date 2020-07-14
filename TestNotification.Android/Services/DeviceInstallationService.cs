@@ -1,7 +1,6 @@
 ﻿using System;
 using Android.App;
 using Android.Gms.Common;
-using Java.Util;
 using TestNotification.Models;
 using TestNotification.Services;
 using static Android.Provider.Settings;
@@ -11,16 +10,7 @@ namespace TestNotification.Droid.Services
     //This class provides a unique ID (using Secure.AndroidId) as part of the notification hub registration payload.
     public class DeviceInstallationService : IDeviceInstallationService
     {
-        private string token;
-
-        public string Token
-        {
-            get { return token; }
-            set { 
-                token = value; 
-            }
-        }
-
+        public string Token { get; set; }
 
         public bool NotificationsSupported
             => GoogleApiAvailability.Instance
@@ -29,12 +19,7 @@ namespace TestNotification.Droid.Services
         public string GetDeviceId()
             => Secure.GetString(Application.Context.ContentResolver, Secure.AndroidId);
 
-        // a valid alternative
-        //public string GetDeviceId()
-        //   => UUID.RandomUUID().ToString();
-
-
-        public DeviceInstallation GetDeviceInstallation(params string[] tags)
+        public DeviceInstallation GetDeviceInstallation()
         {
             if (!NotificationsSupported)
                 throw new Exception(GetPlayServicesError());
@@ -45,12 +30,6 @@ namespace TestNotification.Droid.Services
                 Platform = "fcm",
                 PushChannel = Token
             };
-
-            Console.WriteLine($"InstallationId: {installation.InstallationId}\n");
-            Console.WriteLine($"Platform: {installation.Platform}\n");
-            Console.WriteLine($"PushChannel: {installation.PushChannel}\n");
-
-            installation.Tags.AddRange(tags);
 
             return installation;
         }

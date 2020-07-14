@@ -14,6 +14,7 @@ namespace TestNotification.Models
         [JsonProperty("pushChannel")]
         public string PushChannel { get; set; }
 
+        //IS IT NEEDED??
         [JsonProperty("tags")]
         public List<string> Tags { get; set; } = new List<string>();
     }

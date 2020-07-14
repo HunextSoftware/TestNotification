@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using LiteDB;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +12,9 @@ namespace TestNotificationBackend.Controllers
     [Route("login")]
     public class LoginController : ControllerBase
     {
+        // This is the place where tags are initialized
+        public static string[] tags;
+
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
@@ -24,7 +28,11 @@ namespace TestNotificationBackend.Controllers
                 if (result == null)
                     return Unauthorized(new LoginResponse());
                 else
-                    return Ok(new LoginResponse(result.GUID, result.Username, result.Company, result.SectorCompany));
+                {
+                    // Need Regex to erase all spaces (not allowed inside tags)
+                    tags = new string[] { Regex.Replace(result.GUID, " ", "") };
+                    return Ok(new LoginResponse(result.Username, result.Company, result.SectorCompany));
+                }
             }
         }
     }
