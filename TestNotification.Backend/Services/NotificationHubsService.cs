@@ -80,11 +80,11 @@ namespace TestNotificationBackend.Services
 
         public async Task<bool> RequestNotificationAsync(NotificationRequest notificationRequest, CancellationToken token)
         {
-            if ((notificationRequest.Silent &&
-                string.IsNullOrWhiteSpace(notificationRequest?.Action)) ||
+            if (/*(notificationRequest.Silent &&
+                string.IsNullOrWhiteSpace(notificationRequest?.Action)) ||*/
                 (!notificationRequest.Silent &&
-                (string.IsNullOrWhiteSpace(notificationRequest?.Text)) ||
-                string.IsNullOrWhiteSpace(notificationRequest?.Action)))
+                /*(*/string.IsNullOrWhiteSpace(notificationRequest?.Text)) /*||
+                string.IsNullOrWhiteSpace(notificationRequest?.Action))*/)
                 return false;
 
             var androidPushTemplate = notificationRequest.Silent ?
@@ -97,13 +97,13 @@ namespace TestNotificationBackend.Services
 
             var androidPayload = PrepareNotificationPayload(
                 androidPushTemplate,
-                notificationRequest.Text,
-                notificationRequest.Action);
+                notificationRequest.Text/*,
+                notificationRequest.Action*/);
 
             var iOSPayload = PrepareNotificationPayload(
                 iOSPushTemplate,
-                notificationRequest.Text,
-                notificationRequest.Action);
+                notificationRequest.Text/*,
+                notificationRequest.Action*/);
 
             try
             {
@@ -145,9 +145,9 @@ namespace TestNotificationBackend.Services
             }
         }
 
-        string PrepareNotificationPayload(string template, string text, string action) => template
+        string PrepareNotificationPayload(string template, string text/*, string action*/) => template
             .Replace("$(alertMessage)", text, StringComparison.InvariantCulture)
-            .Replace("$(alertAction)", action, StringComparison.InvariantCulture);
+            /*.Replace("$(alertAction)", action, StringComparison.InvariantCulture)*/;
 
         Task SendPlatformNotificationsAsync(string androidPayload, string iOSPayload, CancellationToken token)
         {

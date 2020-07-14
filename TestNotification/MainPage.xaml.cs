@@ -75,5 +75,10 @@ namespace TestNotification
                     Console.WriteLine("Device registered: now is available to receive push notification.");
             });
         }
+
+        public void AddMessage(string body)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

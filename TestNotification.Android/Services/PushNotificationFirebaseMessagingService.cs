@@ -1,6 +1,9 @@
 ﻿using Android.App;
 using Android.Content;
+using Android.OS;
+using Android.Support.V4.App;
 using Firebase.Messaging;
+using System;
 using TestNotification.Services;
 
 namespace TestNotification.Droid.Services
@@ -9,14 +12,8 @@ namespace TestNotification.Droid.Services
     [IntentFilter(new[] { "com.google.firebase.MESSAGING_EVENT" })]
     public class PushNotificationFirebaseMessagingService : FirebaseMessagingService
     {
-        ITestNotificationActionService _notificationActionService;
         INotificationRegistrationService _notificationRegistrationService;
         IDeviceInstallationService _deviceInstallationService;
-
-        ITestNotificationActionService NotificationActionService
-            => _notificationActionService ??
-                (_notificationActionService =
-                ServiceContainer.Resolve<ITestNotificationActionService>());
 
         INotificationRegistrationService NotificationRegistrationService
             => _notificationRegistrationService ??
@@ -38,8 +35,51 @@ namespace TestNotification.Droid.Services
 
         public override void OnMessageReceived(RemoteMessage message)
         {
-            if (message.Data.TryGetValue("action", out var messageAction))
-                NotificationActionService.TriggerAction(messageAction);
+            base.OnMessageReceived(message);
+
+            // convert the incoming message to a local notification
+            if (message.GetNotification() != null)
+                SendLocalNotification(message.GetNotification().Body);
+        }
+
+        void SendLocalNotification(string body)
+        {
+            // Set up an intent so that tapping the notifications returns to this app
+            var intent = new Intent(this, typeof(MainActivity));
+            intent.AddFlags(ActivityFlags.ClearTop);
+            intent.PutExtra("text", body);
+
+            // Create a PendingIntent
+            PendingIntent pendingIntent =
+                PendingIntent.GetActivity(this, new Random().Next(), intent, PendingIntentFlags.OneShot);
+
+            // Instantiate the builder and set notification elements
+            var builder = new NotificationCompat.Builder(this, Constants.CHANNEL_ID)
+                .SetAutoCancel(true)
+                .SetContentIntent(pendingIntent)
+                .SetContentTitle("TestNotification")
+                .SetContentText(body)
+                .SetStyle(new NotificationCompat.BigTextStyle())
+                .SetSmallIcon(Resource.Mipmap.launcher_foreground);
+            //.SetDefaults((int)(NotificationDefaults.Sound | NotificationDefaults.Vibrate));
+
+            // Set priority, ringtone and vibration for Android 7.1 (API level 25) and lower
+            if (Build.VERSION.SdkInt <= BuildVersionCodes.NMr1)
+            {
+                builder.SetPriority(NotificationCompat.PriorityMax)
+                    .SetDefaults(NotificationCompat.DefaultAll);
+            }
+
+            // Block screen visibility is available only after Android 5.0 (API 21)
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.Lollipop)
+                builder.SetVisibility((int)NotificationVisibility.Private)
+                    .SetCategory(Notification.CategoryMessage);
+
+            // Get the notification manager
+            var notificationManager = NotificationManagerCompat.From(this);
+
+            // Publish the notification
+            notificationManager.Notify(Constants.NOTIFICATION_ID, builder.Build());
         }
     }
 }

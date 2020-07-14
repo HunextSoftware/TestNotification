@@ -651,3 +651,4 @@ C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debu
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\flata\5AD143D886FB26A3.flata
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\flata\66BCC69834D9122C.flata
 C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\flata\76AD7BBD63D966CC.flata
+C:\Users\a.gobbo\source\repos\TestNotification\TestNotification.Android\obj\Debug\90\res\drawable\notification_icon.png

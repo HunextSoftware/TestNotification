@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "e73ArjZo8ACEHVl5qK/AmNQbtQj0mCZ8ZY4iyNl2wbY40ZGvzDCI9vV6EImLXjFnPxoKi2RUcS7DBLyJznqNyQ==",
+  "dgSpecHash": "WWwji8tRAzn04hUem9V1aBvksDONYpzqtk//EanaYa007ALW4jbyzBL7lWmq8w+CCrv997M5PFzg7UkhDsJpvg==",
   "success": true,
   "projectFilePath": "C:\\Users\\a.gobbo\\source\\repos\\TestNotification\\TestNotification.Android\\TestNotification.Android.csproj",
   "expectedPackageFiles": [
@@ -52,7 +52,7 @@
     "C:\\Users\\a.gobbo\\.nuget\\packages\\xamarin.firebase.iid.interop\\71.1601.1\\xamarin.firebase.iid.interop.71.1601.1.nupkg.sha512",
     "C:\\Users\\a.gobbo\\.nuget\\packages\\xamarin.firebase.measurement.connector\\71.1701.1\\xamarin.firebase.measurement.connector.71.1701.1.nupkg.sha512",
     "C:\\Users\\a.gobbo\\.nuget\\packages\\xamarin.firebase.messaging\\71.1740.1\\xamarin.firebase.messaging.71.1740.1.nupkg.sha512",
-    "C:\\Users\\a.gobbo\\.nuget\\packages\\xamarin.forms\\4.7.0.968\\xamarin.forms.4.7.0.968.nupkg.sha512",
+    "C:\\Users\\a.gobbo\\.nuget\\packages\\xamarin.forms\\4.7.0.1080\\xamarin.forms.4.7.0.1080.nupkg.sha512",
     "C:\\Users\\a.gobbo\\.nuget\\packages\\xamarin.google.autovalue.annotations\\1.6.5\\xamarin.google.autovalue.annotations.1.6.5.nupkg.sha512",
     "C:\\Users\\a.gobbo\\.nuget\\packages\\xamarin.googleplayservices.base\\71.1610.1\\xamarin.googleplayservices.base.71.1610.1.nupkg.sha512",
     "C:\\Users\\a.gobbo\\.nuget\\packages\\xamarin.googleplayservices.basement\\71.1620.2\\xamarin.googleplayservices.basement.71.1620.2.nupkg.sha512",
