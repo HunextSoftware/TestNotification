@@ -47,8 +47,7 @@ namespace TestNotification
 
                     // This block needs to recover AuthorizedUserPage activity, when the app is closed but the user has logged in yet
                     string[] userDataAuthorized = { result.Username, result.Company, result.SectorCompany };
-                    var serializedUserDataAuthorized = JsonConvert.SerializeObject(userDataAuthorized);
-                    await SecureStorage.SetAsync(App.CachedDataAuthorizedUserKey, serializedUserDataAuthorized);
+                    await SecureStorage.SetAsync(App.CachedDataAuthorizedUserKey, JsonConvert.SerializeObject(userDataAuthorized));
                 }
                 catch (Exception ex)
                 {
