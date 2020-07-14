@@ -2,7 +2,6 @@
 {
     public class LoginResponse
     {
-        //public string GUID { get; set; }
         public string Username { get; set; }
         public string Company { get; set; }
         public string SectorCompany { get; set; }
@@ -11,13 +10,11 @@
         public LoginResponse() { }
 
         // ... otherwise send this
-        public LoginResponse(/*string GUID,*/ string Username, string Company, string SectorCompany)
+        public LoginResponse(string Username, string Company, string SectorCompany)
         {
-            //this.GUID = GUID;
             this.Username = Username;
             this.Company = Company;
             this.SectorCompany = SectorCompany;
         }
-
     }
 }

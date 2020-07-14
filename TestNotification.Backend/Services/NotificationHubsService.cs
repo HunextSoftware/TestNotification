@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Microsoft.Azure.NotificationHubs;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Azure.NotificationHubs;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using TestNotificationBackend.Controllers;
 using TestNotificationBackend.Models;
 
@@ -80,11 +80,8 @@ namespace TestNotificationBackend.Services
 
         public async Task<bool> RequestNotificationAsync(NotificationRequest notificationRequest, CancellationToken token)
         {
-            if (/*(notificationRequest.Silent &&
-                string.IsNullOrWhiteSpace(notificationRequest?.Action)) ||*/
-                (!notificationRequest.Silent &&
-                /*(*/string.IsNullOrWhiteSpace(notificationRequest?.Text)) /*||
-                string.IsNullOrWhiteSpace(notificationRequest?.Action))*/)
+            if ((!notificationRequest.Silent &&
+                    string.IsNullOrWhiteSpace(notificationRequest?.Text)))
                 return false;
 
             var androidPushTemplate = notificationRequest.Silent ?
@@ -97,13 +94,11 @@ namespace TestNotificationBackend.Services
 
             var androidPayload = PrepareNotificationPayload(
                 androidPushTemplate,
-                notificationRequest.Text/*,
-                notificationRequest.Action*/);
+                notificationRequest.Text);
 
             var iOSPayload = PrepareNotificationPayload(
                 iOSPushTemplate,
-                notificationRequest.Text/*,
-                notificationRequest.Action*/);
+                notificationRequest.Text);
 
             try
             {
@@ -125,7 +120,7 @@ namespace TestNotificationBackend.Services
                         else
                             tagExpression.Append(" && " + notificationRequest.Tags[i]);
 
-                        if((i + 1) == notificationRequest.Tags.Length)
+                        if ((i + 1) == notificationRequest.Tags.Length)
                             tagExpression.Append(")");
                     }
 
@@ -145,9 +140,8 @@ namespace TestNotificationBackend.Services
             }
         }
 
-        string PrepareNotificationPayload(string template, string text/*, string action*/) => template
-            .Replace("$(alertMessage)", text, StringComparison.InvariantCulture)
-            /*.Replace("$(alertAction)", action, StringComparison.InvariantCulture)*/;
+        string PrepareNotificationPayload(string template, string text) => template
+            .Replace("$(alertMessage)", text, StringComparison.InvariantCulture);
 
         Task SendPlatformNotificationsAsync(string androidPayload, string iOSPayload, CancellationToken token)
         {
@@ -170,6 +164,5 @@ namespace TestNotificationBackend.Services
 
             return Task.WhenAll(sendTasks);
         }
-
     }
 }
