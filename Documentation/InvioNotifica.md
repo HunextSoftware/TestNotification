@@ -47,5 +47,5 @@ Il suddetto file contiene esattamente due richieste HTTP (la prima con l'URL del
 
 **Precondizione**: almeno un device deve essere autenticato come *Mario.Rossi*.
 
-**Postcondizione**: una volta che la richiesta HTTP viene inoltrata, tutti i device che sono autenticati come Mario.Rossi ricevono una notifica.
+**Postcondizione**: una volta che la richiesta HTTP viene inoltrata, tutti i device che sono autenticati come *Mario.Rossi* ricevono una notifica.
 
