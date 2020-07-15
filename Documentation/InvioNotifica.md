@@ -14,7 +14,7 @@ La prima cosa da fare è creare una nuova richiesta, rispettando i seguenti pass
     ]
 }
 ```
-Il parametro *text* indica il testo che verrà inserito nella notifica. Il titolo è fissato di default come il nome dell'applicazione corrente.
+Il parametro **text** indica il testo che verrà inserito nella notifica. Il titolo è fissato di default come il nome dell'applicazione corrente.
 
 Il parametro **tags** invece indica un insieme di valori che specificano quali device, registrati con i relativi tag, possono essere raggiunti. È possibile inserire 0 tag (che equivale a raggiungere tutti i dispositivi registrati in Azure Hub Notification),
 e il numero massimo inseribile è di 10 tag. Questa limitazione è dovuta al fatto che la *tagExpression*, che viene costruita ed elaborata dal backend, è un'operazione logica di soli AND (&&). In merito a questa operazione, la documentazione è chiara, infatti utilizzando solo && 
@@ -48,3 +48,4 @@ Il suddetto file contiene esattamente due richieste HTTP (la prima con l'URL del
 **Precondizione**: almeno un device deve essere autenticato come *Mario.Rossi*.
 
 **Postcondizione**: una volta che la richiesta HTTP viene inoltrata, tutti i device che sono autenticati come Mario.Rossi ricevono una notifica.
+
