@@ -61,12 +61,12 @@ namespace TestNotification.Droid.Services
                 .SetContentText(body)
                 .SetStyle(new NotificationCompat.BigTextStyle())
                 .SetSmallIcon(Resource.Mipmap.launcher_foreground);
-            //.SetDefaults((int)(NotificationDefaults.Sound | NotificationDefaults.Vibrate));
-
+                //.AddAction(Resource.Drawable.notification_icon, "OK", pendingIntent);
+            
             // Set priority, ringtone and vibration for Android 7.1 (API level 25) and lower
             if (Build.VERSION.SdkInt <= BuildVersionCodes.NMr1)
             {
-                builder.SetPriority(NotificationCompat.PriorityMax)
+                builder.SetPriority(NotificationCompat.PriorityHigh)
                     .SetDefaults(NotificationCompat.DefaultAll);
             }
 

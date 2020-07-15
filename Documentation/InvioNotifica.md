@@ -29,10 +29,22 @@ Va evidenziato che non è possibile inserire più tag diversi all'interno del pa
 
 ## NOTE A MARGINE
 
+### HTTP Response 422
+
 Come descritto nella issue #8, l'invio della notifica comporta una risposta HTTP 422. 
 
 Questo errore semantico è dovuto al fatto che è stato configurato FCM (Google) ma non APN (Apple), infatti il codice backend è già predisposto per l'invio di notifiche a dispositivi Apple.
 
 È stato testato che, rimuovendo il codice specifico di TestNotification.Backend in Model/PushTemplates e Services/NotificationHubsService, l'invio della notifica comporta una risposta HTTP 200, con avvenuta ricezione della notifica.
 
-Ergo, questo problema verrà risolto non appena verrà ultimata la configurazione dell'APN, con il codice che deve rimanere intatto.
+Ergo, questo problema verrà risolto non appena verrà ultimata la configurazione dell'APN, con il codice backend che deve rimanere intatto.
+
+### Testare le notifiche
+
+Per testare l'invio delle notifiche, è possibile importare il file *PostmanTestNotificationRequests* presente in questa directory cliccando il bottone **Import** presente in alto sotto il menu.
+
+Il suddetto file contiene esattamente due richieste HTTP (la prima con l'URL del backend locale, che dev'essere avviato manualmente, e la seconda con l'URL dello stesso backend caricato live su Azure) con lo stesso body indirizzate al tag dell'utente *Mario.Rossi*.
+
+**Precondizione**: almeno un device deve essere autenticato come *Mario.Rossi*.
+
+**Postcondizione**: una volta che la richiesta HTTP viene inoltrata, tutti i device che sono autenticati come Mario.Rossi ricevono una notifica.

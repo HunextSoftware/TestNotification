@@ -1,0 +1,93 @@
+{
+	"info": {
+		"_postman_id": "b9c1aa76-82ca-40d2-b134-0220173a474f",
+		"name": "Common template request",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "https://localhost:5001/api/notifications/requests",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"text\": \"Hey man! How are things?\",\r\n    \"tags\": [\r\n        \"d111f8f3-c4ad-494f-bc4e-87240340298a\"\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/notifications/requests",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"notifications",
+						"requests"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://serverpushnotification.azurewebsites.net/api/notifications/requests",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"text\": \"Hey man! How are things?\",\r\n    \"tags\": [\r\n        \"d111f8f3-c4ad-494f-bc4e-87240340298a\"\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://serverpushnotification.azurewebsites.net/api/notifications/requests",
+					"protocol": "https",
+					"host": [
+						"serverpushnotification",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"api",
+						"notifications",
+						"requests"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

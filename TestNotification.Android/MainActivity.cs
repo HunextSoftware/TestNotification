@@ -67,22 +67,18 @@ namespace TestNotification.Droid
             base.OnNewIntent(intent);
         }
 
-        //Retrieve and store the Firebase token
+        // Retrieve and store the Firebase token
         public void OnSuccess(Java.Lang.Object result)
             => DeviceInstallationService.Token =
                 result.Class.GetMethod("getToken").Invoke(result).ToString();
 
+        // Notification channels are available only for API 26 and higher
         void CreateNotificationChannel()
         {
             if (Build.VERSION.SdkInt < BuildVersionCodes.O)
-            {
-                // Notification channels are new in API 26 (and not a part of the
-                // support library). There is no need to create a notification
-                // channel on older versions of Android.
                 return;
-            }
 
-            var channel = new NotificationChannel(Constants.CHANNEL_ID, Constants.CHANNEL_NAME, NotificationImportance.Max)
+            var channel = new NotificationChannel(Constants.CHANNEL_ID, Constants.CHANNEL_NAME, NotificationImportance.High)
             {
                 Description = Constants.CHANNEL_DESCRIPTION
             };
