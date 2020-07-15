@@ -69,9 +69,7 @@ namespace TestNotificationBackend.Controllers
         public async Task<IActionResult> RequestPush(
             [Required] NotificationRequest notificationRequest)
         {
-            if ((notificationRequest.Silent &&
-                string.IsNullOrWhiteSpace(notificationRequest?.Action)) ||
-                (!notificationRequest.Silent &&
+            if ((!notificationRequest.Silent &&
                 string.IsNullOrWhiteSpace(notificationRequest?.Text)))
                 return new BadRequestResult();
 

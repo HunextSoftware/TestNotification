@@ -35,6 +35,7 @@ namespace TestNotification
         {
             if (urlEntry.Text != null && usernameEntry.Text != null && passwordEntry.Text != null)
             {
+                loginButton.IsVisible = false;
                 loginActivityIndicator.IsRunning = true;
                 try
                 {
@@ -42,6 +43,7 @@ namespace TestNotification
                     RegistrationDevice();
 
                     loginActivityIndicator.IsRunning = false;
+                    loginButton.IsVisible = true;
                     await Navigation.PushAsync(new AuthorizedUserPage(result.Username, result.Company, result.SectorCompany));
                     Toast.MakeText(Android.App.Application.Context, "Successful login: device registered.", ToastLength.Short).Show();
 
@@ -52,6 +54,7 @@ namespace TestNotification
                 catch (Exception ex)
                 {
                     loginActivityIndicator.IsRunning = false;
+                    loginButton.IsVisible = true;
                     Console.WriteLine($"Exception: {ex.Message}");
                     Toast.MakeText(Android.App.Application.Context, "Login error: inserted fields not right.", ToastLength.Long).Show();
                 }
@@ -74,6 +77,11 @@ namespace TestNotification
                 else
                     Console.WriteLine("Device registered: now is available to receive push notification.");
             });
+        }
+
+        public void AddMessage(string body)
+        {
+            throw new NotImplementedException();
         }
     }
 }

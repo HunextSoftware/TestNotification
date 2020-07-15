@@ -50,14 +50,14 @@
                IsPassword="true"
                IsSpellCheckEnabled="false" 
                IsTextPredictionEnabled="false"
-               Margin="5,0,5,50" />
-        <Button Text="Login"
+               Margin="5,0,5,10" />
+        <Button x:Name ="loginButton" 
+                Text="Login"
                 Clicked="OnLoginButtonClicked"
                 HorizontalOptions="Center" />
         <ActivityIndicator x:Name="loginActivityIndicator"
                            Color="#F44336"
                            IsRunning="False"
-                           VerticalOptions="CenterAndExpand"
-                           HorizontalOptions="Fill" />
+                           HorizontalOptions="Center" />
     </StackLayout>
 </ContentPage>
