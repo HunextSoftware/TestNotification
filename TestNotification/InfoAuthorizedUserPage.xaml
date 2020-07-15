@@ -10,7 +10,7 @@
     <ContentPage.Content>
         <StackLayout>
             <Label Text="On this page the user is logged, so it can receive notifications by the system."  
-                Margin="10,10,5,15"/>
+                Margin="10,10,5,10"/>
             <Label Text="The user can see all the following information:" 
                 TextType="Html"   
                 Margin="10,5,5,0"/>
@@ -22,8 +22,8 @@
                 Margin="10,0,5,0"/>
             <Label Text="- &lt;strong&gt;Sector company&lt;/strong&gt;: the specific sector company in which the user works."
                 TextType="Html"  
-                Margin="10,0,5,15"/>
-            <Label Text="Pressing &lt;strong&gt;Logout&lt;/strong&gt; button, you can log out by the system. This operation involves not receiving notifications."
+                Margin="10,0,5,10"/>
+            <Label Text="Pressing &lt;strong&gt;Logout&lt;/strong&gt; button, you can log out by the system and the device will be deregistered by Azure Hub Notifications. This operation involves not receiving notifications."
                 TextType="Html" 
                 Margin="10,10,5,0"/>
         </StackLayout>
