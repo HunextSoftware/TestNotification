@@ -4,7 +4,7 @@ Implementazione di un prototipo di push notification per l'applicazione multipia
 
 Sviluppo frontend e backend in C#, in particolare Xamarin.Forms per il front end e ASP.NET per il back end.
 
-Struttuta repository:
+Struttura repository:
 
 - **Archive**: file utili per il progetto.
 - **Documentation**: contiene tutta la documentazione relativa al progetto.
