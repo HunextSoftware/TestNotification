@@ -40,6 +40,8 @@ namespace TestNotification.Droid.Services
             // convert the incoming message to a local notification
             if (message.GetNotification() != null)
                 SendLocalNotification(message.GetNotification().Body);
+            else
+                throw new Exception("Error during retrieving notification");
         }
 
         void SendLocalNotification(string body)

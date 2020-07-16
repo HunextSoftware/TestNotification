@@ -1,4 +1,10 @@
-# DATI SALVATI IN AZURE NOTIFICATION HUB DURANTE IL PROCESSO DI INSTALLAZIONE DEL DISPOSITIVO
+# DESCRIZIONE DEL FUNZIONAMENTO DELLE PIATTAFORME PER LA GESTIONE DELLE PUSH NOTIFICATION PER ANDROID ED IOS
+
+TODO
+
+---
+
+## Cosa si salva Azure Notification Hub durante il processo di installazione del dispositivo
 
 I seguenti dati possono essere visualizzati in tempo reale aprendo Visual Studio 2019 e, dal menu, seguire il seguente percorso:
 > View -> Server Explorer -> Azure (mailoutlook@outlook.com) -> Notification Hubs -> *NomeNotificationHub*
@@ -25,7 +31,7 @@ I seguenti dati possono essere visualizzati in tempo reale aprendo Visual Studio
 - **Registration ID**: ID generato automaticamente da Azure per identificare una singola registrazione, l'utente non ha la responsabilità di doverlo generare.
 - **Expiration date**: data di scadenza della registrazione in Azure. È impostata di default alla data 31/12/9999, in modo che la registrazione non possa mai scadere.
 
-# DATI INSTALLAZIONE DEVICE
+## Dati installazione dispositivo
 
 Il termine *installazione* indica una registrazione più avanzata ed al momento della scrittura è il metodo più recente ed avanzato. 
 
@@ -47,7 +53,7 @@ I seguenti dati corrispondono alla classe DeviceInstallation che si trova in Tes
 - **Platform**: identifica la piattaforma nella quale il dispositivo si registra. 
 
   > Il recupero di questa informazione può avvenire solo lato app.
-- **PushChannel**: è il token recuperato dal PNS handle che identifica il collegamento tra un dispositivo e la piattaforma di notifica apposita (vedere sopra *PNS Identifier*).
+- **PushChannel**: è il token recuperato dal PNS handle che identifica la registrazione di un dispositivo nella piattaforma di notifica apposita (associato al *PNS Identifier* visto sopra), chiamato anche **Registration ID** (attenzione: è diverso dal RegistrationID visto sopra!!).
   Questo parametro è strettamente legato a *Platform*, tanto che ci sono modi diversi per recuperare il token in base al sistema operativo del dispositivo.
 
   > Il recupero di questa informazione avviene lato app, va ancora studiato un modo per capire se è possibile recuperarla tramite back end, in modo da salvaguardare la sicurezza dell'utente.  
