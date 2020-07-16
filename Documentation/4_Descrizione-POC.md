@@ -20,18 +20,16 @@ La prima cosa da fare è creare una nuova richiesta, rispettando i seguenti passa
     ]
 }
 ```
-Il parametro **text** indica il testo che verrà inserito nella notifica. Il titolo è fissato di default come il nome dell'applicazione corrente.
+1) Il parametro **text** indica il testo che verrà inserito nella notifica. Il titolo è fissato di default come il nome dell'applicazione corrente.
 
-Il parametro **tags** invece indica un insieme di valori che specificano quali device, registrati con i relativi tag, possono essere raggiunti. È possibile inserire 0 tag (che equivale a raggiungere tutti i dispositivi registrati in Azure Hub Notification),
+2) Il parametro **tags** invece indica un insieme di valori che specificano quali device, registrati con i relativi tag, possono essere raggiunti. È possibile inserire 0 tag (che equivale a raggiungere tutti i dispositivi registrati in Azure Hub Notification),
 e il numero massimo inseribile è di 10 tag. Questa limitazione è dovuta al fatto che la *tagExpression*, che viene costruita ed elaborata dal back end, è un'operazione logica di soli AND (&&). In merito a questa operazione, la documentazione è chiara, infatti utilizzando solo && 
 è possibile inserire al massimo 10 tag.
 
-Nel caso d'uso specifico di Hunext, il tag da inserire è il GUID dell'utente che è entrato in modo corretto nella mobile app.
+> Nel caso d'uso specifico di Hunext, il tag da inserire è il GUID dell'utente che è entrato in modo corretto nella mobile app.
 Va evidenziato che non è possibile inserire più tag diversi all'interno del parametro **tags**, quindi per inviare una notifica ad N utenti diversi dovranno essere inviati N payload diversi.
 
-(*DA CANCELLARE*) *Silent* è un valore booleano che indica se la notifica deve essere visibile solo all'interno della mobile app (true) oppure in tutti gli stati che passa l'applicazione (false).
-
-- cliccare il bottone **Send** e inviare la notifica
+- cliccare il bottone **Send** e inviare la notifica.
 
 ### Note a margine
 
@@ -47,7 +45,7 @@ Ergo, questo problema verrà risolto non appena verrà ultimata la configurazione 
 
 #### Testare le notifiche
 
-Per testare l'invio delle notifiche, è possibile scaricare il file che si trova, a partire dalla radice di questo repository, in *Utility/PostmanTestNotificationRequests*.
+Per testare l'invio delle notifiche, è possibile scaricare il file che si trova, a partire dalla radice di questo repository, in *Archive/PostmanTestNotificationRequests*.
 
 > In alternativa, è possibile scaricare il suddetto file tramite questo [link](https://drive.google.com/file/d/13CyT7X2FJZMY6LzTfasZ_QirxwGEC3qN/view?usp=sharing).
 
