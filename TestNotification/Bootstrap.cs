@@ -10,9 +10,6 @@ namespace TestNotification
         {
             ServiceContainer.Register(deviceInstallationService);
 
-            ServiceContainer.Register<ITestNotificationActionService>(()
-                => new TestNotificationActionService());
-
             ServiceContainer.Register<INotificationRegistrationService>(()
                 => new NotificationRegistrationService(
                     Config.BackendServiceEndpoint));

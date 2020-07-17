@@ -43,8 +43,8 @@ namespace TestNotification
                     RegistrationDevice();
 
                     loginActivityIndicator.IsRunning = false;
-                    loginButton.IsVisible = true;
                     await Navigation.PushAsync(new AuthorizedUserPage(result.Username, result.Company, result.SectorCompany));
+                    loginButton.IsVisible = true;
                     Toast.MakeText(Android.App.Application.Context, "Successful login: device registered.", ToastLength.Short).Show();
 
                     // This block needs to recover AuthorizedUserPage activity, when the app is closed but the user has logged in yet

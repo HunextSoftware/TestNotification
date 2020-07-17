@@ -1,10 +1,7 @@
-﻿using LiteDB;
-
-namespace TestNotification.Models
+﻿namespace TestNotification.Models
 {
     public class UserData
     {
-        [BsonId]
         public string GUID { get; set; }
         public string Url { get; set; }
         public string Username { get; set; }
