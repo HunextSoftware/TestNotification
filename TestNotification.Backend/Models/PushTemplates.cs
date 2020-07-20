@@ -8,6 +8,7 @@
             public const string iOS = "{ \"aps\" : {\"alert\" : \"$(alertMessage)\"} }";
         }
 
+        // Never used in this prototype: silent notifications are a type of notification which have no priority (no sound and not visible at once) and visible only if the user pulls the shade down
         public class Silent
         {
             public const string Android = "{ \"data\" : {\"message\" : \"$(alertMessage)\"} }";

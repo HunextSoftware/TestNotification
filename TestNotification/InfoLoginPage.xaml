@@ -14,7 +14,7 @@
                 Margin="10,10,0,15"/>
             <Label Text="On this page, the user must insert the following required fields:" 
                 Margin="10,0,0,0"/>
-            <Label Text="- &lt;strong&gt;URL&lt;/strong&gt;: the URL address related to the company which uses Hunext services." 
+            <Label Text="- &lt;strong&gt;URL&lt;/strong&gt; (read-only): the URL address related to the specific server company." 
                 TextType="Html"  
                 Margin="10,0,5,0"/>
             <Label Text="- &lt;strong&gt;Username&lt;/strong&gt;: the username to log into the services of mobile application."

@@ -10,10 +10,6 @@
     <DebugType>portable</DebugType>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
   <ItemGroup>
     <None Remove="Config.local_secrets" />
   </ItemGroup>
@@ -33,6 +29,9 @@
   <ItemGroup>
     <Compile Update="InfoLoginPage.xaml.cs">
       <DependentUpon>InfoLoginPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="LoginPage.xaml.cs">
+      <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 

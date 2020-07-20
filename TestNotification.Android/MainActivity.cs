@@ -3,8 +3,10 @@ using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Firebase.Iid;
+using System;
 using TestNotification.Droid.Services;
 using TestNotification.Services;
+using XamarinShortcutBadger;
 
 namespace TestNotification.Droid
 {
@@ -19,6 +21,8 @@ namespace TestNotification.Droid
         ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity, Android.Gms.Tasks.IOnSuccessListener
     {
+        public static int badgeCount;
+
         IDeviceInstallationService _deviceInstallationService;
 
         IDeviceInstallationService DeviceInstallationService
@@ -48,6 +52,29 @@ namespace TestNotification.Droid
             LoadApplication(new App());
 
             CreateNotificationChannel();
+
+            if (ShortcutBadger.IsBadgeCounterSupported(this))
+                badgeCount = 0;
+            else
+                Console.WriteLine("Pay attention: badge counter not supported");
+        }
+
+        protected override void OnNewIntent(Intent intent)
+        {
+            base.OnNewIntent(intent); 
+        }
+
+        protected override void OnPause()
+        {
+            base.OnPause();
+            // add an event to update badge continuously 
+            ShortcutBadger.ApplyCount(this, badgeCount);
+        }
+
+        protected override void OnResume()
+        {
+            base.OnResume();
+            ShortcutBadger.ApplyCount(this, badgeCount = 0);
         }
 
         public override void OnBackPressed()
@@ -60,11 +87,6 @@ namespace TestNotification.Droid
 
             var dialog = alert.Create();
             dialog.Show();
-        }
-
-        protected override void OnNewIntent(Intent intent)
-        {
-            base.OnNewIntent(intent);
         }
 
         // Retrieve and store the Firebase token

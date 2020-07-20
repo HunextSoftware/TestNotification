@@ -79,6 +79,9 @@
     <PackageReference Include="Xamarin.GooglePlayServices.Base">
       <Version>71.1610.1</Version>
     </PackageReference>
+    <PackageReference Include="Xamarin.ShortcutBadger">
+      <Version>1.1.21</Version>
+    </PackageReference>
     <PackageReference Include="XLabs.Forms">
       <Version>2.0.5782</Version>
     </PackageReference>

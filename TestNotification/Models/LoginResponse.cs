@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 
 namespace TestNotification.Models
 {
@@ -12,5 +13,8 @@ namespace TestNotification.Models
 
         [JsonProperty("SectorCompany")]
         public string SectorCompany { get; set; }
+
+        [JsonProperty("Id")]
+        public Guid Id { get; set; }
     }
 }

@@ -9,7 +9,7 @@ using Xamarin.Forms;
 namespace TestNotification
 {
     [DesignTimeVisible(false)]
-    public partial class MainPage : ContentPage
+    public partial class LoginPage : ContentPage
     {
         readonly INotificationRegistrationService _notificationRegistrationService;
         readonly LoginService _loginService;
@@ -17,7 +17,7 @@ namespace TestNotification
         // Disable back button to avoid pop navigation
         protected override bool OnBackButtonPressed() => true;
 
-        public MainPage()
+        public LoginPage()
         {
             InitializeComponent();
 
@@ -33,23 +33,27 @@ namespace TestNotification
 
         async void OnLoginButtonClicked(object sender, EventArgs e)
         {
-            if (urlEntry.Text != null && usernameEntry.Text != null && passwordEntry.Text != null)
+            // Not needed urlEntry.Text for login: it's only a required data on Hunext Mobile app
+            if (usernameEntry.Text != null && passwordEntry.Text != null)
             {
                 loginButton.IsVisible = false;
                 loginActivityIndicator.IsRunning = true;
                 try
                 {
-                    var result = await _loginService.Login(urlEntry.Text, usernameEntry.Text, passwordEntry.Text);
+                    var result = await _loginService.Login(usernameEntry.Text, passwordEntry.Text);
+
+                    // Save locally "token" authentication to save on every header HTTP request
+                    await SecureStorage.SetAsync(App.TokenAuthenticationKey, result.Id.ToString()).ConfigureAwait(false);
                     RegistrationDevice();
 
                     loginActivityIndicator.IsRunning = false;
-                    loginButton.IsVisible = true;
                     await Navigation.PushAsync(new AuthorizedUserPage(result.Username, result.Company, result.SectorCompany));
+                    loginButton.IsVisible = true;
                     Toast.MakeText(Android.App.Application.Context, "Successful login: device registered.", ToastLength.Short).Show();
 
                     // This block needs to recover AuthorizedUserPage activity, when the app is closed but the user has logged in yet
                     string[] userDataAuthorized = { result.Username, result.Company, result.SectorCompany };
-                    await SecureStorage.SetAsync(App.CachedDataAuthorizedUserKey, JsonConvert.SerializeObject(userDataAuthorized));
+                    await SecureStorage.SetAsync(App.CachedDataAuthorizedUserKey, JsonConvert.SerializeObject(userDataAuthorized)).ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
@@ -71,17 +75,12 @@ namespace TestNotification
                 if (task.IsFaulted)
                 {
                     Console.WriteLine($"Exception: {task.Exception.Message}");
-                    await Navigation.PushAsync(new MainPage());
+                    await Navigation.PushAsync(new LoginPage());
                     Toast.MakeText(Android.App.Application.Context, "Error during device registration: retry to log in.", ToastLength.Long).Show();
                 }
                 else
                     Console.WriteLine("Device registered: now is available to receive push notification.");
             });
-        }
-
-        public void AddMessage(string body)
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -10,7 +10,9 @@ Lo stagista ha deciso di non creare una console per l'invio delle notifiche, ben
 
 La prima cosa da fare è creare una nuova richiesta, rispettando i seguenti passaggi:
 - nella barra in alto, selezionare il metodo **POST** e inserire l'URL relativo all'inoltro della notifica https://serverpushnotification.azurewebsites.net/api/notifications/requests (oppure avviare il back end locale all'indirizzo http://localhost:5000/api/notifications/requests).
-- selezionare la voce **Headers** presente nel tab, e inserire **Content-Type** nella colonna KEY e **application/json** nella colonna VALUE. Attivare la checkbox presente all'inizio della riga.
+- selezionare la voce **Headers** presente nel tab, e:
+    - Attivare la checkbox della key **Content-Type** e scrivere come value **application/json**.
+    - Aggiungere una key **User-Id** e scrivere in value il tag dell'utente autorizzato (ovvero il GUID corrispondente).
 - selezionare la voce **Body** presente nel tab, attivare il radio button **raw** e selezionare **JSON** nel menu a tendina. Nella text box sottostante, scrivere il corpo del messaggio di notifica:
 ```
 {
@@ -47,7 +49,7 @@ Ergo, questo problema verrà risolto non appena verrà ultimata la configurazione 
 
 Per testare l'invio delle notifiche, è possibile scaricare il file che si trova, a partire dalla radice di questo repository, in *Archive/PostmanTestNotificationRequests*.
 
-> In alternativa, è possibile scaricare il suddetto file tramite questo [link](https://drive.google.com/file/d/13CyT7X2FJZMY6LzTfasZ_QirxwGEC3qN/view?usp=sharing).
+> In alternativa, è possibile scaricare il suddetto file tramite questo [link](https://drive.google.com/file/d/1KhWXE5UL6OozX_t-6FSjwmXuEtBxZjk-/view?usp=sharing).
 
 Successivamente, aprire l'applicativo Postman, cliccare il bottone **Import** presente in alto sotto il menu e selezionare il file appena scaricato.
 

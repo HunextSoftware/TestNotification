@@ -38,31 +38,32 @@ namespace TestNotification
         {
             DeregistrationDevice();
 
-            await Navigation.PushAsync(new MainPage());
-            Toast.MakeText(Android.App.Application.Context, "Successful logout: device no longer registered.", ToastLength.Short).Show(); 
+            await Navigation.PushAsync(new LoginPage());
+            Toast.MakeText(Android.App.Application.Context, "Successful logout: device no longer registered.", ToastLength.Short).Show();
         }
-        
+
         public async void DeregistrationDevice()
         {
             await _notificationRegistrationService.DeregisterDeviceAsync().ContinueWith(async (task)
-                => {
-                    if (task.IsFaulted)
-                    {
-                        Console.WriteLine($"Exception: {task.Exception.Message}");
-                        await Navigation.PushAsync(new AuthorizedUserPage());
-                        Toast.MakeText(Android.App.Application.Context, "Error during device deregistration: retry to log out.", ToastLength.Long).Show();
-                    }
-                    else
-                    {
-                        // Remove authenticated user data
-                        SecureStorage.Remove(App.CachedDataAuthorizedUserKey);
+               =>
+            {
+                if (task.IsFaulted)
+                {
+                    Console.WriteLine($"Exception: {task.Exception.Message}");
+                    await Navigation.PushAsync(new AuthorizedUserPage());
+                    Toast.MakeText(Android.App.Application.Context, "Error during device deregistration: retry to log out.", ToastLength.Long).Show();
+                }
+                else
+                {
+                    SecureStorage.Remove(App.CachedDataAuthorizedUserKey);
+                    SecureStorage.Remove(App.TokenAuthenticationKey);
 
-                        Console.WriteLine("Device deregistered: now is not longer available to receive push notification until next user login.");
-                        usernameLabel.Text = "Username:";
-                        companyLabel.Text = "Company:";
-                        sectorCompanyLabel.Text = "Sector company:";
-                    }  
-                });
+                    Console.WriteLine("Device deregistered: now is not longer available to receive push notification until next user login.");
+                    usernameLabel.Text = "Username:";
+                    companyLabel.Text = "Company:";
+                    sectorCompanyLabel.Text = "Sector company:";
+                }
+            });
         }
     }
 }

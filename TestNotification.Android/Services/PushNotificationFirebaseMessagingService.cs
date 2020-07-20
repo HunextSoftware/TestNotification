@@ -39,12 +39,15 @@ namespace TestNotification.Droid.Services
 
             // convert the incoming message to a local notification
             if (message.GetNotification() != null)
+            {
                 SendLocalNotification(message.GetNotification().Body);
+                MainActivity.badgeCount++;
+            }
             else
                 throw new Exception("Error during retrieving notification");
         }
 
-        void SendLocalNotification(string body)
+        public void SendLocalNotification(string body)
         {
             // Set up an intent so that tapping the notifications returns to this app
             var intent = new Intent(this, typeof(MainActivity));

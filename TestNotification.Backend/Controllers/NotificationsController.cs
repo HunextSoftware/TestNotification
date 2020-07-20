@@ -1,8 +1,10 @@
+using Microsoft.AspNetCore.Mvc;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using TestNotificationBackend.Models;
 using TestNotificationBackend.Services;
 
@@ -30,57 +32,79 @@ namespace TestNotificationBackend.Controllers
         [HttpPut]
         [Route("installations")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.UnprocessableEntity)]
-        public async Task<ActionResult<string[]>> UpdateInstallation(
+        public async Task<ActionResult<string[]>> CreateOrUpdateInstallation(
         [Required] DeviceInstallation deviceInstallation)
         {
-            var success = await _notificationService
-                .CreateOrUpdateInstallationAsync(deviceInstallation, HttpContext.RequestAborted);
+            // Simulate token authentication
+            //var result = new UserManagerService().GetUser(User.Identity.Name);
+            var result = new UserManagerService().GetUserById(Guid.Parse(Request.Headers["User-Id"]));
 
-            if (success == null)
-                return UnprocessableEntity();
+            if (result == null)
+                return Unauthorized();
+            else
+            {
+                // Need regex to erase all spaces on tags, because are not allowed
+                var success = await _notificationService
+                .CreateOrUpdateInstallationAsync(deviceInstallation, HttpContext.RequestAborted, new string[] { Regex.Replace(result.Id.ToString(), " ", "") });
 
-            return Ok(success);
+                if (success == null)
+                    return UnprocessableEntity();
+
+                return Ok(success);
+            }
         }
 
         [HttpDelete()]
         [Route("installations/{installationId}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.UnprocessableEntity)]
-        public async Task<ActionResult> DeleteInstallation(
+        public async Task<IActionResult> DeleteInstallation(
             [Required][FromRoute] string installationId)
         {
-            var success = await _notificationService
+            // Simulate token authentication
+            if (new UserManagerService().GetUserById(Guid.Parse(Request.Headers["User-Id"])) == null)
+                return new UnauthorizedResult();
+            else
+            {
+                var success = await _notificationService
                 .DeleteInstallationByIdAsync(installationId, CancellationToken.None);
 
-            if (!success)
-                return new UnprocessableEntityResult();
+                if (!success)
+                    return new UnprocessableEntityResult();
 
-            return new OkResult();
+                return new OkResult();
+            }
         }
 
         [HttpPost]
         [Route("requests")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.UnprocessableEntity)]
         public async Task<IActionResult> RequestPush(
             [Required] NotificationRequest notificationRequest)
         {
-            if ((!notificationRequest.Silent &&
+            // Simulate token authentication
+            if (new UserManagerService().GetUserById(Guid.Parse(Request.Headers["User-Id"])) == null)
+                return new UnauthorizedResult();
+            else
+            {
+                if ((!notificationRequest.Silent &&
                 string.IsNullOrWhiteSpace(notificationRequest?.Text)))
-                return new BadRequestResult();
+                    return new BadRequestResult();
 
-            var success = await _notificationService
-                .RequestNotificationAsync(notificationRequest, HttpContext.RequestAborted);
+                var success = await _notificationService
+                    .RequestNotificationAsync(notificationRequest, HttpContext.RequestAborted);
 
-            // This endpoint will return always 422 until APN configuration is not done. Otherwise, it will return 200.
-            if (!success)
-                return new UnprocessableEntityResult();
+                // This endpoint will return always 422 until APN configuration is not done. Otherwise, it will return 200.
+                if (!success)
+                    return new UnprocessableEntityResult();
 
-            return new OkResult();
+                return new OkResult();
+            }
         }
     }
 }
