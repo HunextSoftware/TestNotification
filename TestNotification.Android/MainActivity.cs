@@ -56,7 +56,7 @@ namespace TestNotification.Droid
             if (ShortcutBadger.IsBadgeCounterSupported(this))
                 badgeCount = 0;
             else
-                throw new Exception("Badge counter not supported");
+                Console.WriteLine("Pay attention: badge counter not supported");
         }
 
         protected override void OnNewIntent(Intent intent)
@@ -67,7 +67,7 @@ namespace TestNotification.Droid
         protected override void OnPause()
         {
             base.OnPause();
-            // add an event to update badge continuously
+            // add an event to update badge continuously 
             ShortcutBadger.ApplyCount(this, badgeCount);
         }
 
@@ -104,7 +104,6 @@ namespace TestNotification.Droid
             {
                 Description = Constants.CHANNEL_DESCRIPTION
             };
-            channel.SetShowBadge(true);
 
             var notificationManager = (NotificationManager)GetSystemService(NotificationService);
             notificationManager.CreateNotificationChannel(channel);

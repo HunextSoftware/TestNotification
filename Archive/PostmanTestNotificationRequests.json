@@ -6,18 +6,16 @@
 	},
 	"item": [
 		{
-			"name": "https://localhost:5001/api/notifications/requests",
+			"name": "http://localhost:5000/api/notifications/requests",
 			"protocolProfileBehavior": {
-				"disabledSystemHeaders": {
-					"content-type": true
-				}
+				"disabledSystemHeaders": {}
 			},
 			"request": {
 				"method": "POST",
 				"header": [
 					{
-						"key": "Content-Type",
-						"value": "application/json",
+						"key": "User-Id",
+						"value": "d111f8f3-c4ad-494f-bc4e-87240340298a",
 						"type": "text"
 					}
 				],
@@ -59,6 +57,11 @@
 					{
 						"key": "Content-Type",
 						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "User-Id",
+						"value": "d111f8f3-c4ad-494f-bc4e-87240340298a",
 						"type": "text"
 					}
 				],

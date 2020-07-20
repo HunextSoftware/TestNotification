@@ -53,7 +53,8 @@ namespace TestNotification.Services
             await SecureStorage.SetAsync(CachedDeviceTokenKey, deviceInstallation.PushChannel)
                 .ConfigureAwait(false);
 
-            await SecureStorage.SetAsync(CachedTagsKey, JsonConvert.SerializeObject(JsonConvert.DeserializeObject<string[]>(await response.Content.ReadAsStringAsync())));
+            await SecureStorage.SetAsync(CachedTagsKey, JsonConvert.SerializeObject(JsonConvert.DeserializeObject<string[]>(await response.Content.ReadAsStringAsync())))
+                .ConfigureAwait(false);
         }
 
         public async Task RefreshRegistrationAsync()
@@ -85,22 +86,26 @@ namespace TestNotification.Services
                 throw new Exception("Unable to resolve an ID for the device.");
 
             await SendAsync<object>(HttpMethod.Delete, $"{RequestUrl}/{deviceId}", null);
-            
+
             SecureStorage.Remove(CachedDeviceTokenKey);
             SecureStorage.Remove(CachedTagsKey);
         }
 
         private async Task<HttpResponseMessage> SendAsync<T>(HttpMethod requestType, string requestUri, T obj)
         {
-            string serializedContent = null;
-
-            await Task.Run(() => serializedContent = JsonConvert.SerializeObject(obj))
-                .ConfigureAwait(false);
+            // add token authentication on header HTTP(S) request
+            var tokenAuthentication = await SecureStorage.GetAsync(App.TokenAuthenticationKey);
+            _client.DefaultRequestHeaders.Add("User-Id", tokenAuthentication);
 
             var request = new HttpRequestMessage(requestType, new Uri($"{_baseApiUrl}{requestUri}"));
 
-            if (serializedContent != null)
-                request.Content = new StringContent(serializedContent, Encoding.UTF8, "application/json");
+            if(obj != null)
+            {
+                string serializedContent = null;
+                await Task.Run(() => serializedContent = JsonConvert.SerializeObject(obj)).ConfigureAwait(false);
+                if (serializedContent != null)
+                    request.Content = new StringContent(serializedContent, Encoding.UTF8, "application/json");
+            }
 
             return await _client.SendAsync(request).ConfigureAwait(false);
         }

@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using TestNotificationBackend.Controllers;
 using TestNotificationBackend.Models;
 
 namespace TestNotificationBackend.Services
@@ -30,7 +29,7 @@ namespace TestNotificationBackend.Services
             };
         }
 
-        public async Task<string[]> CreateOrUpdateInstallationAsync(DeviceInstallation deviceInstallation, CancellationToken token)
+        public async Task<string[]> CreateOrUpdateInstallationAsync(DeviceInstallation deviceInstallation, CancellationToken token, string[] tags)
         {
             if (string.IsNullOrWhiteSpace(deviceInstallation?.InstallationId) ||
                 string.IsNullOrWhiteSpace(deviceInstallation?.Platform) ||
@@ -41,7 +40,7 @@ namespace TestNotificationBackend.Services
             {
                 InstallationId = deviceInstallation.InstallationId,
                 PushChannel = deviceInstallation.PushChannel,
-                Tags = LoginController.tags
+                Tags = tags
             };
 
             if (_installationPlatform.TryGetValue(deviceInstallation.Platform, out var platform))
@@ -58,7 +57,7 @@ namespace TestNotificationBackend.Services
                 return null;
             }
 
-            return LoginController.tags;
+            return tags;
         }
 
         public async Task<bool> DeleteInstallationByIdAsync(string installationId, CancellationToken token)
@@ -123,8 +122,6 @@ namespace TestNotificationBackend.Services
                         if ((i + 1) == notificationRequest.Tags.Length)
                             tagExpression.Append(")");
                     }
-
-                    Console.WriteLine($"Tag expression: {tagExpression}");
 
                     await SendPlatformNotificationsAsync(androidPayload, iOSPayload, tagExpression.ToString(), token);
                 }

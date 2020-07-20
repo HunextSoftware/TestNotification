@@ -65,8 +65,7 @@ namespace TestNotification.Droid.Services
                 .SetContentTitle("TestNotification")
                 .SetContentText(body)
                 .SetStyle(new NotificationCompat.BigTextStyle())
-                .SetSmallIcon(Resource.Mipmap.launcher_foreground)
-                .SetBadgeIconType(NotificationCompat.BadgeIconSmall);
+                .SetSmallIcon(Resource.Mipmap.launcher_foreground);
                 //.AddAction(Resource.Drawable.notification_icon, "OK", pendingIntent);
             
             // Set priority, ringtone and vibration for Android 7.1 (API level 25) and lower
