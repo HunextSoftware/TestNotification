@@ -64,17 +64,30 @@ namespace TestNotification.Droid
             base.OnNewIntent(intent); 
         }
 
+        protected override void OnStart()
+        {
+            base.OnStart();
+
+            if (ShortcutBadger.IsBadgeCounterSupported(this))
+                ShortcutBadger.ApplyCount(this, badgeCount = 0);
+        }
+
         protected override void OnPause()
         {
             base.OnPause();
-            // add an event to update badge continuously 
-            ShortcutBadger.ApplyCount(this, badgeCount);
+
+            // Badge notification does not work properly
+            //if (ShortcutBadger.IsBadgeCounterSupported(this))
+            //    // add an event to update badge continuously 
+            //    ShortcutBadger.ApplyCount(this, badgeCount);
         }
 
         protected override void OnResume()
         {
             base.OnResume();
-            ShortcutBadger.ApplyCount(this, badgeCount = 0);
+
+            if (ShortcutBadger.IsBadgeCounterSupported(this))
+                ShortcutBadger.ApplyCount(this, badgeCount = 0);
         }
 
         public override void OnBackPressed()

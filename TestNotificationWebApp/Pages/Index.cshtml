@@ -1,0 +1,57 @@
+﻿@page
+@model TestNotificationWebApp.Pages.IndexModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="text-center border-space">
+    <h1 class="display-4">Welcome to the TestNotificationWebApp!</h1>
+    <p>There is no better place to customize and send a notification to TestNotification mobile application. Let's try!</p>
+</div>
+
+<div class="text-left border-space">
+Which are the informations you can insert here?
+<ul>
+    <li><strong>Text</strong>: represents the message body who the user receives into the notification.</li>
+    <li><strong>Tags</strong>: fundamental to send targeted notifications, represents one or more specific information to identify particular users' categories.</li>
+    <ul>
+        <li><em>Please note</em>: it's possible to send no one or maximum 10 tags. In our specific use case, send only one tag who represents an unique user id (on DB corresponds to the GUID).</li>
+    </ul>
+</ul>
+</div>
+
+<div class="text-center border-space">
+    <form method="post" action="https://serverpushnotification.azurewebsites.net/api/notifications/requests">
+        <p>
+            <label asp-for="NotificationRequest.Text"></label> <br />
+            <input asp-for="NotificationRequest.Text" class="input-text" placeholder="Insert Text" maxlength="50" required />
+        </p>
+        <p>
+            <label asp-for="NotificationRequest.Tag"></label> <br />
+            <input asp-for="NotificationRequest.Tag" class="input-text" placeholder="Insert tag" maxlength="50" />
+            <br />
+            @*<input asp-for="Tags[1]" placeholder="Insert tag 2" maxlength="50" disabled />
+            <br />
+            <input asp-for="Tags[2]" placeholder="Insert tag 3" maxlength="50" disabled />
+            <br />
+            <input asp-for="Tags[3]" placeholder="Insert tag 4" maxlength="50" disabled />
+            <br />
+            <input asp-for="Tags[4]" placeholder="Insert tag 5" maxlength="50" disabled />
+            <br />
+            <input asp-for="Tags[5]" placeholder="Insert tag 6" maxlength="50" disabled />
+            <br />
+            <input asp-for="Tags[6]" placeholder="Insert tag 7" maxlength="50" disabled />
+            <br />
+            <input asp-for="Tags[7]" placeholder="Insert tag 8" maxlength="50" disabled />
+            <br />
+            <input asp-for="Tags[8]" placeholder="Insert tag 9" maxlength="50" disabled />
+            <br />
+            <input asp-for="Tags[9]" placeholder="Insert tag 10" maxlength="50" disabled />
+            <br />*@
+        </p>
+        <p>
+            <input type="submit" value="Send notification" />
+        </p>
+    </form>
+</div>

@@ -126,7 +126,10 @@ namespace TestNotificationBackend.Services
                     await SendPlatformNotificationsAsync(androidPayload, iOSPayload, tagExpression.ToString(), token);
                 }
                 else
+                {
                     _logger.LogError("Error: tags number not allowed. The valid tags number is from 0 to 10.");
+                    return false;
+                }
 
                 return true;
             }
