@@ -1,0 +1,33 @@
+﻿@page
+@model TestNotificationWebApp.Pages.IndexModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="text-center border-space">
+    <h1 class="display-4">Welcome to the TestNotificationWebApp!</h1>
+    <p>There is no better place to customize and send a notification to TestNotification mobile application. Let's try!</p>
+</div>
+
+<div class="text-center border-space">
+    <form method="post">
+        <p>
+            <label asp-for="NotificationRequest.Text"></label> <br />
+            <input asp-for="NotificationRequest.Text" class="input-text" placeholder="Insert text" maxlength="50" required />
+        </p>
+        <p>
+            <label asp-for="NotificationRequest.Tag"></label> <br />
+            <input asp-for="NotificationRequest.Tag" class="input-text" placeholder="Insert tag" maxlength="50" />
+            <br />
+        </p>
+        <p>
+            <input type="submit" value="Send notification" class="input-submit"/>
+        </p>
+    </form>
+</div>
+
+<div class="text-center border-space">
+    <span class="notification-ok" style="@(IndexModel.isVisibleOk ? "display:block" : "display:none")"> The notification has been sent correctly.</span>
+    <span class="notification-error" style="@(IndexModel.isVisibleError ? "display:block" : "display:none")"> An error occurred during the sending: please read the debug console.</span>
+</div>

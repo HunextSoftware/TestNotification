@@ -41,7 +41,7 @@ namespace TestNotification.Droid.Services
             if (message.GetNotification() != null)
             {
                 SendLocalNotification(message.GetNotification().Body);
-                MainActivity.badgeCount++;
+                //MainActivity.badgeCount++;
             }
             else
                 throw new Exception("Error during retrieving notification");
@@ -84,7 +84,10 @@ namespace TestNotification.Droid.Services
             var notificationManager = NotificationManagerCompat.From(this);
 
             // Publish the notification
-            notificationManager.Notify(Constants.NOTIFICATION_ID, builder.Build());
+            var notification = builder.Build();
+            notificationManager.Notify(Constants.NOTIFICATION_ID, notification);
+
+            //StartForeground(Constants.SERVICE_RUNNING_NOTIFICATION_ID, notification);
         }
     }
 }
