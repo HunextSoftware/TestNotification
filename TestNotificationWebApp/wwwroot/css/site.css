@@ -28,6 +28,14 @@ a {
     margin-bottom: 3em;
 }
 
+.notification-ok{
+    color: darkgreen
+}
+
+.notification-error{
+    color: darkred
+}
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {

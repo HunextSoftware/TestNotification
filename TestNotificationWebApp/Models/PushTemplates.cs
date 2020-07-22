@@ -1,5 +1,6 @@
 ﻿namespace TestNotificationWebApp.Models
 {
+    // TO DELETE!!
     public class PushTemplates
     {
         public class Generic
