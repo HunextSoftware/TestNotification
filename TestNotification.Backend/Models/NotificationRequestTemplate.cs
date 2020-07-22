@@ -13,7 +13,7 @@
      *   => standard example (company && sectorCompany): "tags" = [ "HunextHRSolutions", "Software" ]
      *   => real example (guid user): "tags" = [ "x113k8j0-c4ad-004f-bc4e-71242341298b" ]
      *   => cardinality: 0 <= tags <= 10 */
-    public class RequestNotificationTemplate
+    public class NotificationRequestTemplate
     {
         public const string body = "{ \"text\": \"$(textNotification)\", \"tags\": [ \"$(tagsNotification)\" ] }";
     }
