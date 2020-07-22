@@ -10,22 +10,11 @@
     <p>There is no better place to customize and send a notification to TestNotification mobile application. Let's try!</p>
 </div>
 
-<div class="text-left border-space">
-Which are the information you can insert here?
-<ul>
-    <li><strong>Text</strong>: represents the message body who the user receives into the notification.</li>
-    <li><strong>Tags</strong>: fundamental to send targeted notifications, represents one or more specific information to identify particular users' categories.</li>
-    <ul>
-        <li><em>Please note</em>: it's possible to send no one or maximum 10 tags. In our specific use case, send only one tag who represents an unique user id (on DB corresponds to the GUID).</li>
-    </ul>
-</ul>
-</div>
-
 <div class="text-center border-space">
     <form method="post">
         <p>
             <label asp-for="NotificationRequest.Text"></label> <br />
-            <input asp-for="NotificationRequest.Text" class="input-text" placeholder="Insert Text" maxlength="50" required />
+            <input asp-for="NotificationRequest.Text" class="input-text" placeholder="Insert text" maxlength="50" required />
         </p>
         <p>
             <label asp-for="NotificationRequest.Tag"></label> <br />
@@ -33,7 +22,7 @@ Which are the information you can insert here?
             <br />
         </p>
         <p>
-            <input type="submit" value="Send notification"/>
+            <input type="submit" value="Send notification" class="input-submit"/>
         </p>
     </form>
 </div>

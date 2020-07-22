@@ -1,0 +1,29 @@
+﻿@page
+@model AboutModel
+@{
+    ViewData["Title"] = "About";
+}
+<h1>@ViewData["Title"]</h1>
+
+<div class="text-left border-space">The aim of this web application is sending notifications to targeted users.</div>
+
+<div class="text-left border-space">
+    Which are the information you can insert on the home page?
+    <ul>
+        <li><strong>Text</strong>: represents the message body who the user receives into the notification.</li>
+        <li><strong>Tags</strong>: fundamental to send targeted notifications, represents one or more specific information to identify particular users' categories.</li>
+        <ul>
+            <li><em>Please note</em>: it's possible to send no one or maximum 10 tags. In this specific use case, send only one tag who represents an unique user id (on DB corresponds to the GUID).</li>
+        </ul>
+    </ul>
+</div>
+
+<div class="text-left border-space">
+    The full project's source code is available on GitHub on the following <a href="https://github.com/HunextSoftware/TestNotification">link</a>. 
+</div>
+
+<div class="text-left border-space"> 
+    <span>Developer: Alberto Gobbo</span> <br />
+    <span>Project kindly offered to Hunext HR Solutions S.r.l.</span>
+</div>
+

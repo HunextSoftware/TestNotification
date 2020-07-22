@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using TestNotificationWebApp.Configuration;
 using TestNotificationWebApp.Models;
 
 namespace TestNotificationWebApp.Pages
@@ -14,8 +15,9 @@ namespace TestNotificationWebApp.Pages
         private readonly ILogger<IndexModel> _logger;
 
         private readonly HttpClient _client;
+        readonly string _baseApiUrl;
         private const string RequestUri = "/api/notifications/requests";
-
+        
         public static bool isVisibleOk = false;
         public static bool isVisibleError = false;
 
@@ -28,6 +30,7 @@ namespace TestNotificationWebApp.Pages
         
             _client = new HttpClient();
             _client.DefaultRequestHeaders.Add("Accept", "application/json");
+            _baseApiUrl = Config.BackendServiceEndpoint;
         }
 
         public IActionResult OnGet()
@@ -43,7 +46,7 @@ namespace TestNotificationWebApp.Pages
 
             _client.DefaultRequestHeaders.Add("User-Id", NotificationRequest.Tag);
 
-            var request = new HttpRequestMessage(HttpMethod.Post, new Uri($"https://serverpushnotification.azurewebsites.net{RequestUri}"));
+            var request = new HttpRequestMessage(HttpMethod.Post, new Uri($"{_baseApiUrl}{RequestUri}"));
             request.Content = new StringContent(PrepareRequestNotificationPayload(NotificationRequest.Text, NotificationRequest.Tag), Encoding.UTF8, "application/json");
 
             var response = await _client.SendAsync(request).ConfigureAwait(false);
