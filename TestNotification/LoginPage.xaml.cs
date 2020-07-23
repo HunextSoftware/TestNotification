@@ -33,7 +33,6 @@ namespace TestNotification
 
         async void OnLoginButtonClicked(object sender, EventArgs e)
         {
-            // Not needed urlEntry.Text for login: it's only a required data on Hunext Mobile app
             if (usernameEntry.Text != null && passwordEntry.Text != null)
             {
                 loginButton.IsVisible = false;

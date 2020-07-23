@@ -26,15 +26,6 @@
     <StackLayout>
         <Label Text="Insert your personal data:"
                Margin="10,0,5,0"/>
-        <Entry x:Name="urlEntry"
-               Placeholder="URL"
-               Keyboard="Url"
-               ReturnType="Next"
-               ClearButtonVisibility="WhileEditing"
-               IsSpellCheckEnabled="false" 
-               IsTextPredictionEnabled="false"
-               IsReadOnly="True"
-               Margin="5,0,5,0" />
         <Entry x:Name="usernameEntry"
                Placeholder="Username"
                Keyboard="Text"
