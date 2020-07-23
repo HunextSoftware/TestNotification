@@ -35,7 +35,7 @@ namespace TestNotification
         {
             if (usernameEntry.Text != null && passwordEntry.Text != null)
             {
-                loginButton.IsVisible = false;
+                loginButton.IsVisible = resetButton.IsVisible = false;
                 loginActivityIndicator.IsRunning = true;
                 try
                 {
@@ -47,7 +47,7 @@ namespace TestNotification
 
                     loginActivityIndicator.IsRunning = false;
                     await Navigation.PushAsync(new AuthorizedUserPage(result.Username, result.Company, result.SectorCompany));
-                    loginButton.IsVisible = true;
+                    loginButton.IsVisible = resetButton.IsVisible = true;
                     Toast.MakeText(Android.App.Application.Context, "Successful login: device registered.", ToastLength.Short).Show();
 
                     // This block needs to recover AuthorizedUserPage activity, when the app is closed but the user has logged in yet
@@ -57,13 +57,19 @@ namespace TestNotification
                 catch (Exception ex)
                 {
                     loginActivityIndicator.IsRunning = false;
-                    loginButton.IsVisible = true;
+                    loginButton.IsVisible = resetButton.IsVisible = true;
                     Console.WriteLine($"Exception: {ex.Message}");
                     Toast.MakeText(Android.App.Application.Context, "Login error: inserted fields not right.", ToastLength.Long).Show();
                 }
             }
             else
                 Toast.MakeText(Android.App.Application.Context, "Please, complete all the fields.", ToastLength.Long).Show();
+        }
+
+        void OnResetButtonClicked(object sender, EventArgs e)
+        {
+            usernameEntry.Text = passwordEntry.Text = string.Empty;
+            //passwordEntry.Text = string.Empty;
         }
 
         async void RegistrationDevice()

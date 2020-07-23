@@ -43,10 +43,18 @@
                IsSpellCheckEnabled="false" 
                IsTextPredictionEnabled="false"
                Margin="5,0,5,10" />
-        <Button x:Name ="loginButton" 
-                Text="Login"
-                Clicked="OnLoginButtonClicked"
-                HorizontalOptions="Center" />
+        <StackLayout Margin="10"
+                     Orientation="Horizontal"
+                     HorizontalOptions="Center">
+            <Button x:Name ="loginButton" 
+                        Text="Login"
+                        Clicked="OnLoginButtonClicked"
+                        HorizontalOptions="Center" />
+            <Button x:Name ="resetButton" 
+                        Text="Reset"
+                        Clicked="OnResetButtonClicked"
+                        HorizontalOptions="Center"  />
+        </StackLayout>
         <ActivityIndicator x:Name="loginActivityIndicator"
                            Color="#F44336"
                            IsRunning="False"
