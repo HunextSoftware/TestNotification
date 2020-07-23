@@ -10,10 +10,10 @@
 <div class="text-left border-space">
     Which are the information you can insert on the home page?
     <ul>
-        <li><strong>Text</strong>: represents the message body who the user receives into the notification.</li>
-        <li><strong>Tags</strong>: fundamental to send targeted notifications, represents one or more specific information to identify particular users' categories.</li>
+        <li><strong>Text</strong>: <span class="required">required</span>, represents the message body who the user receives into the notification.</li>
+        <li><strong>Tag</strong>: <span class="optional">optional</span>, is fundamental to send targeted notifications, represents one or more specific information to identify particular users' categories.</li>
         <ul>
-            <li><em>Please note</em>: it's possible to send no one or maximum 10 tags. In this specific use case, send only one tag who represents an unique user id (on DB corresponds to the GUID).</li>
+            <li><em>Please note</em>: it's possible to send no one or maximum 10 tags. In this specific use case, send a notification to a specific user inserting only one user id tag (GUID), otherwise send a notification to everyone inserting no tags.</li>
         </ul>
     </ul>
 </div>

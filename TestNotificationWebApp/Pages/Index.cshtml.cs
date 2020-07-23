@@ -33,18 +33,16 @@ namespace TestNotificationWebApp.Pages
             _baseApiUrl = Config.BackendServiceEndpoint;
         }
 
+
         public IActionResult OnGet()
         {
             return Page();
         }
 
-
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
                 return Page();
-
-            _client.DefaultRequestHeaders.Add("User-Id", NotificationRequest.Tag);
 
             var request = new HttpRequestMessage(HttpMethod.Post, new Uri($"{_baseApiUrl}{RequestUri}"));
             request.Content = new StringContent(PrepareRequestNotificationPayload(NotificationRequest.Text, NotificationRequest.Tag), Encoding.UTF8, "application/json");
@@ -67,7 +65,7 @@ namespace TestNotificationWebApp.Pages
             {
                 isVisibleOk = false;
                 isVisibleError = true;
-                _logger.LogError($"An error occurred: {response.StatusCode}. Please, retry again.");
+                _logger.LogError($"An error occured: {response.StatusCode}. Please, retry again.");
             }
                 
             return RedirectToPage("./Index");
@@ -78,7 +76,8 @@ namespace TestNotificationWebApp.Pages
             if(string.IsNullOrEmpty(tag))
                 return NotificationRequestTemplate.body
                     .Replace("$(textNotification)", text, StringComparison.InvariantCulture)
-                    .Replace(", \"tags\": [ \"$(tagsNotification)\" ] ", "", StringComparison.InvariantCulture);
+                    .Replace(" \"$(tagsNotification)\" ", string.Empty, StringComparison.InvariantCulture);
+                    //.Replace(", \"tags\": [ \"$(tagsNotification)\" ] ", string.Empty, StringComparison.InvariantCulture); --> removing "tags" key, we will obtain the same result of the row above
             else
                 return NotificationRequestTemplate.body
                     .Replace("$(textNotification)", text, StringComparison.InvariantCulture)

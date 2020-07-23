@@ -6,13 +6,14 @@ TODO
 
 ## Come inviare una notifica
 
-Lo stagista ha deciso di non creare una console per l'invio delle notifiche, bensì di utilizzare [Postman](https://www.postman.com/), un programma adatto per inoltrare richieste a determinati endpoint indipendentemente dalla posizione del server.
+Lo stagista ha creato una web application che permette di inviare una notifica da un'interfaccia web semplice, presente nel progetto *TestNotificationWebApp*.
+
+In alternativa si può utilizzare [Postman](https://www.postman.com/), un programma adatto per inoltrare richieste a determinati endpoint indipendentemente dalla posizione del server.
 
 La prima cosa da fare è creare una nuova richiesta, rispettando i seguenti passaggi:
 - nella barra in alto, selezionare il metodo **POST** e inserire l'URL relativo all'inoltro della notifica https://serverpushnotification.azurewebsites.net/api/notifications/requests (oppure avviare il back end locale all'indirizzo http://localhost:5000/api/notifications/requests).
 - selezionare la voce **Headers** presente nel tab, e:
     - Attivare la checkbox della key **Content-Type** e scrivere come value **application/json**.
-    - Aggiungere una key **User-Id** e scrivere in value il tag dell'utente autorizzato (ovvero il GUID corrispondente).
 - selezionare la voce **Body** presente nel tab, attivare il radio button **raw** e selezionare **JSON** nel menu a tendina. Nella text box sottostante, scrivere il corpo del messaggio di notifica:
 ```
 {
@@ -28,8 +29,9 @@ La prima cosa da fare è creare una nuova richiesta, rispettando i seguenti passa
 e il numero massimo inseribile è di 10 tag. Questa limitazione è dovuta al fatto che la *tagExpression*, che viene costruita ed elaborata dal back end, è un'operazione logica di soli AND (&&). In merito a questa operazione, la documentazione è chiara, infatti utilizzando solo && 
 è possibile inserire al massimo 10 tag.
 
-> Nel caso d'uso specifico di Hunext, il tag da inserire è il GUID dell'utente che è entrato in modo corretto nella mobile app.
-Va evidenziato che non è possibile inserire più tag diversi all'interno del parametro **tags**, quindi per inviare una notifica ad N utenti diversi dovranno essere inviati N payload diversi.
+> Nel caso d'uso specifico di Hunext, il tag da inserire è il GUID al quale si vuole inviare la notifica.
+Va evidenziato che, dopo vari tentativi di test, non è possibile inserire più tag diversi all'interno del parametro **tags**.
+La best practice da tenere è inviare una notifica per ogni utente, quindi N notifiche per N utenti.
 
 - cliccare il bottone **Send** e inviare la notifica.
 
@@ -49,7 +51,7 @@ Ergo, questo problema verrà risolto non appena verrà ultimata la configurazione 
 
 Per testare l'invio delle notifiche, è possibile scaricare il file che si trova, a partire dalla radice di questo repository, in *Archive/PostmanTestNotificationRequests*.
 
-> In alternativa, è possibile scaricare il suddetto file tramite questo [link](https://drive.google.com/file/d/1KhWXE5UL6OozX_t-6FSjwmXuEtBxZjk-/view?usp=sharing).
+> In alternativa, è possibile scaricare il suddetto file tramite questo [link](https://drive.google.com/file/d/1oDxEGqBFsqdU1l6WnUaa6LrwBHqt1HEP/view?usp=sharing).
 
 Successivamente, aprire l'applicativo Postman, cliccare il bottone **Import** presente in alto sotto il menu e selezionare il file appena scaricato.
 

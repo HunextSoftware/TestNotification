@@ -82,29 +82,24 @@ namespace TestNotificationBackend.Controllers
         [HttpPost]
         [Route("requests")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.UnprocessableEntity)]
         public async Task<IActionResult> RequestPush(
             [Required] NotificationRequest notificationRequest)
         {
-            // Simulate token authentication
-            if (new UserManagerService().GetUserById(Guid.Parse(Request.Headers["User-Id"])) == null)
-                return new UnauthorizedResult();
-            else
-            {
-                if ((!notificationRequest.Silent &&
-                string.IsNullOrWhiteSpace(notificationRequest?.Text)))
-                    return new BadRequestResult();
+            if ((!notificationRequest.Silent &&
+            string.IsNullOrWhiteSpace(notificationRequest?.Text)))
+                return new BadRequestResult();
 
-                var success = await _notificationService
-                    .RequestNotificationAsync(notificationRequest, HttpContext.RequestAborted);
+            var success = await _notificationService
+                .RequestNotificationAsync(notificationRequest, HttpContext.RequestAborted);
 
-                // This endpoint will return always 422 until APN configuration is not done. Otherwise, it will return 200.
-                if (!success)
-                    return new UnprocessableEntityResult();
+            // This endpoint will return always 422 until APN configuration is not done. Otherwise, it will return 200.
+            if (!success)
+                return new UnprocessableEntityResult();
 
-                return new OkResult();
-            }
+            return new OkResult();
+
         }
     }
 }

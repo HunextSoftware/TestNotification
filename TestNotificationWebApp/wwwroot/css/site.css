@@ -24,16 +24,24 @@ a {
   border-color: #1861ac;
 }
 
-.border-space{
+.border-space {
     margin-bottom: 3em;
 }
 
-.notification-ok{
+.notification-ok {
     color: darkgreen
 }
 
-.notification-error{
+.notification-error {
     color: darkred
+}
+
+span.required {
+    color: red
+}
+
+span.optional {
+    color: green
 }
 
 /* Sticky footer styles
@@ -63,11 +71,11 @@ button.accept-policy {
   line-height: inherit;
 }
 
-input.input-text{
+input.input-text {
     width: 25em;
 }
 
-input.input-submit{
+input.input-submit {
     margin-top: 3em;
 }
 

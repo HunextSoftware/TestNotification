@@ -101,14 +101,13 @@ namespace TestNotificationBackend.Services
 
             try
             {
-                if (notificationRequest.Tags.Length == 0)
+                if (notificationRequest.Tags.Length.Equals(0))
                 {
                     // This will broadcast to all users registered in the notification hub
                     await SendPlatformNotificationsAsync(androidPayload, iOSPayload, token);
                 }
-
                 // 10 is the tag limit for any boolean expression constructed using the AND logical operator (&&) and no one OR (||)
-                else if (notificationRequest.Tags.Length <= 10)
+                else if (notificationRequest.Tags.Length >= 1 && notificationRequest.Tags.Length <= 10)
                 {
                     // Build the expression about which tags are involved in the notification, bringing tags by JSON request body
                     var tagExpression = new System.Text.StringBuilder();

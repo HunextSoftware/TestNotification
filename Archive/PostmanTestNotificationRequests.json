@@ -1,24 +1,84 @@
 {
 	"info": {
 		"_postman_id": "b9c1aa76-82ca-40d2-b134-0220173a474f",
-		"name": "Common template request",
+		"name": "TestNotification template request",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "http://localhost:5000/api/notifications/requests",
+			"name": "By localhost: no \"tags\" key",
 			"protocolProfileBehavior": {
 				"disabledSystemHeaders": {}
 			},
 			"request": {
 				"method": "POST",
-				"header": [
-					{
-						"key": "User-Id",
-						"value": "d111f8f3-c4ad-494f-bc4e-87240340298a",
-						"type": "text"
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"text\": \"Hey man! How are things?\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
 					}
-				],
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/notifications/requests",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"notifications",
+						"requests"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "By localhost: \"tags\" key empty",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"text\": \"Hey man! How are things?\",\r\n    \"tags\": []\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/notifications/requests",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"notifications",
+						"requests"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "By localhost: notify Mario.Rossi",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
 				"body": {
 					"mode": "raw",
 					"raw": "{\r\n    \"text\": \"Hey man! How are things?\",\r\n    \"tags\": [\r\n        \"d111f8f3-c4ad-494f-bc4e-87240340298a\"\r\n    ]\r\n}",
@@ -45,26 +105,81 @@
 			"response": []
 		},
 		{
-			"name": "https://serverpushnotification.azurewebsites.net/api/notifications/requests",
+			"name": "By Azure: no \"tags\" key",
 			"protocolProfileBehavior": {
-				"disabledSystemHeaders": {
-					"content-type": true
-				}
+				"disabledSystemHeaders": {}
 			},
 			"request": {
 				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "User-Id",
-						"value": "d111f8f3-c4ad-494f-bc4e-87240340298a",
-						"type": "text"
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"text\": \"Hey man! How are things?\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
 					}
-				],
+				},
+				"url": {
+					"raw": "https://serverpushnotification.azurewebsites.net/api/notifications/requests",
+					"protocol": "https",
+					"host": [
+						"serverpushnotification",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"api",
+						"notifications",
+						"requests"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "By Azure: \"tags\" key empty",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"text\": \"Hey man! How are things?\",\r\n    \"tags\": []\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://serverpushnotification.azurewebsites.net/api/notifications/requests",
+					"protocol": "https",
+					"host": [
+						"serverpushnotification",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"api",
+						"notifications",
+						"requests"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "By Azure: notify Mario.Rossi",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
 				"body": {
 					"mode": "raw",
 					"raw": "{\r\n    \"text\": \"Hey man! How are things?\",\r\n    \"tags\": [\r\n        \"d111f8f3-c4ad-494f-bc4e-87240340298a\"\r\n    ]\r\n}",
@@ -90,6 +205,28 @@
 				}
 			},
 			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "1b1eb452-fc75-4d7d-9a8f-1787ff14a6f3",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "70a08e73-ef9f-495b-922a-65a043129428",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
 		}
 	],
 	"protocolProfileBehavior": {}
