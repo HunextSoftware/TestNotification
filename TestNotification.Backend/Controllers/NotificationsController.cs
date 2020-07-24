@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
@@ -15,10 +16,12 @@ namespace TestNotificationBackend.Controllers
     public class NotificationsController : ControllerBase
     {
         readonly INotificationService _notificationService;
+        readonly ILogger<NotificationsController> _logger;
 
-        public NotificationsController(INotificationService notificationService)
+        public NotificationsController(INotificationService notificationService, ILogger<NotificationsController> logger)
         {
             _notificationService = notificationService;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -39,21 +42,19 @@ namespace TestNotificationBackend.Controllers
         {
             // Simulate token authentication
             //var result = new UserManagerService().GetUser(User.Identity.Name);
-            var result = new UserManagerService().GetUserById(Guid.Parse(Request.Headers["User-Id"]));
+            var result = new UserManagerService().GetUserById(Guid.Parse(Request.Headers["User-Id"].ToString()));
 
             if (result == null)
                 return Unauthorized();
-            else
-            {
-                // Need regex to erase all spaces on tags, because are not allowed
-                var success = await _notificationService
-                .CreateOrUpdateInstallationAsync(deviceInstallation, HttpContext.RequestAborted, new string[] { Regex.Replace(result.Id.ToString(), " ", "") });
 
-                if (success == null)
-                    return UnprocessableEntity();
+            // Need regex to erase all spaces on tags, because are not allowed
+            var success = await _notificationService
+            .CreateOrUpdateInstallationAsync(deviceInstallation, HttpContext.RequestAborted, new string[] { Regex.Replace(result.Id.ToString(), " ", "") });
 
-                return Ok(success);
-            }
+            if (success == null)
+                return UnprocessableEntity();
+
+            return Ok(success);
         }
 
         [HttpDelete()]
@@ -61,22 +62,21 @@ namespace TestNotificationBackend.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.UnprocessableEntity)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> DeleteInstallation(
             [Required][FromRoute] string installationId)
         {
             // Simulate token authentication
-            if (new UserManagerService().GetUserById(Guid.Parse(Request.Headers["User-Id"])) == null)
+            if (new UserManagerService().GetUserById(Guid.Parse(Request.Headers["User-Id"].ToString())) == null)
                 return new UnauthorizedResult();
-            else
-            {
-                var success = await _notificationService
-                .DeleteInstallationByIdAsync(installationId, CancellationToken.None);
 
-                if (!success)
-                    return new UnprocessableEntityResult();
+            var success = await _notificationService
+            .DeleteInstallationByIdAsync(installationId, CancellationToken.None);
 
-                return new OkResult();
-            }
+            if (!success)
+                return new UnprocessableEntityResult();
+
+            return new OkResult();
         }
 
         [HttpPost]

@@ -53,8 +53,7 @@ namespace TestNotification.Services
             await SecureStorage.SetAsync(CachedDeviceTokenKey, deviceInstallation.PushChannel)
                 .ConfigureAwait(false);
 
-            await SecureStorage.SetAsync(CachedTagsKey, JsonConvert.SerializeObject(JsonConvert.DeserializeObject<string[]>(await response.Content.ReadAsStringAsync())))
-                .ConfigureAwait(false);
+            await SecureStorage.SetAsync(CachedTagsKey, JsonConvert.SerializeObject(JsonConvert.DeserializeObject<string[]>(await response.Content.ReadAsStringAsync())));
         }
 
         public async Task RefreshRegistrationAsync()
@@ -83,9 +82,15 @@ namespace TestNotification.Services
             var deviceId = DeviceInstallationService?.GetDeviceId();
 
             if (string.IsNullOrWhiteSpace(deviceId))
-                throw new Exception("Unable to resolve an ID for the device.");
+                throw new Exception("Unable to resolve an ID for this device.");
 
             await SendAsync<object>(HttpMethod.Delete, $"{RequestUrl}/{deviceId}", null);
+
+            // Remove User-Id key by the HTTP header: it needs to guarantee that this key can be inserted only in the installation phase and removed only in deinstallation phase
+            if (_client.DefaultRequestHeaders.Contains("User-Id"))
+                _client.DefaultRequestHeaders.Remove("User-Id");
+            else
+                Console.WriteLine("Warning: \"User-Id\" key is not part of HTTP header. It means that every user can enter into the system without authorization. Please solve this problem.");
 
             SecureStorage.Remove(CachedDeviceTokenKey);
             SecureStorage.Remove(CachedTagsKey);
@@ -93,13 +98,16 @@ namespace TestNotification.Services
 
         private async Task<HttpResponseMessage> SendAsync<T>(HttpMethod requestType, string requestUri, T obj)
         {
-            // add token authentication on header HTTP(S) request
-            var tokenAuthentication = await SecureStorage.GetAsync(App.TokenAuthenticationKey);
-            _client.DefaultRequestHeaders.Add("User-Id", tokenAuthentication);
+            if (!_client.DefaultRequestHeaders.Contains("User-Id"))
+            {
+                // Add token authentication on header HTTP(S) request
+                var tokenAuthentication = await SecureStorage.GetAsync(App.TokenAuthenticationKey);
+                _client.DefaultRequestHeaders.Add("User-Id", tokenAuthentication);
+            }
 
             var request = new HttpRequestMessage(requestType, new Uri($"{_baseApiUrl}{requestUri}"));
 
-            if(obj != null)
+            if (obj != null)
             {
                 string serializedContent = null;
                 await Task.Run(() => serializedContent = JsonConvert.SerializeObject(obj)).ConfigureAwait(false);

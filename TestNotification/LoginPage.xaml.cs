@@ -42,7 +42,7 @@ namespace TestNotification
                     var result = await _loginService.Login(usernameEntry.Text, passwordEntry.Text);
 
                     // Save locally "token" authentication to save on every header HTTP request
-                    await SecureStorage.SetAsync(App.TokenAuthenticationKey, result.Id.ToString()).ConfigureAwait(false);
+                    await SecureStorage.SetAsync(App.TokenAuthenticationKey, result.Id.ToString());
                     RegistrationDevice();
 
                     loginActivityIndicator.IsRunning = false;
@@ -52,7 +52,7 @@ namespace TestNotification
 
                     // This block needs to recover AuthorizedUserPage activity, when the app is closed but the user has logged in yet
                     string[] userDataAuthorized = { result.Username, result.Company, result.SectorCompany };
-                    await SecureStorage.SetAsync(App.CachedDataAuthorizedUserKey, JsonConvert.SerializeObject(userDataAuthorized)).ConfigureAwait(false);
+                    await SecureStorage.SetAsync(App.CachedDataAuthorizedUserKey, JsonConvert.SerializeObject(userDataAuthorized));
                 }
                 catch (Exception ex)
                 {

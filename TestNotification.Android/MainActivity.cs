@@ -21,7 +21,7 @@ namespace TestNotification.Droid
         ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity, Android.Gms.Tasks.IOnSuccessListener
     {
-        public static int badgeCount;
+        //public static int badgeCount;
 
         IDeviceInstallationService _deviceInstallationService;
 
@@ -53,9 +53,12 @@ namespace TestNotification.Droid
 
             CreateNotificationChannel();
 
-            if (ShortcutBadger.IsBadgeCounterSupported(this))
-                badgeCount = 0;
-            else
+            //if (ShortcutBadger.IsBadgeCounterSupported(this))
+            //    badgeCount = 0;
+            //else
+            //    Console.WriteLine("Pay attention: badge counter not supported");
+
+            if (!ShortcutBadger.IsBadgeCounterSupported(this))
                 Console.WriteLine("Pay attention: badge counter not supported");
         }
 
@@ -68,8 +71,8 @@ namespace TestNotification.Droid
         {
             base.OnStart();
 
-            if (ShortcutBadger.IsBadgeCounterSupported(this))
-                ShortcutBadger.ApplyCount(this, badgeCount = 0);
+            //if (ShortcutBadger.IsBadgeCounterSupported(this))
+            //    ShortcutBadger.ApplyCount(this, badgeCount = 0);
         }
 
         protected override void OnPause()
@@ -86,8 +89,8 @@ namespace TestNotification.Droid
         {
             base.OnResume();
 
-            if (ShortcutBadger.IsBadgeCounterSupported(this))
-                ShortcutBadger.ApplyCount(this, badgeCount = 0);
+            //if (ShortcutBadger.IsBadgeCounterSupported(this))
+            //    ShortcutBadger.ApplyCount(this, badgeCount = 0);
         }
 
         public override void OnBackPressed()
