@@ -24,8 +24,8 @@ namespace TestNotificationBackend.Services
 
             _installationPlatform = new Dictionary<string, NotificationPlatform>
             {
-                { nameof(NotificationPlatform.Apns).ToLower(), NotificationPlatform.Apns },
-                { nameof(NotificationPlatform.Fcm).ToLower(), NotificationPlatform.Fcm }
+                { nameof(NotificationPlatform.Fcm).ToLower(), NotificationPlatform.Fcm},
+                { nameof(NotificationPlatform.Apns).ToLower(), NotificationPlatform.Apns }
             };
         }
 

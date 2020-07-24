@@ -33,38 +33,43 @@ namespace TestNotification
 
         async void OnLoginButtonClicked(object sender, EventArgs e)
         {
-            // Not needed urlEntry.Text for login: it's only a required data on Hunext Mobile app
             if (usernameEntry.Text != null && passwordEntry.Text != null)
             {
-                loginButton.IsVisible = false;
+                loginButton.IsVisible = resetButton.IsVisible = false;
                 loginActivityIndicator.IsRunning = true;
                 try
                 {
                     var result = await _loginService.Login(usernameEntry.Text, passwordEntry.Text);
 
                     // Save locally "token" authentication to save on every header HTTP request
-                    await SecureStorage.SetAsync(App.TokenAuthenticationKey, result.Id.ToString()).ConfigureAwait(false);
+                    await SecureStorage.SetAsync(App.TokenAuthenticationKey, result.Id.ToString());
                     RegistrationDevice();
 
                     loginActivityIndicator.IsRunning = false;
                     await Navigation.PushAsync(new AuthorizedUserPage(result.Username, result.Company, result.SectorCompany));
-                    loginButton.IsVisible = true;
+                    loginButton.IsVisible = resetButton.IsVisible = true;
                     Toast.MakeText(Android.App.Application.Context, "Successful login: device registered.", ToastLength.Short).Show();
 
                     // This block needs to recover AuthorizedUserPage activity, when the app is closed but the user has logged in yet
                     string[] userDataAuthorized = { result.Username, result.Company, result.SectorCompany };
-                    await SecureStorage.SetAsync(App.CachedDataAuthorizedUserKey, JsonConvert.SerializeObject(userDataAuthorized)).ConfigureAwait(false);
+                    await SecureStorage.SetAsync(App.CachedDataAuthorizedUserKey, JsonConvert.SerializeObject(userDataAuthorized));
                 }
                 catch (Exception ex)
                 {
                     loginActivityIndicator.IsRunning = false;
-                    loginButton.IsVisible = true;
+                    loginButton.IsVisible = resetButton.IsVisible = true;
                     Console.WriteLine($"Exception: {ex.Message}");
                     Toast.MakeText(Android.App.Application.Context, "Login error: inserted fields not right.", ToastLength.Long).Show();
                 }
             }
             else
                 Toast.MakeText(Android.App.Application.Context, "Please, complete all the fields.", ToastLength.Long).Show();
+        }
+
+        void OnResetButtonClicked(object sender, EventArgs e)
+        {
+            usernameEntry.Text = passwordEntry.Text = string.Empty;
+            //passwordEntry.Text = string.Empty;
         }
 
         async void RegistrationDevice()
