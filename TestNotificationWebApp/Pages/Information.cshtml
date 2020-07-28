@@ -1,5 +1,5 @@
 ﻿@page
-@model TestNotificationWebApp.Pages.InformationModel
+@model InformationModel
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     ViewData["Title"] = "Information";
@@ -7,34 +7,30 @@
 
 <h1 class="display-4">@ViewData["Title"]</h1>
 
-<div class="text-left border-space">This page shows all the details about the registered device to Azure Hub Notification.</div>
+<div class="text-left border-space">This page shows the main details about the registered device actually to Azure Hub Notification.</div>
 
-<div>
-    <table>
-        <tr>
-            <th>Number</th>
-            <th>RegistrationId</th>
-            <th>Tags</th>
-            <th>ExpirationTime</th>
+<!-- Added inline styles because only in this block doesn't work CSS-->
+<div class="div-table" style="overflow-x: auto">
+    <table style="width: 100%">
+        <tr class="title-table" style="border-bottom: 1px solid #ddd; height: 3em;">
+            <th style="text-align: center;">Number</th>
+            <th style="text-align: center;">RegistrationId</th>
+            <th style="text-align: center;">Tags</th>
+            <th style="text-align: center;">ExpirationTime</th>
         </tr>
         @for (int i = 0; i < Model.TotalRegistration; i++)
         {
-            <tr>
-                <td>@(i+1)</td>
-                <td>@Model.Data[i].RegistrationId</td>
-                <td>
+            <tr style="border-bottom: 1px solid #ddd;">
+                <td style="text-align: center;">@(i+1)</td>
+                <td style="text-align: center;">@Model.Data[i].RegistrationId</td>
+                <td style="text-align: center;">
                     @for (int j = 0; j < Model.Data[i].Tags.Length && Model.Data[i].Tags[j] != null; j++)
                     {
                         <div><span>- </span>@Model.Data[i].Tags[j]</div>
-                        @*@if ((j + 1 != Model.Data[i].Tags.Length) || Model.Data[i].Tags[j + 1] != null)
-                        {
-                            <span>,</span>
-                        }*@
                     }
                 </td>
-                <td>@Model.Data[i].ExpirationTime</td>
+                <td style="text-align: center;">@Model.Data[i].ExpirationTime</td>
             </tr>
-            @*<li><a asp-controller="Push" asp-action="Send" asp-route-tags="@registration.Tags" asp-route-registrationType="@registration.RegistrationType">@registration.</a></li>*@
         }
     </table>
 </div>
