@@ -13,13 +13,18 @@
 <div class="text-center border-space">
     <form method="post">
         <p>
-            <label asp-for="NotificationRequest.Text"></label> <br />
+            <strong><label asp-for="NotificationRequest.Text"></label></strong> <br />
             <input asp-for="NotificationRequest.Text" class="input-text" placeholder="Insert text" maxlength="50" required />
         </p>
         <p>
-            <label asp-for="NotificationRequest.Tag"></label> <br />
-            <input asp-for="NotificationRequest.Tag" class="input-text" placeholder="Insert tag" maxlength="50" />
-            <br />
+            <strong><label asp-for="NotificationRequest.Tag"></label></strong> <br />
+            @*<input asp-for="NotificationRequest.Tag" class="input-text" placeholder="Insert tag" maxlength="50" /> <br />*@
+            <select asp-for="NotificationRequest.Tag">
+                <option value="" selected="selected">Everyone</option>
+                @for(int i = 0; i < Model.UserData.Count; i++){
+                    <option value="@Model.UserData[i].Id">@Model.UserData[i].Username</option>
+                }
+            </select>
         </p>
         <p>
             <input type="submit" value="Send notification" class="input-submit"/>
