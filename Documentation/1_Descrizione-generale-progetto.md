@@ -1,4 +1,8 @@
+<div align="center"> 
+<img src="Images/icon.png" alt="Immagine dell'icona"/>
+
 # DESCRIZIONE GENERALE DEL PROGETTO
+</div>
 
 Hunext Mobile è un'applicazione mobile multipiattaforma scritta in Xamarin che viene utilizzata dai dipendenti delle aziende che hanno aderito al sistema di Hunext per la gestione dei 
 servizi HR (Human Resources) aziendali.

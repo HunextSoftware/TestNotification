@@ -1,6 +1,12 @@
-# DESCRIZIONE DEL FUNZIONAMENTO DELLE PIATTAFORME PER LA GESTIONE DELLE PUSH NOTIFICATION PER ANDROID ED IOS
+<div align="center"> 
+<img src="Images/icon.png" alt="Immagine dell'icona"/>
 
-TODO
+# DESCRIZIONE DEL FUNZIONAMENTO DELLE PIATTAFORME PER LA GESTIONE DELLE PUSH NOTIFICATION PER ANDROID ED IOS
+<div/>
+
+<div align="center"> 
+<img src="Images/notification-hub-diagram.png" alt="Immagine processo Azure"/>
+<div/>
 
 ---
 

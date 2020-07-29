@@ -1,4 +1,8 @@
+<div align="center"> 
+<img src="Images/icon.png" alt="Immagine dell'icona"/>
+
 # DESCRIZIONE DELLE TECNOLOGIE UTILIZZATE
+</div>
 
 In questo documento si descrive lo stack tecnologico utilizzato durante lo sviluppo del POC. Per compatibilità con gli strumenti aziendali, tutto il dominio 
 tecnologico appartiene al mondo Microsoft.
