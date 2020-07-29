@@ -124,5 +124,12 @@ namespace TestNotification.Droid
             var notificationManager = (NotificationManager)GetSystemService(NotificationService);
             notificationManager.CreateNotificationChannel(channel);
         }
+
+        public void a(int param)
+        {
+            if (ShortcutBadger.IsBadgeCounterSupported(this))
+                // add an event to update badge continuously 
+                ShortcutBadger.ApplyCount(this, param);
+        }
     }
 }

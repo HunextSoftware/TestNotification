@@ -42,6 +42,8 @@ namespace TestNotification.Droid.Services
             {
                 SendLocalNotification(message.GetNotification().Body);
                 //MainActivity.badgeCount++;
+                ((MainActivity)Xamarin.Essentials.Platform.CurrentActivity).a(DateTime.Now.Second);
+                
             }
             else
                 throw new Exception("Error during retrieving notification");
