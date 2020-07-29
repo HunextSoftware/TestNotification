@@ -80,19 +80,25 @@ input.input-submit {
 }
 
 .div-table {
+    width: 100%;
+    margin: 0 auto;
     overflow-x: auto;
     overflow-y: auto;
+}
+
+table {
+    width: 100%;
 }
 
 tr {
     border-bottom: 1px solid #ddd;
 }
 
-.title-table {
+.title-table{
     height: 3em;
 }
 
-tr:hover {
+.row-table:hover {
     background-color: #f5f5f5;
 }
 

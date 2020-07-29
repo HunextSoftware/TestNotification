@@ -13,10 +13,9 @@ namespace TestNotificationWebApp.Pages
     public class InformationModel : PageModel
     {
         [BindProperty]
-        public int TotalRegistration { get; set; } = 0;
-        [BindProperty]
         public List<RegistrationData> Data { get; set; } = new List<RegistrationData>();
         readonly NotificationHubClient _hub;
+
 
         public InformationModel(IOptions<NotificationHubOptions> options)
         {
@@ -30,9 +29,7 @@ namespace TestNotificationWebApp.Pages
         {
             var registrations = new List<RegistrationDescription>(await _hub.GetAllRegistrationsAsync(0, CancellationToken.None));
 
-            TotalRegistration = registrations.Count;
-
-            for(int i = 0; i < TotalRegistration; i++)
+            for(int i = 0; i < registrations.Count; i++)
             {
                 RegistrationData registrationData = new RegistrationData
                 {
@@ -48,20 +45,5 @@ namespace TestNotificationWebApp.Pages
 
             return Page();
         }
-
-        //Console.WriteLine($"{registrations[0].RegistrationId}\n {array[0]}, {array[1]}\n  {registrations[0].ExpirationTime}\n {registrations[0].PnsHandle}\n {registrations[0].Serialize()}");
-
-        //var allRegistrations = await _hub.GetAllRegistrationsAsync(0, CancellationToken.None);
-        //var continuationToken = allRegistrations.ContinuationToken;
-        //var registrationDescriptionsList = new List<RegistrationDescription>(allRegistrations);
-
-        //while (!string.IsNullOrWhiteSpace(continuationToken))
-        //{
-        //    var otherRegistrations = await _hub.GetAllRegistrationsAsync(continuationToken, 0);
-        //    registrationDescriptionsList.AddRange(otherRegistrations);
-        //    continuationToken = otherRegistrations.ContinuationToken;
-        //}
-
-        //return Page();
     }
 }

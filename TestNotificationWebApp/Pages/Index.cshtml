@@ -18,7 +18,6 @@
         </p>
         <p>
             <strong><label asp-for="NotificationRequest.Tag"></label></strong> <br />
-            @*<input asp-for="NotificationRequest.Tag" class="input-text" placeholder="Insert tag" maxlength="50" /> <br />*@
             <select asp-for="NotificationRequest.Tag">
                 <option value="" selected="selected">Everyone</option>
                 @for(int i = 0; i < Model.UserData.Count; i++){

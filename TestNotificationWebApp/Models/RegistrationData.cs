@@ -1,6 +1,4 @@
-﻿using Microsoft.Azure.NotificationHubs;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace TestNotificationWebApp.Models

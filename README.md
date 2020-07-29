@@ -2,7 +2,10 @@
 
 Implementazione di un prototipo di push notification per l'applicazione multipiattaforma Hunext Mobile.
 
-Sviluppo front end e back end in C#, in particolare Xamarin.Forms per il front end e ASP.NET per il back end.
+Sviluppo front end e back end in C#, in particolare è stato utilizzato:
+- *Xamarin.Forms* per la mobile application.
+- *Razor Pages* per la web application.
+- *ASP.NET* per il back end.
 
 Struttura repository:
 

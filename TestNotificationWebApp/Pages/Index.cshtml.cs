@@ -26,7 +26,7 @@ namespace TestNotificationWebApp.Pages
 
         [BindProperty]
         public NotificationRequest NotificationRequest { get; set; }
-        [BindProperty]
+        [BindProperty(SupportsGet = true)]
         public List<UserData> UserData { get; set; } = new List<UserData>();
 
    
@@ -38,6 +38,7 @@ namespace TestNotificationWebApp.Pages
             _client.DefaultRequestHeaders.Add("Accept", "application/json");
             _baseApiUrl = Config.BackendServiceEndpoint;
         }
+
 
         public async Task<IActionResult> OnGetAsync()
         {
@@ -56,8 +57,6 @@ namespace TestNotificationWebApp.Pages
         {
             if (!ModelState.IsValid)
                 return Page();
-
-            
 
             var request = new HttpRequestMessage(HttpMethod.Post, new Uri($"{_baseApiUrl}{RequestUriPost}"))
             {
@@ -94,7 +93,7 @@ namespace TestNotificationWebApp.Pages
                 return NotificationRequestTemplate.body
                     .Replace("$(textNotification)", text, StringComparison.InvariantCulture)
                     .Replace(" \"$(tagsNotification)\" ", string.Empty, StringComparison.InvariantCulture);
-            //.Replace(", \"tags\": [ \"$(tagsNotification)\" ] ", string.Empty, StringComparison.InvariantCulture); --> removing "tags" key, we will obtain the same result of the row above
+                    //.Replace(", \"tags\": [ \"$(tagsNotification)\" ] ", string.Empty, StringComparison.InvariantCulture); --> removing "tags" key, we will obtain the same result of the row above
             else
                 return NotificationRequestTemplate.body
                     .Replace("$(textNotification)", text, StringComparison.InvariantCulture)

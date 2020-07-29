@@ -9,27 +9,26 @@
 
 <div class="text-left border-space">This page shows the main details about the registered device actually to Azure Hub Notification.</div>
 
-<!-- Added inline styles because only in this block doesn't work CSS-->
-<div class="div-table" style="overflow-x: auto">
-    <table style="width: 100%">
-        <tr class="title-table" style="border-bottom: 1px solid #ddd; height: 3em;">
-            <th style="text-align: center;">Number</th>
-            <th style="text-align: center;">RegistrationId</th>
-            <th style="text-align: center;">Tags</th>
-            <th style="text-align: center;">ExpirationTime</th>
+<div class="div-table">
+    <table>
+        <tr class="title-table">
+            <th>Number</th>
+            <th>RegistrationId</th>
+            <th>Tags</th>
+            <th>ExpirationTime</th>
         </tr>
-        @for (int i = 0; i < Model.TotalRegistration; i++)
+        @for (int i = 0; i < Model.Data.Count; i++)
         {
-            <tr style="border-bottom: 1px solid #ddd;">
-                <td style="text-align: center;">@(i+1)</td>
-                <td style="text-align: center;">@Model.Data[i].RegistrationId</td>
-                <td style="text-align: center;">
+            <tr class="row-table">
+                <td>@(i+1)</td>
+                <td>@Model.Data[i].RegistrationId</td>
+                <td>
                     @for (int j = 0; j < Model.Data[i].Tags.Length && Model.Data[i].Tags[j] != null; j++)
                     {
                         <div><span>- </span>@Model.Data[i].Tags[j]</div>
                     }
                 </td>
-                <td style="text-align: center;">@Model.Data[i].ExpirationTime</td>
+                <td>@Model.Data[i].ExpirationTime</td>
             </tr>
         }
     </table>
