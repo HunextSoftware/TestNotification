@@ -1,4 +1,8 @@
+<div align="center"> 
+<img src="Images/icon.png" alt="Immagine dell'icona"/>
+
 # DESCRIZIONE GENERALE DEL PROGETTO
+</div>
 
 Hunext Mobile è un'applicazione mobile multipiattaforma scritta in Xamarin che viene utilizzata dai dipendenti delle aziende che hanno aderito al sistema di Hunext per la gestione dei 
 servizi HR (Human Resources) aziendali.
@@ -18,6 +22,11 @@ A causa di molteplici fattori quali:
 
 lo stagista non sarà coinvolto direttamente nei processi aziendali e tanto meno non modificherà il codice aziendale esistente, ma partirà da un progetto vuoto che alla fine del periodo 
 di stage rappresenterà il prototipo (o più nello specifico POC, acronimo di Proof Of Concept) dalla quale gli sviluppatori di Hunext partiranno per lo sviluppo di questa feature specifica. 
+
+Il documento è strutturato nelle seguenti sezioni:
+
+- [Studio dei vari servizi di push notification](#studio-dei-vari-servizi-di-push-notification)
+- [Sviluppo del prototipo](#sviluppo-del-prototipo)
 
 ---
 
@@ -41,6 +50,8 @@ L'implementazione del servizio può avvenire scegliendo una delle seguenti soluzi
 - implementare il servizio di push notification di ogni piattaforma (FCM, APN, WNS), senza l'ausilio di intermediari.
 - implementare il servizio di push notification mediante un broker (come Azure) che gestisce la registrazione nascondendo tutti i dettagli di comunicazione con le piattaforme apposite.
 
+[Torna su](#descrizione-generale-del-progetto)
+
 ---
 
 ## Sviluppo del prototipo
@@ -48,10 +59,10 @@ L'implementazione del servizio può avvenire scegliendo una delle seguenti soluzi
 Una volta che viene presa una decisione in merito alla piattaforma di push notification da utilizzare, si può iniziare a sviluppare il prototipo.
 
 Il progetto si dirama in due parti di sviluppo che hanno funzioni differenti:
-- la parte *front end*, dove verrà creata un'applicazione mobile scritta in Xamarin.Forms che ha l'obiettivo di mostrare la ricezione di notifiche, solitamente mirate ad un particolare utente.
-- la parte *back end*, dove verrà creato un server scritto in ASP.NET che fungerà da API Web REST, che servono per interagire in parte con l'applicazione mobile (p.e. per inviare i dati di registrazione di un dispositivo al back end, che poi si occuperà di elaborarli) e in parte con i Platform Notification System (PNS).
+- la parte *frontend*, dove verrà creata un'applicazione mobile scritta in Xamarin.Forms che ha l'obiettivo di mostrare la ricezione di notifiche, solitamente mirate ad un particolare utente.
+- la parte *backend*, dove verrà creato un server scritto in ASP.NET che fungerà da API Web REST, che servono per interagire in parte con l'applicazione mobile (p.e. per inviare i dati di registrazione di un dispositivo al backend, che poi si occuperà di elaborarli) e in parte con i Platform Notification System (PNS).
 
-### Front end
+### Frontend
 
 L'applicazione mobile è multipiattaforma ed è quindi disponibile per tutti i dispositivi Android (superiori alla versione 5.0) ed Apple.
 
@@ -61,23 +72,25 @@ Il prototipo sviluppato è incentrato per dispositivi Android, in quanto lo svilu
 - una macchina Apple per provare l'emulatore iOS, che in azienda è presente ma sempre in utilizzo dagli altri sviluppatori.
 
 Pertanto, in accordo con il tutor aziendale, l'unica attività possibile per dispositivi Apple sarà recuperare la documentazione necessaria per la configurazione di APN e l'implementazione del codice 
-lato front end.
+lato frontend.
 
-> La struttura della directory del front end è la seguente:
+> La struttura della directory del frontend è la seguente:
 > 
 > - TestNotification: qui è presente il codice globale che vale sia per Android che per Apple.
 > - TestNotification.Android: qui è presente il codice specializzato per Android.
 > - TestNotification.iOS: qui è presente il codice specializzato per Apple.
 
-### Back end
+### Backend
 
 Il server è necessario per gestire le operazioni CRUD (Create, Read, Update, Delete) tramite degli endpoint particolari che gestiscono le comunicazioni tra l'applicazione mobile e la piattaforma di push
 notification.
 
 È stato scritto in ASP.NET per una serie di motivi qui elencati:
 
-- è il linguaggio utilizzato nel back end aziendale, il riutilizzo del codice sarebbe più immediato.
-- l'azienda utilizza strumenti e tecnologie Microsoft, pertanto non avrebbe avuto senso scrivere il codice back end in Java (più pratico per lo stagista).
+- è il linguaggio utilizzato nel backend aziendale, il riutilizzo del codice sarebbe più immediato.
+- l'azienda utilizza strumenti e tecnologie Microsoft, pertanto non avrebbe avuto senso scrivere il codice backend in Java (più pratico per lo stagista).
 - è lo standard *de facto* nella documentazione di Microsoft.
 
-> Il back end è disponibile nella directory *TestNotification.Backend*.
+> Il backend è disponibile nella directory *TestNotification.Backend*.
+
+[Torna su](#descrizione-generale-del-progetto)

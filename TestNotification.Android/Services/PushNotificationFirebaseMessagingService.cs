@@ -5,6 +5,7 @@ using Android.Support.V4.App;
 using Firebase.Messaging;
 using System;
 using TestNotification.Services;
+using XamarinShortcutBadger;
 
 namespace TestNotification.Droid.Services
 {
@@ -12,6 +13,8 @@ namespace TestNotification.Droid.Services
     [IntentFilter(new[] { "com.google.firebase.MESSAGING_EVENT" })]
     public class PushNotificationFirebaseMessagingService : FirebaseMessagingService
     {
+        static int badgeCount = 0;
+        
         INotificationRegistrationService _notificationRegistrationService;
         IDeviceInstallationService _deviceInstallationService;
 
@@ -24,6 +27,22 @@ namespace TestNotification.Droid.Services
             => _deviceInstallationService ??
                 (_deviceInstallationService =
                 ServiceContainer.Resolve<IDeviceInstallationService>());
+
+
+        public override void OnCreate()
+        {
+            base.OnCreate();
+
+            if (ShortcutBadger.IsBadgeCounterSupported(this))
+            {
+                if (MainActivity.isActivityActive)
+                    badgeCount = 0;
+                else
+                    badgeCount += 1;
+
+                ShortcutBadger.ApplyCount(this, badgeCount);
+            }
+        }
 
         public override void OnNewToken(string token)
         {
@@ -39,10 +58,7 @@ namespace TestNotification.Droid.Services
 
             // convert the incoming message to a local notification
             if (message.GetNotification() != null)
-            {
                 SendLocalNotification(message.GetNotification().Body);
-                //MainActivity.badgeCount++;
-            }
             else
                 throw new Exception("Error during retrieving notification");
         }
@@ -60,14 +76,14 @@ namespace TestNotification.Droid.Services
 
             // Instantiate the builder and set notification elements
             var builder = new NotificationCompat.Builder(this, Constants.CHANNEL_ID)
-                .SetAutoCancel(true)
+                //.SetAutoCancel(true)
                 .SetContentIntent(pendingIntent)
                 .SetContentTitle("TestNotification")
                 .SetContentText(body)
                 .SetStyle(new NotificationCompat.BigTextStyle())
                 .SetSmallIcon(Resource.Mipmap.launcher_foreground);
-                //.AddAction(Resource.Drawable.notification_icon, "OK", pendingIntent);
-            
+            //.AddAction(Resource.Drawable.notification_icon, "OK", pendingIntent);
+
             // Set priority, ringtone and vibration for Android 7.1 (API level 25) and lower
             if (Build.VERSION.SdkInt <= BuildVersionCodes.NMr1)
             {
@@ -86,8 +102,6 @@ namespace TestNotification.Droid.Services
             // Publish the notification
             var notification = builder.Build();
             notificationManager.Notify(Constants.NOTIFICATION_ID, notification);
-
-            //StartForeground(Constants.SERVICE_RUNNING_NOTIFICATION_ID, notification);
         }
     }
 }

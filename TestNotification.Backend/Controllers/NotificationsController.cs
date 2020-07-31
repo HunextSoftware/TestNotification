@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Text.RegularExpressions;
@@ -27,9 +29,34 @@ namespace TestNotificationBackend.Controllers
         [HttpGet]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public string GetHomePage()
+        public ActionResult<string> GetHomePage()
         {
-            return "Welcome to the TestPushNotification backend!";
+            try
+            {
+                return "Welcome to the TestPushNotification backend!";
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Exception: {e}");
+                return BadRequest();
+            }
+        }
+
+        [HttpGet]
+        [Route("users/all")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public ActionResult<List<UserData>> GetAllUsers()
+        {
+            try
+            {
+                return Ok(new UserManagerService().GetAllUsers());
+            }
+            catch(Exception e)
+            {
+                _logger.LogError($"Exception: {e}");
+                return BadRequest();
+            }
         }
 
         [HttpPut]
@@ -99,7 +126,6 @@ namespace TestNotificationBackend.Controllers
                 return new UnprocessableEntityResult();
 
             return new OkResult();
-
         }
     }
 }

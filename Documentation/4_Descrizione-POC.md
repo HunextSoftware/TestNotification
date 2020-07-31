@@ -1,4 +1,8 @@
+<div align="center"> 
+<img src="Images/icon.png" alt="Immagine dell'icona"/>
+
 # DESCRIZIONE DEL PROTOTIPO SOFTWARE SVILUPPATO
+<div/>
 
 TODO
 

@@ -19,9 +19,9 @@ namespace TestNotification.Droid
         MainLauncher = true,
         ConfigurationChanges =
         ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
-    public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity, Android.Gms.Tasks.IOnSuccessListener
+    public class MainActivity : Xamarin.Forms.Platform.Android.FormsAppCompatActivity, Android.Gms.Tasks.IOnSuccessListener
     {
-        //public static int badgeCount;
+        public static bool isActivityActive = false;
 
         IDeviceInstallationService _deviceInstallationService;
 
@@ -29,6 +29,7 @@ namespace TestNotification.Droid
             => _deviceInstallationService ??
                 (_deviceInstallationService =
                 ServiceContainer.Resolve<IDeviceInstallationService>());
+
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -53,44 +54,32 @@ namespace TestNotification.Droid
 
             CreateNotificationChannel();
 
-            //if (ShortcutBadger.IsBadgeCounterSupported(this))
-            //    badgeCount = 0;
-            //else
-            //    Console.WriteLine("Pay attention: badge counter not supported");
-
             if (!ShortcutBadger.IsBadgeCounterSupported(this))
                 Console.WriteLine("Pay attention: badge counter not supported");
         }
 
         protected override void OnNewIntent(Intent intent)
         {
-            base.OnNewIntent(intent); 
+            base.OnNewIntent(intent);
         }
 
         protected override void OnStart()
         {
             base.OnStart();
-
-            //if (ShortcutBadger.IsBadgeCounterSupported(this))
-            //    ShortcutBadger.ApplyCount(this, badgeCount = 0);
+            isActivityActive = true;
+            ShortcutBadger.ApplyCount(this, 0);
         }
 
-        protected override void OnPause()
+        protected override void OnStop()
         {
-            base.OnPause();
-
-            // Badge notification does not work properly
-            //if (ShortcutBadger.IsBadgeCounterSupported(this))
-            //    // add an event to update badge continuously 
-            //    ShortcutBadger.ApplyCount(this, badgeCount);
+            base.OnStop();
+            isActivityActive = false;
         }
 
         protected override void OnResume()
         {
             base.OnResume();
-
-            //if (ShortcutBadger.IsBadgeCounterSupported(this))
-            //    ShortcutBadger.ApplyCount(this, badgeCount = 0);
+            isActivityActive = true;
         }
 
         public override void OnBackPressed()

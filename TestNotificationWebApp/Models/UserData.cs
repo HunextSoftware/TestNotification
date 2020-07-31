@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TestNotificationBackend.Models
+namespace TestNotificationWebApp.Models
 {
     public class UserData
     {

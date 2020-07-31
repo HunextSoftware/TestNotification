@@ -1,0 +1,38 @@
+﻿@page
+@model InformationModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "Information";
+}
+
+<h1 class="display-4">@ViewData["Title"]</h1>
+
+<div class="text-left border-space">This page shows the main details about the registered device actually to Azure Hub Notification.</div>
+
+<div class="div-table">
+    <table>
+        <tr class="title-table">
+            <th>Number</th>
+            <th>RegistrationId</th>
+            <th>Tags</th>
+            <th>ExpirationTime</th>
+        </tr>
+        @for (int i = 0; i < Model.Data.Count; i++)
+        {
+            <tr class="row-table">
+                <td>@(i+1)</td>
+                <td>@Model.Data[i].RegistrationId</td>
+                <td>
+                    @for (int j = 0; j < Model.Data[i].Tags.Length && Model.Data[i].Tags[j] != null; j++)
+                    {
+                        <div><span>- </span>@Model.Data[i].Tags[j]</div>
+                    }
+                </td>
+                <td>@Model.Data[i].ExpirationTime</td>
+            </tr>
+        }
+    </table>
+</div>
+
+
+

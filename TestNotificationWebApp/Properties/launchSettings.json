@@ -1,7 +1,11 @@
-﻿{
+{
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
+    "iis": {
+      "applicationUrl": "http://localhost/TestNotificationWebApp",
+      "sslPort": 0
+    },
     "iisExpress": {
       "applicationUrl": "http://localhost:63941",
       "sslPort": 44306
@@ -12,16 +16,19 @@
       "commandName": "IISExpress",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "https://localhost:6001;http://localhost:6000"
+      },
+      "applicationUrl": "https://localhost:6001;http://localhost:6000"
     },
     "TestNotificationWebApp": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "https://localhost:6001;http://localhost:6000",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "https://localhost:6001;http://localhost:6000"
+      },
+      "applicationUrl": "https://localhost:6001;http://localhost:6000"
     }
   }
 }
