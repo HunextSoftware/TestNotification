@@ -2,15 +2,72 @@
 <img src="Images/icon.png" alt="Immagine dell'icona"/>
 
 # DESCRIZIONE DEL FUNZIONAMENTO DELLE PIATTAFORME PER LA GESTIONE DELLE PUSH NOTIFICATION PER ANDROID ED IOS
-<div/>
+</div>
 
-<div align="center"> 
-<img src="Images/notification-hub-diagram.png" alt="Immagine processo Azure"/>
-<div/>
+In questo documento vengono descritte le possibili soluzioni individuate per l'implementazione del sistema di notifiche push, andando a scoprire nel dettaglio i PNS.
+Infine ci sarà una sezione dedicata alla piattaforma scelta e le ragioni per il quale è stata individuata come soluzione ideale per questo progetto.
+
+Il documento è strutturato nelle seguenti sezioni:
+- [Panoramica generale sui PNS](#panoramica-generale-sui-pns)
+- [La soluzione individuata: Azure Notification Hubs](#la-soluzione-individuata-azure-notification-hubs)
 
 ---
 
-## Cosa si salva Azure Notification Hub durante il processo di installazione del dispositivo
+## Panoramica generale sui PNS
+
+La mobile application Hunext Mobile è multipiattaforma e più nello specifico è indirizzata a dispositivi Android ed iOS.
+
+Per poter usufruire del servizio di notifiche, ogni dispositivo deve obbligatoriamente registrarsi al PNS di riferimento, instaurando un collegamento diretto ad esso: questa procedura viene
+chiamata nel gergo *PNS Handling*.
+
+Purtroppo non esiste uno standard unico per la gestione, la configurazione e la comunicazione con i PNS, in quanto ogni ecosistema specifico offre strumenti che svolgono la stessa funzione
+ma che lavorano in modo diverso. Proprio per questo motivo vanno analizzate nel dettaglio le due piattaforme di notifica principali, ovvero Firebase Cloud Messaging (FCM) per l'ecosistema 
+Android e Apple Platform Notification System (APNS) per l'ecosistema Apple.
+
+### Firebase Cloud Messaging (FCM)
+
+Questo PNS consente di inviare notifiche principalmente per i dispositivi Android, ma non solo: infatti anche i dispositivi Apple e gli applicativi Web sono inclusi in questa cerchia.
+Il payload del messaggio è formattato in JSON (uno standard per il trasferimento di dati in rete) e può avere la dimensione massima di 4 KB, con una set di parametri fisso e una parte 
+dedicata alla personalizzazione della notifica.
+I parametri fissi sono:
+
+- *token*, che è una stringa alfanumerica generata da Firebase che identifica il collegamento unidirezionale da Firebase al dispositivo.
+- *notification*, che contiene le informazioni base della notifica, ovvero:
+    - *title*, ovvero il titolo che appare nella notifica.
+    - *body*, ovvero il messaggio che appare nella notifica.
+
+I parametri opzionali sono contenuti dentro la chiave *data*, che a sua volta contiene delle sotto-chiavi personalizzabili dall'utente. Ovviamente per questa evenienza c'è bisogno di salvare
+un particolare modello.
+
+### Apple Platform Notification System (APNS) 
+
+
+[Torna su](#descrizione-del-funzionamento-delle-piattaforme-per-la-gestione-delle-push-notification-per-android-ed-ios)
+
+---
+
+## La soluzione individuata: Azure Notification Hubs
+
+<div align="center"> 
+<img src="Images/notification-hub-diagram.png" alt="Immagine processo Azure"/>
+</div>
+
+[Torna su](#descrizione-del-funzionamento-delle-piattaforme-per-la-gestione-delle-push-notification-per-android-ed-ios)
+
+
+
+
+
+
+
+
+
+
+
+
+---
+
+## Cosa si salva Azure Notification Hubs durante il processo di installazione del dispositivo
 
 I seguenti dati possono essere visualizzati in tempo reale aprendo Visual Studio 2019 e, dal menu, seguire il seguente percorso:
 > View -> Server Explorer -> Azure (mailoutlook@outlook.com) -> Notification Hubs -> *NomeNotificationHub*
