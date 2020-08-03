@@ -1,11 +1,22 @@
 <div align="center"> 
-<img src="Images/icon.png" alt="Immagine dell'icona"/>
+<img src="Images/_icon.png" alt="Immagine dell'icona"/>
 
 # DESCRIZIONE DEL PROTOTIPO SOFTWARE SVILUPPATO
-<div/>
+</div>
 
 TODO
 
+## Apple
+
+https://docs.microsoft.com/it-it/azure/notification-hubs/xamarin-notification-hubs-ios-push-notification-apns-get-started#generate-the-certificate-signing-request-file
+
+## Mobile app
+
+Casi d'uso limite:
+
+- app disinstallata --> Infine, quando FCM tenta di recapitare un messaggio al dispositivo e l'app è stata disinstallata, FCM elimina immediatamente quel messaggio e annulla il token di registrazione.
+I tentativi futuri di inviare un messaggio a quel dispositivo generano un NotRegisterederrore.
+ 
 ---
 
 ## Come inviare una notifica
@@ -65,3 +76,7 @@ Il file contiene due richieste HTTP avente lo stesso body ed indirizzate al tag 
 
 **Post-condizione**: una volta che la richiesta HTTP viene inoltrata, tutti i device che sono autenticati come *Mario.Rossi* ricevono una notifica.
 
+<div align="right">
+
+[Torna su](#descrizione-del-prototipo-software-sviluppato)
+</div>

@@ -1,5 +1,5 @@
 <div align="center"> 
-<img src="Images/icon.png" alt="Immagine dell'icona"/>
+<img src="Images/_icon.png" alt="Immagine dell'icona"/>
 
 # DESCRIZIONE DELLE TECNOLOGIE UTILIZZATE
 </div>
@@ -23,7 +23,10 @@ Il documento è strutturato nelle seguenti sezioni:
 - **Visual Studio 2019**: IDE, o ambiente di sviluppo integrato, utilizzato per l'intera durata del progetto che contiene una vasta gamma di librerie
 ed estensioni per facilitare la programmazione sia lato frontend che backend.
 
+<div align="right">
+
 [Torna su](#descrizione-delle-tecnologie-utilizzate)
+</div>
 
 ---
 
@@ -44,7 +47,10 @@ di registrazione/de-registrazione dei dispositivi da inoltrare all'hub di notifi
 con i linguaggi statici e dinamici per la programmazione web. Nell'ambito di questo progetto è stato utilizzato per la creazione di una web application in grado di inoltrare
 notifiche personalizzate, in modo da sostituire la console di [Postman](https://www.postman.com/). 
 
+<div align="right">
+
 [Torna su](#descrizione-delle-tecnologie-utilizzate)
+</div>
 
 ---
 
@@ -63,11 +69,14 @@ Nel contesto del progetto, sono stati utilizzati due servizi gratuiti:
 - **Firebase Cloud Messaging (FCM)**: PNS per applicazioni Android, iOS e Web che appartiene alla piattaforma Firebase dell'azienda Google. Precedentemente chiamato 
   Google Cloud Messaging (GCM), è gratuito ed e utilizzato nell'ambito di questo progetto per l'invio di notifiche a dispositivi Android.
 
-- **Apple Platform Notitification System (APNS)**: PNS specifico per applicazioni iOS. Non è stato utilizzato e tantomeno configurato a causa dell'account Apple Developer a pagamento.
+- **Apple Platform Notification System (APNS)**: PNS specifico per applicazioni iOS. Non è stato utilizzato e tantomeno configurato a causa dell'account Apple Developer a pagamento.
 
 > Nel prossimo documento verrà approfondito il funzionamento di tali piattaforme e le ragioni per il quale è stata scelta una piattaforma anzichè l'altra.
 
+<div align="right">
+
 [Torna su](#descrizione-delle-tecnologie-utilizzate)
+</div>
 
 ---
 
@@ -81,7 +90,10 @@ Pacchetto per Visual Studio 2019 disponibile al seguente [link](https://www.nuge
 - **LiteDB.Studio**: applicativo che consente di visualizzare tutti i dati contenuti da un database selezionato. 
 Download disponibile al seguente [link](https://github.com/mbdavid/LiteDB.Studio).
 
+<div align="right">
+
 [Torna su](#descrizione-delle-tecnologie-utilizzate)
+</div>
 
 ---
 
@@ -94,7 +106,10 @@ Download disponibile al seguente [link](https://www.postman.com/downloads/).
 - **GitHub Desktop**: applicativo utilizzato per la gestione locale e remota del codice sorgente mediante l'utilizzo del VCS (Version Control System) Git. 
 Download disponibile al seguente [link](https://desktop.github.com/).
 
+<div align="right">
+
 [Torna su](#descrizione-delle-tecnologie-utilizzate)
+</div>
 
 ---
 ---
@@ -105,4 +120,7 @@ Download disponibile al seguente [link](https://desktop.github.com/).
 - **PNS**: acronimo di *Platform Notification System*, è un'infrastruttura specifica che permette di creare un handle con i dispositivi per inviare notifiche push
 fino a quando il dispositivo è registrato al servizio. Per i dispositivi Android, l'invio delle notifiche è gestito da FCM, mentre per i dispositivi Apple da APNS.
 
+<div align="right">
+
 [Torna su](#descrizione-delle-tecnologie-utilizzate)
+</div>

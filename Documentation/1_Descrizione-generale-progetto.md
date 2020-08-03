@@ -1,5 +1,5 @@
 <div align="center"> 
-<img src="Images/icon.png" alt="Immagine dell'icona"/>
+<img src="Images/_icon.png" alt="Immagine dell'icona"/>
 
 # DESCRIZIONE GENERALE DEL PROGETTO
 </div>
@@ -50,7 +50,10 @@ L'implementazione del servizio può avvenire scegliendo una delle seguenti soluzi
 - implementare il servizio di push notification di ogni piattaforma (FCM, APN, WNS), senza l'ausilio di intermediari.
 - implementare il servizio di push notification mediante un broker (come Azure) che gestisce la registrazione nascondendo tutti i dettagli di comunicazione con le piattaforme apposite.
 
+<div align="right">
+
 [Torna su](#descrizione-generale-del-progetto)
+</div>
 
 ---
 
@@ -93,4 +96,7 @@ notification.
 
 > Il backend è disponibile nella directory *TestNotification.Backend*.
 
+<div align="right">
+
 [Torna su](#descrizione-generale-del-progetto)
+</div>
