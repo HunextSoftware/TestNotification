@@ -10,6 +10,7 @@ Infine ci sarà una sezione dedicata alla piattaforma scelta e le ragioni per il 
 Il documento è strutturato nelle seguenti sezioni:
 - [Panoramica generale sui PNS](#panoramica-generale-sui-pns)
 - [La soluzione individuata: Azure Notification Hubs](#la-soluzione-individuata-azure-notification-hubs)
+- [Glossario](#glossario)
 
 ---
 
@@ -24,15 +25,15 @@ Per poter usufruire del servizio di notifiche, ogni dispositivo deve obbligatori
 chiamata nel gergo *PNS Handling*.
 
 Purtroppo non esiste uno standard unico per la gestione, la configurazione e la comunicazione con i PNS, in quanto ogni ecosistema specifico offre strumenti che svolgono la stessa funzione
-ma che lavorano in modo diverso. Proprio per questo motivo vanno analizzate nel dettaglio le piattaforme di notifica principali, ovvero:
+ma che hanno un'interfaccia diversa. Proprio per questo motivo vanno analizzate nel dettaglio le piattaforme di notifica principali, ovvero:
 
 - [Firebase Cloud Messaging (FCM)](#firebase-cloud-messaging-fcm) per l'ecosistema Android.
-- [Apple Platform Notification System (APNS)](#apple-platform-notification-system-apns) per l'ecosistema Apple.
+- [Apple Push Notification Service (APNS)](#apple-push-notification-service-apns) per l'ecosistema Apple.
 - [Azure Notification Hubs](#azure-notification-hubs) per l'ecosistema Android, Apple e Windows.
 
 ### Firebase Cloud Messaging (FCM)
 
-FCM consente di inviare notifiche principalmente per i dispositivi Android. Questo servizio è comunque disponibile per i dispositivi Apple e gli applicativi Web.
+FCM è un PNS di Google che consente di inviare notifiche principalmente per i dispositivi Android. Questo servizio è comunque disponibile per i dispositivi Apple e gli applicativi Web.
 
 La prerogativa per il funzionamento di FCM, come per ogni PNS, consiste nella registrazione dei dispositivi per la ricezione dei messaggi da FCM.
 Questa procedura viene avviata da un dispositivo mobile che contatta FCM per ottenere un token di registrazione, il quale identifica in modo univoco l'istanza dell'applicazione
@@ -50,11 +51,9 @@ mentre nel contesto di questo progetto è affidata alla web application.
 2) la richiesta viene passata al backend di FCM, il quale si occupa di inoltrare la richiesta ai vari livelli di trasporto.
 3) la notifica viene indirizzata ai dispositivi di destinazione, applicando la configurazione della piattaforma specifica. Questo passaggio avviene
 al di fuori di Firebase, nello specifico:
-    
   - nell'Android Transport Layer (ATL) per dispositivi Android che supportano i Google Play Services.
-  - nella piattaforma Apple Platform Notification System (APN) per dispositivi iOS.
+  - nella piattaforma Apple Push Notification Service (APNS) per dispositivi iOS.
   - mediante il protocollo push Web per applicativi web.
- 
 4) i dispositivi ricevono la notifica in base allo stato attuale del dispositivo e alle configurazioni precedenti.
 
 
@@ -73,12 +72,12 @@ I parametri opzionali sono contenuti dentro la chiave *data*, che a sua volta co
 Inoltre è possibile specificare opzioni specifiche per ogni piattaforma che vanno a sovrascrivere le opzioni base, per esempio la priorità della notifica oppure il suo tempo di permanenza massima
 nel PNS. Le sotto-chiavi che identificano la piattaforma sono: *android*, *apns* e *webpush*.
 
-Per maggiori informazioni, visitare il seguente [link](https://firebase.google.com/docs/cloud-messaging/concept-options).
+> Per maggiori informazioni, visitare il seguente [link](https://firebase.google.com/docs/cloud-messaging/concept-options).
 
 
-### Apple Platform Notification System (APNS) 
+### Apple Push Notification Service (APNS) 
 
-APNS è un PNS specifico in quanto consente di inviare notifiche solo ai dispositivi Apple. 
+APNS è un PNS di Apple specifico in quanto consente di inviare notifiche solo ai dispositivi Apple. 
 
 La prerogativa per il funzionamento di APNS, come per ogni PNS, consiste nella registrazione dei dispositivi per la ricezione dei messaggi da APNS.
 Questa procedura viene avviata da un dispositivo Apple che, una volta avviata l'istanza dell'applicazione, contatta APNS per ricevere il token del 
@@ -91,7 +90,7 @@ Il token di registrazione viene poi inoltrato al server del provider, e da quel 
 
 Come riportato nella documentazione, la comunicazione tra il server del provider e APNS deve avvenire tramite una connessione protetta.
 
-La creazione di tale connessione richiede l'installazione di un certificato radice della Certificate Authority(CA) GeoTrust sul server del provider. 
+La creazione di tale connessione richiede l'installazione di un certificato della Certificate Authority(CA) GeoTrust sul server del provider. 
 Se il server del provider non è eseguito su MacOS, è necessario installare un certificato autonomamente, possibilmente da questo 
 [link](https://www.geotrust.com/resources/root-certificates/).
 Per avere l'autorizzazione ad inviare le notifiche e interagire con APNS, il server del provider deve creare un certificato, che può essere il più recente
@@ -114,13 +113,48 @@ La chiave predefinita è *aps*, che a sua volta può contenere le seguenti sotto-c
 
 Tutte le altre chiavi personalizzabili dall'utente possono essere aggiunte nel payload allo stesso livello gerarchico di *aps*.
 
-Per maggiori informazioni, visitare il seguente [link](https://developer.apple.com/documentation/usernotifications).
+> Per maggiori informazioni, visitare il seguente [link](https://developer.apple.com/documentation/usernotifications).
 
 ### Azure Notification Hubs
 
+A differenza di FCM e APNS, Azure Notification Hubs non è un PNS bensì un broker multipiattaforma di Microsoft (o anche detto hub di notifica), che riceve dettagli di comunicazione dal server del 
+provider da elaborare ed infine instradare ai PNS di riferimento. 
+
+Notification Hubs consente di inviare notifiche a qualsiasi piattaforma da qualsiasi backend, locale o remoto che sia.
+Ciò che lo differenzia da tutte le altre piattaforme è che consente di inviare messaggi a più piattaforme con una sola chiamata. 
+Inoltre è Azure che si preoccupa di mantenere il registro completo di PNS handle e una serie di informazioni importanti, come i tag e i modelli associati alla registrazione di un dispositivo.
+
+La differenza che intercorre tra il funzionamento generale dei vari PNS e Azure Notification Hubs si intuisce dal flusso della notifica push.
+
 <div align="center"> 
-<img src="Images/3.3)Notification-hub-diagram.png" alt="Immagine processo Azure"/>
+<img src="Images/3.3)Push-notification-workflow.png" alt="Immagine processo Azure"/>
 </div>
+
+Nel caso generale dei PNS, il flusso è il seguente:
+1) il dispositivo contatta il PNS per la piattaforma di destinazione in cui l'applicazione è in esecuzione e richiede un PNS handle univoco e temporaneo. Come visto per FCM e APNS, il tipo di handle 
+dipende dal PNS di riferimento.
+2) il dispositivo archivia il PNS handle nel server del provider.
+3) il backend deve inviare una notifica, quindi contatta il PNS usando il PNS handle che identifica l'applicazione del dispositivo mobile.
+4) il PNS inoltra la notifica al dispositivo specificato dal PNS handle.
+
+Come si può notare, il flusso è comune per tutte le piattaforme, ma l'implementazione del sistema di notifiche non è comune. 
+Quindi se l'obiettivo è inviare notifiche a N piattaforme, l'implementazione della funzionalità a livello di codice avviene N volte, una per ogni servizio.
+
+<div align="center"> 
+<img src="Images/3.4)Notification-hub-diagram.png" alt="Immagine processo Azure"/>
+</div>
+
+Nel caso specifico di Azure Notification Hubs, invece, il flusso è il seguente:
+1) il dispositivo contatta il PNS per la piattaforma di destinazione in cui l'applicazione è in esecuzione e richiede un PNS handle univoco e temporaneo. Come visto per FCM e APNS, il tipo di handle 
+dipende dal PNS di riferimento. Questo passaggio è l'unico a rimanere intatto al flusso discusso nel caso precedente.
+2) il dispositivo passa il PNS handle per il backend del provider, che poi lo inoltra all'hub di notifica che ha l'onere di archiviarlo.
+3) il backend deve inviare una notifica, quindi contatta l'hub di notifica che la acquisisce e la inoltra a tutti i PNS, che a loro volta si occupano di inviarla ad utenti specifici oppure a gruppi di 
+interesse.
+
+La differenza sostanziale in questo caso d'uso specifico è l'invio automatico delle notifiche push dal server del provider: basta una chiamata all'API per inviare la notifica su tutte le piattaforme.
+Quindi se l'obiettivo è inviare notifiche a N piattaforme, l'implementazione della funzionalità a livello di codice avviene con una sola chiamata.
+
+> Per maggiori informazioni, visitare il seguente [link](https://docs.microsoft.com/it-it/previous-versions/azure/azure-services/jj927170(v=azure.100)).
 
 <div align="right">
 
@@ -130,6 +164,26 @@ Per maggiori informazioni, visitare il seguente [link](https://developer.apple.c
 ---
 
 ## La soluzione individuata: Azure Notification Hubs
+
+Gestire tutti i dettagli implementativi di un PNS a livello di codice aumenta la specializzazione per una piattaforma.
+D'altronde, questo lavoro diventa pesante nel momento in cui le piattaforme con la quale comunicare sono N (con N > 1). 
+La responsabilità da parte dello sviluppatore aumenta ed inoltre l'invio di notifiche push richiede un'infrastruttura complessa che non è correlata alla logica di business principale dell'applicazione.
+
+I problemi principali sono:
+- il backend richiede una logica dipendente dalla piattaforma, e la complessità aumenta con l'aumentare del numero di piattaforme da gestire.
+- a causa delle linee guida, è necessario aggiornare i token di dispositivo a ogni avvio dell'applicazione. Ciò significa che se il numero di dispositivi da raggiungere è considerevole, allora 
+l'infrastruttura intera non riuscirebbe a scalare orizzontalmente il traffico che viene a generarsi.
+- il backend deve mantenere un registro per salvare tutti i dispositivi ed associarli a gruppi di interesse (tag), e questo carico di lavoro aumenta i tempi di produzione e i costi di manutenzione del codice.
+- monitorare e fare la telemetria di tutti i dati è assai difficile.
+
+Per ovviare a questi problemi, è stato scelto Azure Notification Hubs anziché i PNS visti in precedenza (FCM/APNS), in quanto:
+- supporta tutte le piattaforme push e offre un'interfaccia semplice e comune.
+- è compatibile con qualsiasi backend (scritto in ASP.NET Core).
+- garantisce scalabilità grazie all'infrastruttura ben progettata, e quindi un invio istantaneo delle notifiche.
+- i dispositivi possono essere associati a tag che rappresentano utenti o gruppi di interesse.
+- ogni dispositivo può avere modelli di notifica non solo nativi della piattaforma, ma anche personalizzabili.
+- forniscono un servizio di telemetria ben equipaggiato.
+- infine, è uno strumento Microsoft, e quindi in linea con la suite di prodotti aziendale.
 
 <div align="right">
 
@@ -150,7 +204,7 @@ I seguenti dati possono essere visualizzati in tempo reale aprendo Visual Studio
 ---
 
 - **Platform**: identifica il tipo di piattaforma utilizzata nella registrazione mediante un'apposita sigla 
-    - GCM => Google 
+    - GCM => Google, è l'equivalente di FCM
     - APN => Apple
     - WNS => Windows
     - MPNS => Windows Phone
@@ -201,4 +255,18 @@ I seguenti dati corrispondono alla classe DeviceInstallation che si trova in Tes
 <div align="right">
 
 [Torna su](#descrizione-del-funzionamento-delle-piattaforme-per-la-gestione-delle-push-notification-per-android-ed-ios)
+</div>
+
+---
+---
+
+### Glossario
+
+
+- **Broker**: architettura di elaborazione che rende possibile la cooperazione in sistemi; in particolare, nel linguaggio di Internet, la struttura che consente a un sistema connesso in rete di mettere a
+disposizione i propri servizi (informazioni e funzioni elaborative) e a sua volta di accedere a quelli degli altri sistemi.
+
+<div align="right">
+
+[Torna su](#descrizione-delle-tecnologie-utilizzate)
 </div>
