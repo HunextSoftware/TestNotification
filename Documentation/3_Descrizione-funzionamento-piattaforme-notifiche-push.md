@@ -225,7 +225,7 @@ Ora l'attenzione si focalizza sui dati che vengono recuperati sia a livello di d
 - **Platform**: identifica la piattaforma nella quale il dispositivo si registra mediante un'apposita sigla. 
   > Il recupero di questa informazione può avvenire solo lato app.
   
-- **PushChannel**: è il token recuperato dal PNS handle che identifica l'installazione di un dispositivo nella piattaforma di notifica apposita. Chiamato anche **Registration ID**, non ha alcuna associazione logica con *RegistrationID* generato da Azure (vedere sotto).
+- **PushChannel**: è il token recuperato dal PNS handle che identifica l'installazione di un dispositivo nella piattaforma di notifica apposita. Chiamato anche **Registration ID**, non ha alcuna associazione logica con *Registration ID* generato da Azure (vedere sotto).
   Questo parametro è strettamente legato a *Platform*, tanto che ci sono modi diversi per recuperare il token in base al sistema operativo del dispositivo.
   > Il recupero di questa informazione può avvenire solo lato app.
 
