@@ -268,6 +268,28 @@ In questo momento non è ancora stato spiegato come avviene a livello di codice 
 </div>
 
 ---
+
+## Ulteriori informazioni su Azure per l'azienda
+
+Il servizio Azure di Microsoft offre una suite di prodotti molto ampia. Nel progetto sono stati utilizzati i servizi *Notification Hubs* e *App Service*.
+I suddetti servizi sono stati utilizzati con un piano di abbonamento gratuito, sfruttando il fatto che lo stagista è studente universitario e quindi avente diritto alla gratuità del piano base.
+
+Nel contesto aziendale va preventivato che il servizio Notification Hubs dovrà essere usufruito mediante piani di abbonamento a pagamento.
+Il motivo è semplice: il piano base gratuito utilizzato durante lo stage consente al massimo solo 500 dispositivi registrati nello spazio dei nomi dell'hub di notifica, e inoltre sono consentiti al massimo
+un milione di notifiche push.
+
+> NB) Il servizio *App Service* è stato utilizzato dallo stagista per caricare il backend locale e renderlo disponibile online. Pertanto l'azienda non deve farsi carico di questo specifico servizio di Azure.
+
+Microsoft offre gratuitamente un [calcolatore dei costi](https://azure.microsoft.com/it-it/pricing/calculator/?service=notification-hubs) che permette di capire qual'è l'abbonamento Notification Hubs più idoneo per il contesto aziendale.
+
+Inoltre, è già disponibile al percorso *Archive/Estimate-€-Azure-Hub-Notifications.xlsx* il foglio elettronico contenente il preventivo del piano __Basic__ di *Notification Hubs* che potrebbe fare il caso dell'azienda.
+
+<div align="right">
+
+[Torna su](#descrizione-del-funzionamento-delle-piattaforme-per-la-gestione-delle-push-notification-per-android-ed-ios)
+</div>
+
+---
 ---
 
 ### Glossario
