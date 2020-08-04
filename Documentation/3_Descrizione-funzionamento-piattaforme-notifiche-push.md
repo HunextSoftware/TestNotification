@@ -41,7 +41,7 @@ associata a quel dispositivo.
 Il token di registrazione viene poi salvato nel backend di FCM, e da quel momento il dispositivo è abilitato a ricevere le notifiche.
 
 <div align="center">
-    <img src="Images/3.1)FCM-architecture.png" alt="Immagine dell'architettura di Firebase"/>
+    <img src="Images/3_Document/3.1)FCM-architecture.png" alt="Immagine dell'architettura di Firebase"/>
 </div>
 
 Il funzionamento di Firebase avviene principalmente in 4 fasi:
@@ -84,7 +84,7 @@ dispositivo che identifica in modo univoco l'istanza dell'applicazione associata
 Il token di registrazione viene poi inoltrato al server del provider, e da quel momento il dispositivo è abilitato a ricevere le notifiche.
 
 <div align="center"> 
-<img src="Images/3.2)APN-architecture.png" alt="Immagine processo Azure"/>
+<img src="Images/3_Document/3.2)APN-architecture.png" alt="Immagine processo Azure"/>
 </div>
 
 Come riportato nella documentazione, la comunicazione tra il server del provider e APNS deve avvenire tramite una connessione protetta.
@@ -126,7 +126,7 @@ Inoltre è Azure che si preoccupa di mantenere il registro completo di PNS handl
 La differenza che intercorre tra il funzionamento generale dei vari PNS e Azure Notification Hubs si intuisce dal flusso della notifica push.
 
 <div align="center"> 
-<img src="Images/3.3)Push-notification-workflow.png" alt="Immagine processo Azure"/>
+<img src="Images/3_Document/3.3)Push-notification-workflow.png" alt="Immagine processo Azure"/>
 </div>
 
 Nel caso generale dei PNS, il flusso è il seguente:
@@ -140,7 +140,7 @@ Come si può notare, il flusso è comune per tutte le piattaforme, ma l'implemen
 Quindi se l'obiettivo è inviare notifiche a N piattaforme, l'implementazione della funzionalità a livello di codice avviene N volte, una per ogni servizio.
 
 <div align="center"> 
-<img src="Images/3.4)Notification-hub-diagram.png" alt="Immagine processo Azure"/>
+<img src="Images/3_Document/3.4)Notification-hub-diagram.png" alt="Immagine processo Azure"/>
 </div>
 
 Nel caso specifico di Azure Notification Hubs, invece, il flusso è il seguente:
