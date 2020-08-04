@@ -284,6 +284,8 @@ Microsoft offre gratuitamente un [calcolatore dei costi](https://azure.microsoft
 
 Inoltre, è già disponibile al percorso *Archive/Estimate-€-Azure-Hub-Notifications.xlsx* il foglio elettronico contenente il preventivo del piano __Basic__ di *Notification Hubs* che potrebbe fare il caso dell'azienda.
 
+> Per maggiori dettagli, visitare il seguente [link](https://azure.microsoft.com/it-it/pricing/details/notification-hubs/).
+
 <div align="right">
 
 [Torna su](#descrizione-del-funzionamento-delle-piattaforme-per-la-gestione-delle-push-notification-per-android-ed-ios)
