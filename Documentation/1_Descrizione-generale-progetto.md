@@ -62,8 +62,9 @@ L'implementazione del servizio può avvenire scegliendo una delle seguenti soluzi
 Una volta che viene presa una decisione in merito alla piattaforma di push notification da utilizzare, si può iniziare a sviluppare il prototipo.
 
 Il progetto si dirama in due parti di sviluppo che hanno funzioni differenti:
-- la parte *frontend*, dove verrà creata un'applicazione mobile scritta in Xamarin.Forms che ha l'obiettivo di mostrare la ricezione di notifiche, solitamente mirate ad un particolare utente.
-- la parte *backend*, dove verrà creato un server scritto in ASP.NET che fungerà da API Web REST, che servono per interagire in parte con l'applicazione mobile (p.e. per inviare i dati di registrazione di un dispositivo al backend, che poi si occuperà di elaborarli) e in parte con i Platform Notification System (PNS).
+- la parte *frontend*, dove verrà creata un'applicazione mobile scritta in Xamarin.Forms che ha l'obiettivo di mostrare la ricezione di notifiche, solitamente mirate ad un particolare utente. 
+Inoltre verrà creata una web application scritta in ASP.NET Core Razor Page che permette l'invio di notifiche personalizzate e la visualizzazione di tutti i dispositivi registrati nell'hub di notifica.
+- la parte *backend*, dove verrà creato un server scritto in ASP.NET Core che fungerà da API Web REST, che servono per interagire in parte con l'applicazione mobile (p.e. per inviare i dati di registrazione di un dispositivo al backend, che poi si occuperà di elaborarli) e in parte con i Platform Notification System (PNS).
 
 ### Frontend
 
@@ -77,11 +78,16 @@ Il prototipo sviluppato è incentrato per dispositivi Android, in quanto lo svilu
 Pertanto, in accordo con il tutor aziendale, l'unica attività possibile per dispositivi Apple sarà recuperare la documentazione necessaria per la configurazione di APN e l'implementazione del codice 
 lato frontend.
 
-> La struttura della directory del frontend è la seguente:
+> La struttura della directory dell'applicazione mobile è la seguente:
 > 
-> - TestNotification: qui è presente il codice globale che vale sia per Android che per Apple.
-> - TestNotification.Android: qui è presente il codice specializzato per Android.
-> - TestNotification.iOS: qui è presente il codice specializzato per Apple.
+> - *TestNotification*: qui è presente il codice globale che vale sia per Android che per Apple.
+> - *TestNotification.Android*: qui è presente il codice specializzato per Android.
+> - *TestNotification.iOS*: qui è presente il codice specializzato per Apple.
+
+La web application è disponibile localmente ed è necessaria per visualizzare il corretto funzionamento del sistema di notifiche, infatti è stata progettata appositamente per inviare notifiche mirate ed personalizzate.
+Va a sostituire uno strumento di test più tecnico quale è *Postman*, soprattutto per rendere più semplice e user-friendly l'interfaccia grafica.
+
+> La web application è disponibile nella directory *TestNotificationWebApp*.
 
 ### Backend
 

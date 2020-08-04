@@ -84,7 +84,7 @@ dispositivo che identifica in modo univoco l'istanza dell'applicazione associata
 Il token di registrazione viene poi inoltrato al server del provider, e da quel momento il dispositivo è abilitato a ricevere le notifiche.
 
 <div align="center"> 
-<img src="Images/3_Document/3.2)APN-architecture.png" alt="Immagine processo Azure"/>
+<img src="Images/3_Document/3.2)APN-architecture.png" alt="Immagine dell'architettura di APNS"/>
 </div>
 
 Come riportato nella documentazione, la comunicazione tra il server del provider e APNS deve avvenire tramite una connessione protetta.
@@ -126,7 +126,7 @@ Inoltre è Azure che si preoccupa di mantenere il registro completo di PNS handl
 La differenza che intercorre tra il funzionamento generale dei vari PNS e Azure Notification Hubs si intuisce dal flusso della notifica push.
 
 <div align="center"> 
-<img src="Images/3_Document/3.3)Push-notification-workflow.png" alt="Immagine processo Azure"/>
+<img src="Images/3_Document/3.3)Push-notification-workflow.png" alt="Immagine processo notifiche push"/>
 </div>
 
 Nel caso generale dei PNS, il flusso è il seguente:
