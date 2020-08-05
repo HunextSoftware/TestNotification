@@ -586,6 +586,27 @@ public async void DeregistrationDevice()
 }
 ```
 
+> Caso limite: se l'applicazione mobile viene disinstallata e il PNS tenta di recapitare un messaggio al dispositivo, il PNS elimina immediatamente quel messaggio e annulla il token di registrazione.
+I tentativi futuri di inviare un messaggio a quel dispositivo generano un errore *NotRegisteredError*. 
+>
+> Una volta che viene re-installata l'applicazione mobile, l'utente può tranquillamente eseguire la procedura di login in quanto verrebbe aggiornata l'istanza del dispositivo nell'hub di notifica di Azure con i dati aggiornati.
+
+ 
+
+### Le parti principali del codice TestNotification.Android
+
+Nella parte di codice inerente a *TestNotification* è stata sviluppata la logica comune che sta alla base delle operazioni da effettuare per la gestione delle installazioni dei dispositivi.
+
+Nonostante questo, deve essere specializzata una piccola parte della logica per i dispositivi Android. *TestNotification.Android* assume importanza principalmente per due motivi:
+- l'assegnazione dei valori principali per la procedura di installazione del dispositivo, ovvero *InstallationId*, *Platform* ed infine *PushChannel*.
+- la personalizzazione della visualizzazione grafica della notifica.
+
+TODO
+
+### Breve presentazione del layout
+
+TODO
+
 <div align="right"> 
 
 [Torna su](#descrizione-del-prototipo-software-sviluppato)
@@ -671,23 +692,6 @@ Ergo, questo problema verrà risolto non appena verrà ultimata la configurazion
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ## Apple
 
 https://docs.microsoft.com/it-it/azure/notification-hubs/xamarin-notification-hubs-ios-push-notification-apns-get-started#generate-the-certificate-signing-request-file
@@ -696,9 +700,7 @@ https://docs.microsoft.com/it-it/azure/notification-hubs/xamarin-notification-hu
 
 Casi d'uso limite:
 
-- app disinstallata --> Infine, quando FCM tenta di recapitare un messaggio al dispositivo e l'app è stata disinstallata, FCM elimina immediatamente quel messaggio e annulla il token di registrazione.
-I tentativi futuri di inviare un messaggio a quel dispositivo generano un NotRegisterederrore.
- 
+- 
 ---
 
 
