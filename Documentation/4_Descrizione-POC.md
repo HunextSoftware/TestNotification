@@ -349,13 +349,50 @@ Se le credenziali sono corrette, a livello di codice avviene l'installazione del
 ricavate dal database del backend. 
 Questo passaggio è fondamentale ai fini della dimostrazione del funzionamento delle notifiche push, in quanto solo se l'utente è autenticato all'app è interessato a ricevere le notifiche, 
 ed è ciò che avviene realmente.
-Nella pagina è presente un pulsante di logout che ha il compito di disautenticare l'utente e di cancellare l'installazione del dispositivo dall'hub di notifica. 
+Nella pagina è presente un pulsante di logout che ha il compito di disconnettere l'utente e cancellare l'installazione del dispositivo dall'hub di notifica. 
 Alla fine di questo passaggio l'utente è reindirizzato alla pagina iniziale di login e viene dimostrato che a questo punto non vengono più recapitate notifiche al dispositivo.
 
 ### Le parti principali del codice TestNotification
 
 Il primo passaggio necessario per il corretto funzionamento è aggiungere le dipendenze necessarie all'applicazione mobile dal servizio *NuGet* di Visual Studio:
 - *Newtonsoft.Json*, la libreria che permette di gestire il codice JSON.
+
+Il secondo passaggio è creare una classe *Config.cs* che ha il compito di mantenere tutti i valori segreti fuori dal controllo del codice sorgente
+Il codice è il seguente:
+```
+public static partial class Config
+{
+    public static string BackendServiceEndpoint = "BACKEND_SERVICE_ENDPOINT";
+}
+```
+
+Il valore *BACKEND_SERVICE_ENDPOINT* verrà sostituito da un'altra nuova classe *Config.local_secrets.cs* che non dovrà mai essere pubblicata in rete (controllare il file .gitignore) e quindi 
+rimanere in locale.
+Il codice è il seguente:
+```
+public static partial class Config
+{
+    static Config()
+    {
+        // Uncomment ONLY one BackendServiceEndpoint string to start back end
+
+        // Use this string connection if the back end works on Web Service Azure, because it is loaded there 
+        //BackendServiceEndpoint = "<your_api_app_url>";
+
+        /* RECOMMENDED FOR DEBUG --> deactivate the firewall completely!
+         * 
+         * Use this string connection if your back end works on localhost 
+         * http(s)://<your-local-ipv4-address>:<service-port>
+         */
+        //BackendServiceEndpoint = "http(s)://<your-local-ipv4-address>:<service-port>";
+    }
+}
+```
+
+Se il servizio backend è istanziato nell'App Service di Azure, allora de-commentare la riga *BackendServiceEndpoint = "<your_api_app_url>";* e sostituire il placeholder con l'URL dell'App Service 
+salvata precedentemente su un file a parte.
+Nel caso contrario in cui il servizio backend sia locale, de-commentare la riga *BackendServiceEndpoint = "http(s)://\<your-local-ipv4-address>:\<service-port>";* e sostituire il placeholder con
+l'indirizzo locale del nodo nella quale il server è in funzione nella rete interna e la porta per accedere al servizio.
 
 Da questo momento, è importante analizzare le tappe cruciali per la realizzazione dell'applicazione mobile.
 Il progetto è strutturato in questa sequenza:
@@ -368,14 +405,136 @@ Ora l'attenzione passa sulla focalizzazione delle classi più significative di T
 
 **1) DeviceInstallation.cs**
 
-Questa classe è analoga all'omonima classe presente nel codice backend, con l'unica differenza che ogni variabile è associata alla proprietà *JsonProperty*, fondamentale per la corretta serializzazione
-dell'oggetto *DeviceInstallation* che verrà inserito nelle chiamate HTTP.
+Questa classe è analoga all'omonima classe presente nel codice backend, con l'unica differenza che ogni variabile è associata alla proprietà *JsonProperty*.
 
-> La motivazione per la quale tutte le classi di *Models* associano la proprietà 
+> Tutte le classi di *Models* associano la proprietà *JsonProperty* alle variabili interne, per la corretta serializzazione degli oggetti generati che verranno inseriti nelle chiamate HTTP.
 
 Va evidenziato il fatto che in questa classe sono presenti solo le informazioni minime che devono essere gestite obbligatoriamente dal dispositivo.
 La responsabilità di ricavare i tag appartiene al backend in quanto è meno vulnerabile rispetto ad un'applicazione mobile e rende le operazioni più veloci offrendo un'esperienza utente migliore.
 
+**2) NotificationRegistrationService**
+
+Questa classe contiene tutti i metodi che corrispondono alle richieste che il dispositivo può inoltrare al backend. In particolare, sono presenti i metodi per la gestione dell'installazione del 
+dispositivo.
+
+I metodi principali sono i seguenti:
+- *RegisterDeviceAsync()*: si occupa di prelevare tutti i dati per l'installazione del dispositivo (che vengono recapitati da TestNotification.Android oppure TestNotification.Apple) per poi essere
+inviati nella specifica richiesta HTTP. Se la procedura va a buon fine, il dispositivo riceverà come risposta i tag, che successivamente verranno salvati segretamente al pari del token che 
+rappresenta il PNS handle.
+- *RefreshRegistrationAsync()*: si occupa di aggiornare l'installazione del dispositivo se ancora presente nell'hub di notifica di Azure. Se il PNS handle e i tag sono presenti nella memoria segreta locale
+e il token del PNS handle è diverso dal token appena recapitato dal PNS, allora viene richiamato nuovamente il metodo *RegisterDeviceAsync()*, altrimenti l'aggiornamento non viene effettuato in quanto
+non necessario.
+- *DeregisterDeviceAsync()*: si occupa di cancellare l'installazione del dispositivo. Se la procedura va a buon fine, il dispositivo cancellerà i segreti che erano stati salvati a partire dalla 
+procedura di installazione.
+
+Ogni chiamata HTTP viene costruita a partire dal metodo *SendAsync\<T\>(HttpMethod requestType, string requestUri, T obj)*, che ha il compito di inserire nell'header la chiave *User-Id* che corrisponde
+all'id dell'utente che fa la richiesta, che a sua volta è anche il tag salvato nell'installazione del dispositivo nell'hub di notifica; inoltre viene costruito il *content* della richiesta che corrisponde
+ai parametri che vengono ricevuti nei metodi corrispondenti agli endpoint descritti nel backend. Infine ritorna il codice della risposta HTTP.
+
+Di seguito viene illustrato il codice:
+```
+private async Task<HttpResponseMessage> SendAsync<T>(HttpMethod requestType, string requestUri, T obj)
+{
+    if (!_client.DefaultRequestHeaders.Contains("User-Id"))
+    {
+        // Add token authentication on header HTTP(S) request
+        var tokenAuthentication = await SecureStorage.GetAsync(App.TokenAuthenticationKey);
+        _client.DefaultRequestHeaders.Add("User-Id", tokenAuthentication);
+    }
+
+    var request = new HttpRequestMessage(requestType, new Uri($"{_baseApiUrl}{requestUri}"));
+
+    if (obj != null)
+    {
+        string serializedContent = null;
+        await Task.Run(() => serializedContent = JsonConvert.SerializeObject(obj)).ConfigureAwait(false);
+        if (serializedContent != null)
+            request.Content = new StringContent(serializedContent, Encoding.UTF8, "application/json");
+    }
+
+    return await _client.SendAsync(request).ConfigureAwait(false);
+}
+```
+
+**3) LoginService.cs**
+
+Questa classe contiene l'unico metodo utile per inoltrare la richiesta di autenticazione al backend, che è il seguente:
+- *Login(string username, string password)*: questo metodo si occupa di costruire la richiesta HTTP con il *content* che corrisponde all'oggetto *LoginRequest*. Una volta che la 
+richiesta viene inoltrata, si aspetta la risposta che corrisponde all'oggetto *LoginResponse* che, in caso di esito positivo, verrà inoltrata al metodo 
+*OnLoginButtonClicked(object sender, EventArgs e)* della classe *LoginPage.xaml.cs* che salverà nei segreti locali sia l'id dell'utente che i dati restanti che serviranno per la 
+seconda activity.
+
+**4) LoginPage.xaml.cs**
+
+Questa classe contiene tutta la logica della pagina *LoginPage* che corrisponde alla prima activity che contiene il form di login.
+
+> La grafica della pagina *LoginPage* viene codificata con il linguaggio XAML e risiede nel file *LoginPage.xaml*.
+
+L'evento più significativo avviene quando viene premuto il pulsante di Login e avviene sia la procedura di login che quella di installazione del dispositivo.
+Il procedimento è il seguente: se i campi del form sono stati compilati, allora viene richiamato il metodo *Login(usernameEntry.Text, passwordEntry.Text)*. 
+Se tutto va a buon fine, allora viene salvato nei segreti locali l'id utente e viene richiamato il metodo della medesima classe *RegistrationDevice()*. 
+A questo punto viene invocato in modo asincrono il metodo *RegisterDeviceAsync()* della classe *NotificationRegistrationService*: se il task va a buon fine allora l'utente verrà indirizzato 
+nell'activity successiva *AuthorizedUserPage*.
+
+> In caso di successo, l'ultima operazione è il salvataggio di *Username*, *Company* e *SectorCompany* nel segreto locale di *App.CachedDataAuthorizedUserKey*. Se ancora presenti localmente, questi dati 
+vengono recuperati all'avvio dell'applicazione insieme all'activity *AuthorizedUserPage*. Questa operazione è fondamentale per salvare la sessione utente attuale, altrimenti l'applicazione ripartirebbe
+da zero e richiederebbe un altro login, cosa che non deve succedere se un utente è già autenticato oppure non ha fatto richiesta di disconnessione dal servizio.
+>
+> Il codice è consultabile in *App.xaml.cs*.
+
+Di seguito viene illustrato il codice:
+```
+async void OnLoginButtonClicked(object sender, EventArgs e)
+{
+    if (usernameEntry.Text != null && passwordEntry.Text != null)
+    {
+        loginButton.IsVisible = resetButton.IsVisible = false;
+        loginActivityIndicator.IsRunning = true;
+        try
+        {
+            var result = await _loginService.Login(usernameEntry.Text, passwordEntry.Text);
+
+            // Save locally "token" authentication to save on every header HTTP request
+            await SecureStorage.SetAsync(App.TokenAuthenticationKey, result.Id.ToString());
+            RegistrationDevice();
+
+            loginActivityIndicator.IsRunning = false;
+            await Navigation.PushAsync(new AuthorizedUserPage(result.Username, result.Company, result.SectorCompany));
+            loginButton.IsVisible = resetButton.IsVisible = true;
+            Toast.MakeText(Android.App.Application.Context, "Successful login: device registered.", ToastLength.Short).Show();
+
+            // This block needs to recover AuthorizedUserPage activity, when the app is closed but the user has logged in yet
+            string[] userDataAuthorized = { result.Username, result.Company, result.SectorCompany };
+            await SecureStorage.SetAsync(App.CachedDataAuthorizedUserKey, JsonConvert.SerializeObject(userDataAuthorized));
+        }
+        catch (Exception ex)
+        {
+            loginActivityIndicator.IsRunning = false;
+            loginButton.IsVisible = resetButton.IsVisible = true;
+            Console.WriteLine($"Exception: {ex.Message}");
+            Toast.MakeText(Android.App.Application.Context, "Login error: inserted fields not right.", ToastLength.Long).Show();
+        }
+    }
+    else
+        Toast.MakeText(Android.App.Application.Context, "Please, complete all the fields.", ToastLength.Long).Show();
+}
+
+async void RegistrationDevice()
+{
+    await _notificationRegistrationService.RegisterDeviceAsync().ContinueWith(async (task)
+                            =>
+    {
+        if (task.IsFaulted)
+        {
+            Console.WriteLine($"Exception: {task.Exception.Message}");
+            await Navigation.PushAsync(new LoginPage());
+            Toast.MakeText(Android.App.Application.Context, "Error during device registration: retry to log in.", ToastLength.Long).Show();
+        }
+        else
+            Console.WriteLine("Device registered: now is available to receive push notification.");
+    });
+}
+```
 
  
 <div align="right"> 
