@@ -91,6 +91,8 @@ Il progetto *TestNotification.Backend* è stato sviluppato a partire da un proge
 Il backend è una parte fondamentale di questo progetto in quanto gestisce le chiamate per la gestione delle installazioni dei dispositivi e le richieste di
 invio notifiche destinate all'hub di notifica di Azure, che a sua volta gestirà autonomamente l'invio delle notifiche ai PNS di riferimento.
 
+### Le parti principali del codice
+
 Il primo passaggio essenziale per lo sviluppatore è inserire valori di configurazione localmente utilizzando lo strumento *Secret Manager*. 
 Aprire il terminale ed inserire i seguenti comandi:
 
@@ -110,12 +112,12 @@ Il passaggio successivo è aggiungere le dipendenze necessarie al backend dal se
 
 Da questo momento, è importante analizzare le tappe cruciali per la realizzazione del backend.
 Il progetto è strutturato in questa sequenza:
-- *Properties*, che è la cartella che contiene tutti i parametri per avviare il backend e i file contenenti un riferimento con lo strumento *Secret Manager*.
-- *Controllers*, che contiene le classi responsabili della logica di controllo, in particolare
-    - in *LoginController* viene gestito un unico endpoint  per l'accesso autenticato degli utenti dall'applicazione mobile.
+- *Properties*, la cartella che contiene tutti i parametri per avviare il backend e i file contenenti un riferimento con lo strumento *Secret Manager*.
+- *Controllers*, la cartella che contiene le classi responsabili della logica di controllo, in particolare
+    - in *LoginController* viene gestito un unico endpoint per l'accesso autenticato degli utenti dall'applicazione mobile.
     - in *NotificationsController* vengono gestiti gli endpoint per l'installazione dei dispositivi, la cancellazione della medesima e l'invio delle notifiche.
-- *Models*, che contiene tutte le classi con la logica di business e di convalida.
-- *Services*, che contiene tutti i servizi che vengono richiamati dal controller, responsabili delle chiamate alle librerie di progetto.
+- *Models*, la cartella che contiene tutte le classi con la logica di business e di convalida.
+- *Services*, la cartella che contiene tutti i servizi che vengono richiamati dal controller, responsabili delle chiamate alle librerie di progetto.
 
 Prima di spiegare le parti più importanti e significative del codice, va fatto un piccolo appunto sul layer di persistenza del backend.
 L'utilizzo di LiteDB è fondamentale per simulare le dinamiche del backend aziendale, dove molte informazioni vengono carpite dal database aziendale.
@@ -328,9 +330,55 @@ nell'applicazione mobile.
 
 ## Sviluppo applicazione mobile
 
+Il progetto *TestNotification* è stato sviluppato a partire da un progetto Xamarin.Forms nella quale sono state selezionate le destinazioni Android e iOS.
+A fronte di ciò, il progetto che viene generato è composto da tre parti:
+- *TestNotification*, che contiene parte di codice condivisa e comune sia ad Android che iOS.
+- *TestNotification.Android*, che contiene la parte specializzata di Android.
+- *TestNotification.iOS*, che contiene la parte specializzata di iOS.
+
+> La parte inerente a *TestNotification.iOS* non verrà modificata per i motivi citati nei precedenti documenti. All'azienda verrà fornita la relativa documentazione.
+
+L'applicazione mobile è la parte obbligatoria da sviluppare nel frontend ed è il componente fondamentale per testare la ricezione di notifiche da parte della web application (nel contesto aziendale sarà
+dal backend). Le notifiche sono push, quindi la visualizzazione avviene sia in primo piano (notifiche *heads-up*) che nel centro notifiche, e in qualsiasi stato si trovi il dispositivo, con la prerogativa
+che esso sia connesso alla rete. In caso contrario, solo una volta che viene riattivata la rete allora il dispositivo sarà in grado di ricevere tutte le notifiche che sono rimaste accodate nei PNS di 
+riferimento.
+
+La struttura dell'applicazione mobile è divisa in due parti. 
+Nella prima parte l'utente accede per la prima volta all'applicazione e deve inserire le proprie credenziali mediante l'apposito form di login. 
+Se le credenziali sono corrette, a livello di codice avviene l'installazione del dispositivo nell'hub di notifica e poi si viene reindirizzati ad una pagina che mostra alcune informazioni personali 
+ricavate dal database del backend. 
+Questo passaggio è fondamentale ai fini della dimostrazione del funzionamento delle notifiche push, in quanto solo se l'utente è autenticato all'app è interessato a ricevere le notifiche, 
+ed è ciò che avviene realmente.
+Nella pagina è presente un pulsante di logout che ha il compito di disautenticare l'utente e di cancellare l'installazione del dispositivo dall'hub di notifica. 
+Alla fine di questo passaggio l'utente è reindirizzato alla pagina iniziale di login e viene dimostrato che a questo punto non vengono più recapitate notifiche al dispositivo.
+
+### Le parti principali del codice TestNotification
+
+Il primo passaggio necessario per il corretto funzionamento è aggiungere le dipendenze necessarie all'applicazione mobile dal servizio *NuGet* di Visual Studio:
+- *Newtonsoft.Json*, la libreria che permette di gestire il codice JSON.
+
+Da questo momento, è importante analizzare le tappe cruciali per la realizzazione dell'applicazione mobile.
+Il progetto è strutturato in questa sequenza:
+- *Models*, la cartella che contiene tutte le classi con la logica di business e di convalida.
+- *Services*, la cartella che contiene tutte le classi che si occupano di costruire richieste HTTP da inviare al backend.
+- *AuthorizedUserPage.xaml*, il file che contiene il codice inerente all'activity nella quale l'utente ha accesso solo dopo aver inserito correttamente le credenziali.
+- *LoginPage.xaml*, il file che contiene il codice inerente l'activity principale con il form di login.
+
+Ora l'attenzione passa sulla focalizzazione delle classi più significative di TestNotification.
+
+**1) DeviceInstallation.cs**
+
+Questa classe è analoga all'omonima classe presente nel codice backend, con l'unica differenza che ogni variabile è associata alla proprietà *JsonProperty*, fondamentale per la corretta serializzazione
+dell'oggetto *DeviceInstallation* che verrà inserito nelle chiamate HTTP.
+
+> La motivazione per la quale tutte le classi di *Models* associano la proprietà 
+
+Va evidenziato il fatto che in questa classe sono presenti solo le informazioni minime che devono essere gestite obbligatoriamente dal dispositivo.
+La responsabilità di ricavare i tag appartiene al backend in quanto è meno vulnerabile rispetto ad un'applicazione mobile e rende le operazioni più veloci offrendo un'esperienza utente migliore.
 
 
-<div align="right">
+ 
+<div align="right"> 
 
 [Torna su](#descrizione-del-prototipo-software-sviluppato)
 </div>
