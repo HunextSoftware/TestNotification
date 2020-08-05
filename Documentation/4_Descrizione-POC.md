@@ -470,7 +470,7 @@ Questa classe contiene tutta la logica della pagina *LoginPage* che corrisponde 
 
 > La grafica della pagina *LoginPage* viene codificata con il linguaggio XAML e risiede nel file *LoginPage.xaml*.
 
-L'evento più significativo avviene quando viene premuto il pulsante di Login e avviene sia la procedura di login che quella di installazione del dispositivo.
+L'evento più significativo avviene quando viene premuto il pulsante di login e avviene sia la procedura di login che quella di installazione del dispositivo.
 Il procedimento è il seguente: se i campi del form sono stati compilati, allora viene richiamato il metodo *Login(usernameEntry.Text, passwordEntry.Text)*. 
 Se tutto va a buon fine, allora viene salvato nei segreti locali l'id utente e viene richiamato il metodo della medesima classe *RegistrationDevice()*. 
 A questo punto viene invocato in modo asincrono il metodo *RegisterDeviceAsync()* della classe *NotificationRegistrationService*: se il task va a buon fine allora l'utente verrà indirizzato 
@@ -481,6 +481,8 @@ vengono recuperati all'avvio dell'applicazione insieme all'activity *AuthorizedU
 da zero e richiederebbe un altro login, cosa che non deve succedere se un utente è già autenticato oppure non ha fatto richiesta di disconnessione dal servizio.
 >
 > Il codice è consultabile in *App.xaml.cs*.
+
+Ora l'utente può ricevere notifiche dall'applicazione mobile TestNotification fino a quando non viene avviata la procedura di logout e questa avvenga con esito positivo.
 
 Di seguito viene illustrato il codice:
 ```
@@ -536,7 +538,54 @@ async void RegistrationDevice()
 }
 ```
 
- 
+**5) *AuthorizedUserPage.xaml.cs*
+
+Questa classe contiene tutta la logica della pagina *AuthorizedUserPage* che corrisponde alla seconda activity che contiene le informazioni dell'utente autenticato in TestNotification.
+
+> La grafica della pagina *AuthorizedUserPage* viene codificata con il linguaggio XAML e risiede nel file *AuthorizedUserPage.xaml*. 
+
+L'evento più significativo avviene quando viene premuto il pulsante di logout e avviene sia la procedura di logout che quella di cancellazione dell'installazione del dispositivo.
+Il procedimento è il seguente: viene invocato il metodo della medesima classe *DeregistrationDevice()*, che invoca il metodo *DeregisterDeviceAsync()* della classe *NotificationRegistrationService*:
+se il task va a buon fine, vengono rimossi tutti i segreti locali inerenti ai dati utente e all'id utente e infine l'utente viene indirizzato alla pagina principale di login.
+
+L'utente non può più ricevere notifiche dall'applicazione mobile TestNotification fino a quando non viene avviata la procedura di login e questa avvenga con esito positivo.
+
+Di seguito viene illustrato il codice:
+```
+async void OnLogoutButtonClicked(object sender, EventArgs e)
+{
+    DeregistrationDevice();
+}
+
+public async void DeregistrationDevice()
+{
+    await _notificationRegistrationService.DeregisterDeviceAsync().ContinueWith(async (task)
+        =>
+    {
+        if (task.IsFaulted)
+        {
+            Console.WriteLine($"Exception: {task.Exception.Message}");
+        }
+        else
+        {
+            SecureStorage.Remove(App.CachedDataAuthorizedUserKey);
+            SecureStorage.Remove(App.TokenAuthenticationKey);
+
+            Console.WriteLine("Device deregistered: now is not longer available to receive push notification until next user login.");
+            usernameLabel.Text = "Username:";
+            companyLabel.Text = "Company:";
+            sectorCompanyLabel.Text = "Sector company:";
+
+            await Navigation.PushAsync(new LoginPage());
+            Toast.MakeText(Android.App.Application.Context, "Successful logout: device no longer registered.", ToastLength.Short).Show();
+
+            await Navigation.PushAsync(new AuthorizedUserPage());
+            Toast.MakeText(Android.App.Application.Context, "Error during device deregistration: retry to log out.", ToastLength.Long).Show();
+        }
+    });
+}
+```
+
 <div align="right"> 
 
 [Torna su](#descrizione-del-prototipo-software-sviluppato)
