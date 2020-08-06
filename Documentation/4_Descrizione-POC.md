@@ -1126,7 +1126,7 @@ seleziona la voce *Information*.
     <img src="Images/4_Document/Web-app/4.3)Information-page.png" alt="Pagina con le informazioni di tutti i dispositivi installati in Azure"/>
 </div>
 
-L'utente può osservare che sono installati due dispositivi (il numero di tuple è visibile dall'ultima riga della colonna **Number**): nel dettaglio, può sapere il **TegistrationID**, i **Tags** ed
+L'utente può osservare che sono installati due dispositivi (il numero di tuple è visibile dall'ultima riga della colonna **Number**): nel dettaglio, può sapere il **RegistrationID**, i **Tags** ed
 infine l'**ExpirationTime** di ogni singolo dispositivo installato.
 
 <div align="right"> 
