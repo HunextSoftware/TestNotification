@@ -666,9 +666,9 @@ Il metodo *OnMessageReceived(RemoteMessage message)* viene invocato all'arrivo d
 che personalizza la notifica visualizzata nei dispositivi Android. Per esempio, nella notifica viene impostata l'icona, il titolo e il corpo della notifica. Ogni volta che questa viene selezionata dal
 centro notifiche, si cancella automaticamente e viene rilanciata nell'activity attuale dell'applicazione *TestNotification*. Inoltre le notifiche vengono impostate con una priorità alta: questo significa
 che le notifiche di *TestNotification* vengono visualizzate nel centro notifiche prima di tutte le altre notifiche con priorità inferiore. La priorità viene impostata manualmente nell'oggetto *builder* se
-la versione di Android è inferiore alla 7.1 (compresa quest'ultima), altrimenti viene impostata nel metodo *CreateNotificationChannel()* della classe *MainActivity*, dove viene creato un canale di notifica
-atto a raggruppare tipi di notifiche diverse per la stessa applicazione.
+la versione di Android è inferiore alla 7.1 (compresa quest'ultima), altrimenti viene impostata nel metodo *CreateNotificationChannel()* della classe *MainActivity*.
 
+Il codice è il seguente:
 ```
 public override void OnMessageReceived(RemoteMessage message)
 {
@@ -722,6 +722,57 @@ public void SendLocalNotification(string body)
     notificationManager.Notify(Constants.NOTIFICATION_ID, notification);
 }
 ```
+
+**3) MainActivity.cs**
+
+Questa classe rappresenta il punto d'ingresso dell'applicazione mobile. La proprietà *LaunchMode* è stata impostata al valore *SingleTop* in quanto MainActivity non deve essere creato ogni volta che 
+l'applicazione viene aperta.
+
+Il metodo più importante è *OnSuccess(Java.Lang.Object result)*, in quanto è il vero responsabile del recupero e dell'archiviazione del token FCM del PNS handle.
+
+Il codice è il seguente:
+```
+// Retrieve and store the Firebase token
+public void OnSuccess(Java.Lang.Object result)
+    => DeviceInstallationService.Token =
+        result.Class.GetMethod("getToken").Invoke(result).ToString();
+```
+
+Inoltre il metodo *CreateNotificationChannel()* è responsabile della creazione del canale di notifica, nuovo a partire dalle versioni di Android 8.0, che ha l'obiettivo di raggruppare tipi di notifiche 
+diverse per la stessa applicazione. I valori che vengono impostati sono un ID univoco che identifica il canale, contrassegnato da un nome (visualizzabile dalle impostazioni di notifica dell'applicazione), 
+una descrizione facoltativa ed infine la priorità delle notifiche.
+
+Il codice è il seguente:
+```
+// Notification channels are available only for API 26 and higher
+void CreateNotificationChannel()
+{
+    if (Build.VERSION.SdkInt < BuildVersionCodes.O)
+        return;
+
+    var channel = new NotificationChannel(Constants.CHANNEL_ID, Constants.CHANNEL_NAME, NotificationImportance.High)
+    {
+        Description = Constants.CHANNEL_DESCRIPTION
+    };
+
+    var notificationManager = (NotificationManager)GetSystemService(NotificationService);
+    notificationManager.CreateNotificationChannel(channel);
+}
+```
+
+> Nota a margine: una volta che l'applicazione *TestNotification*, per i dispositivi Android con versione <= 7.1 si consiglia vivamente di controllare le impostazioni di notifica seguendo il percorso 
+dal proprio dispositivo: *Impostazioni --> Applicazioni --> TestNotification.Android --> Notifiche* (Attenzione: il percorso può variare da sistema operativo). A questo punto, controllare se sono attive
+le impostazioni *Banner*, *A schermo bloccato* e *Visualizzazione prioritaria*. In questo modo, verranno visualizzate le notifiche heads-up (a comparsa per 4 secondi nella parte superiore dello schermo)
+e le notifiche a schermo bloccato con i i dettagli della notifica nascosti.
+
+#### Implementazioni future per TestNotification.Android
+
+Alla conclusione di questa sezione viene segnalata un'implementazione futura che si può applicare nell'applicazione mobile.
+
+Lo stagista ha cercato di implementare in modo ottimale il *badge* della notifica, ovvero una segnalazione grafica che viene apposta in un angolo dell'icona dell'applicazione nella home che tiene
+conto del numero di notifiche ancora non lette.
+È stata trovata una libreria molto interessante e facile da applicare, il cui pacchetto prende il nome di 
+
 
 ### Breve presentazione del layout
 
