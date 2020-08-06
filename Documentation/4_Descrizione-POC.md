@@ -25,6 +25,8 @@ Il documento è strutturato nelle seguenti sezioni:
 - [Sviluppo applicazione mobile](#sviluppo-applicazione-mobile)
 - [Sviluppo web application](#sviluppo-web-application)
 
+> Alcune parti del progetto sono state riutilizzate dal tutorial presente al seguente [link](https://docs.microsoft.com/it-it/azure/developer/mobile-apps/notification-hubs-backend-service-xamarin-forms).
+
 ---
 
 ## Configurazione di Firebase ed Azure Notification Hubs
@@ -620,6 +622,8 @@ Nonostante questo, deve essere specializzata una piccola parte della logica per 
 - l'assegnazione dei valori principali per la procedura di installazione del dispositivo, ovvero *InstallationId*, *Platform* ed infine *PushChannel*.
 - la personalizzazione della visualizzazione grafica della notifica.
 
+> A fine sezione è presente una breve sotto-sezione che spiega quali possono essere le [implementazioni future per TestNotification.Android](#implementazioni-future-per-testnotification.android).
+
 Prima di andare nel dettaglio della codifica, sono necessari alcuni controlli ai fini del funzionamento dell'applicazione Android:
 - verificare che il package name al valore usato nel progetto creato dalla console di Firebase (nel caso di questo progetto *TestPushNotification*):
     - fare click destro sul progetto *TestNotification.Android*.
@@ -931,11 +935,36 @@ La procedura per lo sviluppo di questa parte mancante è disponibile al seguente
 
 ## Sviluppo web application
 
+Il progetto *TestNotificationWebApp* è stato sviluppato a partire da un progetto ASP.NET Core Razor Page. 
+Il suo compito principale è quello di inviare la richiesta di notifica all'hub di notifica di Azure, che poi invierà la notifica a tutti i PNS disponibili.
+
+La web application non è requisito fondamentale di questo progetto, ma è stata sviluppata per gli utenti che vogliono testare in modo semplice ed intuitivo il funzionamento dell'intero sistema di notifiche, 
+evitando l'utilizzo di software più complessi di terze parti.
+
+La sezione è strutturata nelle seguenti sotto-sezioni:
+- [Le parti principali del codice TestNotificationWebApp](#le-parti-principali-del-codice-testnotificationwebapp)
+- [Manuale utente TestNotificationWebApp](#manuale-utente-testnotificationwebapp)
+- [Software alternativo: inviare notifiche con Postman](#software-alternativo-inviare-notifiche-con-postman)
+
+### Le parti principali del codice TestNotificationWebApp
+
 TODO
 
+<div align="right"> 
 
+[Torna su](#descrizione-del-prototipo-software-sviluppato)
+</div>
 
-### Come inviare una notifica con Postman
+### Manuale utente TestNotificationWebApp
+
+TODO
+
+<div align="right"> 
+
+[Torna su](#descrizione-del-prototipo-software-sviluppato)
+</div>
+
+### Software alternativo: inviare notifiche con Postman
 
 Lo stagista ha creato una web application che permette di inviare una notifica da un'interfaccia web semplice, presente nel progetto *TestNotificationWebApp*.
 
@@ -984,49 +1013,12 @@ Il file contiene due richieste HTTP avente lo stesso body ed indirizzate al tag 
 
 **Post-condizione**: una volta che la richiesta HTTP viene inoltrata, tutti i device che sono autenticati come *Mario.Rossi* ricevono una notifica.
 
-#### Errore HTTP 422
-
-Come descritto nella issue [#8](https://github.com/HunextSoftware/TestNotification/issues/8), l'invio della notifica comporta una risposta HTTP 422 (lo si può sia visualizzare da Postman che dalla console della web application). 
-
-Questo errore semantico è dovuto al fatto che è stato configurata la piattaforma FCM ma non APNS, infatti il codice backend è già predisposto per l'invio di notifiche a dispositivi Apple.
-
-È stato testato che, rimuovendo il codice specifico di TestNotification.Backend in Model/PushTemplates e Services/NotificationHubsService, l'invio della notifica comporta una risposta HTTP 200, con avvenuta ricezione della notifica.
-
-Ergo, questo problema verrà risolto non appena verrà ultimata la configurazione dell'APN, con il codice backend che deve rimanere intatto.
+> Come descritto nella issue [#8](https://github.com/HunextSoftware/TestNotification/issues/8), l'invio della notifica comporta una risposta HTTP 422 (lo si può sia visualizzare da Postman che dalla console 
+della web application). Questo errore semantico è dovuto al fatto che è stato configurata la piattaforma FCM ma non APNS, infatti il codice backend è già predisposto per l'invio di notifiche a dispositivi Apple.
+È stato testato che, rimuovendo il codice specifico di TestNotification.Backend in Model/PushTemplates e Services/NotificationHubsService, l'invio della notifica comporta una risposta HTTP 200, con avvenuta 
+ricezione della notifica. Ergo, questo problema verrà risolto non appena verrà ultimata la configurazione dell'APN, con il codice backend che deve rimanere intatto.
 
 <div align="right">
 
 [Torna su](#descrizione-del-prototipo-software-sviluppato)
 </div>
-
----
-
-
-
-
-
-
-
-## Apple
-
-https://docs.microsoft.com/it-it/azure/notification-hubs/xamarin-notification-hubs-ios-push-notification-apns-get-started#generate-the-certificate-signing-request-file
-
-## Mobile app
-
-Casi d'uso limite:
-
-- 
----
-
-
-
-
-
-<div align="right">
-
-[Torna su](#descrizione-del-prototipo-software-sviluppato)
-</div>
-
----
-
-> Per maggiori informazioni, visitare il seguente [link](https://docs.microsoft.com/it-it/azure/developer/mobile-apps/notification-hubs-backend-service-xamarin-forms).
