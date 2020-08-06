@@ -601,7 +601,127 @@ Nonostante questo, deve essere specializzata una piccola parte della logica per 
 - l'assegnazione dei valori principali per la procedura di installazione del dispositivo, ovvero *InstallationId*, *Platform* ed infine *PushChannel*.
 - la personalizzazione della visualizzazione grafica della notifica.
 
-TODO
+Prima di andare nel dettaglio della codifica, sono necessari alcuni controlli ai fini del funzionamento dell'applicazione Android:
+- verificare che il package name al valore usato nel progetto creato dalla console di Firebase (nel caso di questo progetto *TestPushNotification*):
+    - fare click destro sul progetto *TestNotification.Android*.
+    - selezionare *Properties*.
+    - selezionare *Android Manifest*.
+    - verificare la voce *Package name*.
+- verificare che in *AndroidManifest.xml* siano presenti le autorizzazioni *INTERNET* e *READ_PHONE_STATE*. 
+- aggiungere da NuGet i pacchetti *Xamarin.GooglePlayServices.Base* e *Xamarin.Firebase.Messaging*.
+- aggiungere dalla root del progetto *TestNotification.Android* il file *google-services.json* caricato precedentemente in locale.
+    - fare click destro sul file.
+    - verificare che *BuildAction* sia impostato a *GoogleServicesJson*.
+
+Da questo momento, è importante analizzare le tappe cruciali per la realizzazione dell'applicazione mobile in Android.
+Il progetto è strutturato in questa sequenza:
+- *Properties*, la cartella che contiene il file *AndroidManifest.xml*, fondamentale per impostare i permessi e il range di versioni di Android compatibili con l'applicazione mobile.
+- *Services*, la cartella che contiene tutte le classi che si occupano di impostare i valori di installazione del dispositivo e ricevere notifiche da Firebase 
+- *MainActivity.cs*, il file che rappresenta il punto di accesso all'applicazione Android.
+
+Ora l'attenzione passa sulla focalizzazione delle classi più significative di TestNotification.Android.
+
+**1) DeviceInstallationService.cs**
+
+Questa classe estende l'interfaccia *IDeviceInstallationService* di TestNotification, in quanto contiene tutti i valori di installazione del dispositivo in Azure: è questa la parte di codice
+specifica che imposta i valori e crea l'oggetto di installazione.
+
+La precondizione è che il dispositivo Android abbia installati i Google Play Services, altrimenti non è possibile suportare la ricezione delle notifiche.
+Se la precondizione è rispettata, allora si procede con la creazione dell'oggetto di installazione, che imposta:
+- *InstallationId* ad un ID univoco di 64 bit generato dal dispositivo con *Secure.AndroidId*. Questa informazione verrà salvata come tag speciale, necessaria per la cancellazione del dispositivo.
+- *Platform* ad *fcm*, che è la sigla della piattaforma di Firebase Cloud Messaging.
+- *PushChannel* al token del PNS handle che viene recuperato ed impostato nel metodo *OnNewToken(string token)* della classe *PushNotificationFirebaseMessagingService*. 
+
+Il metodo *GetDeviceInstallation()* viene infine richiamato nel metodo *RegisterDeviceAsync()* della classe *NotificationRegistrationService*.
+
+Il codice è il seguente:
+```
+public string GetDeviceId()
+    => Secure.GetString(Application.Context.ContentResolver, Secure.AndroidId);
+
+public DeviceInstallation GetDeviceInstallation()
+{
+    if (!NotificationsSupported)
+        throw new Exception(GetPlayServicesError());
+
+    var installation = new DeviceInstallation
+    {
+        InstallationId = GetDeviceId(),
+        Platform = "fcm",
+        PushChannel = Token
+    };
+
+    return installation;
+}
+```
+
+**2) PushNotificationFirebaseMessagingService.cs**
+
+Questa classe estende la classe *FirebaseMessagingService*, che permette di gestire gli eventi delle notifiche in arrivo.
+
+Come visto nella classe precedente, *OnNewToken(string token)* è il metodo che viene invocato ogni volta che viene richiesto un PNS handle, ritornando il token che poi verrà gestito nel codice per una
+nuova installazione oppure per un aggiornamento dell'installazione del dispositivo.
+
+Il metodo *OnMessageReceived(RemoteMessage message)* viene invocato all'arrivo di nuove notifiche e, se non ci sono errori nel recupero di queste, lancia il metodo locale *SendLocalNotification(string body)*
+che personalizza la notifica visualizzata nei dispositivi Android. Per esempio, nella notifica viene impostata l'icona, il titolo e il corpo della notifica. Ogni volta che questa viene selezionata dal
+centro notifiche, si cancella automaticamente e viene rilanciata nell'activity attuale dell'applicazione *TestNotification*. Inoltre le notifiche vengono impostate con una priorità alta: questo significa
+che le notifiche di *TestNotification* vengono visualizzate nel centro notifiche prima di tutte le altre notifiche con priorità inferiore. La priorità viene impostata manualmente nell'oggetto *builder* se
+la versione di Android è inferiore alla 7.1 (compresa quest'ultima), altrimenti viene impostata nel metodo *CreateNotificationChannel()* della classe *MainActivity*, dove viene creato un canale di notifica
+atto a raggruppare tipi di notifiche diverse per la stessa applicazione.
+
+```
+public override void OnMessageReceived(RemoteMessage message)
+{
+    base.OnMessageReceived(message);
+
+    // convert the incoming message to a local notification
+    if (message.GetNotification() != null)
+        SendLocalNotification(message.GetNotification().Body);
+    else
+        throw new Exception("Error during retrieving notification");
+}
+
+public void SendLocalNotification(string body)
+{
+    // Set up an intent so that tapping the notifications returns to this app
+    var intent = new Intent(this, typeof(MainActivity));
+    intent.AddFlags(ActivityFlags.ClearTop);
+    intent.PutExtra("text", body);
+
+    // Create a PendingIntent
+    PendingIntent pendingIntent =
+        PendingIntent.GetActivity(this, new Random().Next(), intent, PendingIntentFlags.OneShot);
+
+    // Instantiate the builder and set notification elements
+    var builder = new NotificationCompat.Builder(this, Constants.CHANNEL_ID)
+        //.SetAutoCancel(true)
+        .SetContentIntent(pendingIntent)
+        .SetContentTitle("TestNotification")
+        .SetContentText(body)
+        .SetStyle(new NotificationCompat.BigTextStyle())
+        .SetSmallIcon(Resource.Mipmap.launcher_foreground);
+        //.AddAction(Resource.Drawable.notification_icon, "OK", pendingIntent);
+
+    // Set priority, ringtone and vibration for Android 7.1 (API level 25) and lower
+    if (Build.VERSION.SdkInt <= BuildVersionCodes.NMr1)
+    {
+        builder.SetPriority(NotificationCompat.PriorityHigh)
+            .SetDefaults(NotificationCompat.DefaultAll);
+    }
+
+    // Block screen visibility is available only after Android 5.0 (API 21)
+    if (Build.VERSION.SdkInt >= BuildVersionCodes.Lollipop)
+        builder.SetVisibility((int)NotificationVisibility.Private)
+            .SetCategory(Notification.CategoryMessage);
+
+    // Get the notification manager
+    var notificationManager = NotificationManagerCompat.From(this);
+
+    // Publish the notification
+    var notification = builder.Build();
+    notificationManager.Notify(Constants.NOTIFICATION_ID, notification);
+}
+```
 
 ### Breve presentazione del layout
 
