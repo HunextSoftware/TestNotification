@@ -94,13 +94,13 @@ Il backend è una parte fondamentale di questo progetto in quanto gestisce le ch
 invio notifiche destinate all'hub di notifica di Azure, che a sua volta gestirà autonomamente l'invio delle notifiche ai PNS di riferimento.
 
 La sezione è strutturata nelle seguenti sotto-sezioni:
-- [Le parti principali del codice](#le-parti-principali-del-codice)
+- [Le parti principali del codice TestNotificationBackend](#le-parti-principali-del-codice-testnotificationbackend)
 - [Attività facoltative](#attivita-facoltative)
 
-### Le parti principali del codice
+### Le parti principali del codice TestNotificationBackend
 
 Il primo passaggio essenziale per lo sviluppatore è inserire valori di configurazione localmente utilizzando lo strumento *Secret Manager*. 
-Aprire il terminale ed inserire i seguenti comandi:
+Assicurandosi di essere all'interno della cartella *TestNotificationBackend*, aprire il terminale ed inserire i seguenti comandi:
 
 ```
 dotnet user-secrets init
@@ -936,10 +936,18 @@ La procedura per lo sviluppo di questa parte mancante è disponibile al seguente
 ## Sviluppo web application
 
 Il progetto *TestNotificationWebApp* è stato sviluppato a partire da un progetto ASP.NET Core Razor Page. 
-Il suo compito principale è quello di inviare la richiesta di notifica all'hub di notifica di Azure, che poi invierà la notifica a tutti i PNS disponibili.
+Il suo compito principale è quello di inviare la richiesta di notifica al backend che si occupa di elaborare la richiesta per poi inoltrarla all'hub di notifica di Azure, che poi invierà a sua volta la notifica a tutti i PNS disponibili.
 
 La web application non è requisito fondamentale di questo progetto, ma è stata sviluppata per gli utenti che vogliono testare in modo semplice ed intuitivo il funzionamento dell'intero sistema di notifiche, 
 evitando l'utilizzo di software più complessi di terze parti.
+
+Per avviare la web application è necessario:
+- aprire Visual Studio 2019
+- fare click destro su *TestNotificationWebApp* e selezionare *Set as Startup Project*.
+- dal menu selezionare in sequenza *Debug --> Start Debugging*.
+- aprire il file presente nel percorso *TestNotificationWebApp --> Properties --> launchSettings.json*.
+- sotto la chiave *TestNotificationWebApp*, copiare uno degli URL presenti nella sotto-chiave *applicationUrl*.
+- aprire un browser, incollare l'URL appena copiata nella barra degli indirizzi e premere invio.
 
 La sezione è strutturata nelle seguenti sotto-sezioni:
 - [Le parti principali del codice TestNotificationWebApp](#le-parti-principali-del-codice-testnotificationwebapp)
@@ -948,7 +956,130 @@ La sezione è strutturata nelle seguenti sotto-sezioni:
 
 ### Le parti principali del codice TestNotificationWebApp
 
-TODO
+Il primo passaggio essenziale per lo sviluppatore è inserire valori di configurazione localmente utilizzando lo strumento *Secret Manager*. 
+Assicurandosi di essere all'interno della cartella *TestNotificationWebApp*, aprire il terminale ed inserire i seguenti comandi:
+
+```
+dotnet user-secrets init
+dotnet user-secrets set "NotificationHub:Name" <value>
+dotnet user-secrets set "NotificationHub:ConnectionString" <value>
+```
+
+Il placeholder *\<value\>* va rimpiazzato in questo modo:
+- **NotificationHub:Name** è la voce *Name** che si trova in *Informazioni di base* nella pagina principale dell'hub di notifica appena creato.
+- **NotificationHub:ConnectionString** è il valore *DefaultFullSharedAccessSignature* copiato nel passaggio 5) della creazione dell'hub di notifica per l'accesso in lettura e scrittura ad Azure.
+
+Il secondo passaggio è creare una classe *Config.cs* che ha il compito di mantenere tutti i valori segreti fuori dal controllo del codice sorgente
+Il codice è il seguente:
+```
+public static partial class Config
+{
+    public static string BackendServiceEndpoint = "BACKEND_SERVICE_ENDPOINT";
+}
+```
+
+Il valore *BACKEND_SERVICE_ENDPOINT* verrà sostituito da un'altra nuova classe *Config.local_secrets.cs* che non dovrà mai essere pubblicata in rete (controllare il file .gitignore) e quindi 
+rimanere in locale.
+Il codice è il seguente:
+```
+public static partial class Config
+{
+    static Config()
+    {
+        // Uncomment ONLY one BackendServiceEndpoint string to start back end
+
+        // Use this string connection if the back end works on Web Service Azure, because it is loaded there 
+        //BackendServiceEndpoint = "<your_api_app_url>";
+
+        /* RECOMMENDED FOR DEBUG --> deactivate the firewall completely!
+         * 
+         * Use this string connection if your back end works on localhost 
+         * http(s)://<your-local-ipv4-address>:<service-port>
+         */
+        //BackendServiceEndpoint = "http(s)://<your-local-ipv4-address>:<service-port>";
+    }
+}
+```
+
+Se il servizio backend è istanziato nell'App Service di Azure, allora de-commentare la riga *BackendServiceEndpoint = "<your_api_app_url>";* e sostituire il placeholder con l'URL dell'App Service 
+salvata precedentemente su un file a parte.
+Nel caso contrario in cui il servizio backend sia locale, de-commentare la riga *BackendServiceEndpoint = "http(s)://\<your-local-ipv4-address>:\<service-port>";* e sostituire il placeholder con
+l'indirizzo locale del nodo nella quale il server è in funzione nella rete interna e la porta per accedere al servizio.
+
+Da questo momento, è importante analizzare le tappe cruciali per la realizzazione del backend. Il progetto è strutturato in questa sequenza:
+- *Properties*, la cartella che contiene tutti i parametri per avviare la web application e i file contenenti un riferimento con lo strumento Secret Manager.
+- *wwwroot*, la cartella dove risiedono tutti i file statici, ovvero i file .css, .js e le immagini.
+- *Configuration*, la cartella dove risiedono i file di configurazione.
+- *Models*, la cartella che contiene tutte le classi con la logica di business e di convalida.
+- *Pages*, la cartella dove risiedono tutte le pagine web, sia nel formato .cshtml per la formattazione delle pagine HTML che nel formato .cshtml.cs per codificare il comportamento dei vari elementi delle pagine.
+
+Ora l'attenzione passa sulla focalizzazione delle classi più significative di TestNotificationWebApp.
+
+**1) NotificationRequest.cs**
+
+Questa classe contiene i dati che vengono passati all'invio della notifica e rimpiazzano i placeholder nei payload di notifica che si trova nella classe *NotificationRequestTemplate*. 
+Nello specifico Text va a sostituire $(textNotification), che sostituirà a sua volta $(alertMessage) nel payload finale della notifica nel backend, mentre Tags va a sostituire $(tagsNotification), che poi nel 
+backend verrà elaborato ed inserito come parametro nella chiamata all'API di Azure Notification Hubs che si occupa nello specifico di inviare notifiche con una specifica tagExpression.
+
+**2) NotificationRequestTemplate.cs**
+
+Questa classe contiene la stringa (che può essere serializzata in JSON) che viene inviata come content della richiesta HTTP indirizzata al backend, in particolare all'endpoint *~/api/notifications/requests*.
+
+Ecco il corpo della richiesta:
+```
+public const string body = "{ \"text\": \"$(textNotification)\", \"tags\": [ \"$(tagsNotification)\" ] }";
+```
+
+**3) RegistrationData.cs**
+
+Questa classe contiene i dati principali per quanto riguarda l'insieme delle installazioni dei dispositivi in Azure Notification Hubs.
+È stata creata appositamente in quanto è necessaria alla realizzazione della pagina *Information* della web application.
+
+I dati che verranno salvati sono:
+- *RegistrationId*
+- *Tags*
+- *ExpirationTime*
+
+> Per capire il significato di questi dati, andare alla sotto-sezione *Come viene salvata un'installazione specifica in Azure Notification Hubs* della sezione *Approfondimento sul processo di registrazione 
+del dispositivo* del documento *3_Descrizione-funzionamento-piattaforme-notifiche-push*.
+
+**4) Index.cshtml.cs**
+
+Questa classe contiene tutta la logica che appartiene alla home page */Index*, contenente un form con i due input che corrispondono ai campi di *NotificationRequest*, ovvero *Text* e *Tags*.
+
+Il campo *Text* corrisponde al testo da inviare nella notifica che va inserito obbligatoriamente, altrimenti il form non fa partire la richiesta.
+Il campo *Tags* è un menu a tendina dalla quale scegliere l'utente alla quale inviare la notifica, oppure selezionando la voce predefinita *Everyone* che permette l'invio della notifica in modalità broadcast.
+La lista degli utenti viene aggiornata ogni volta che si ricarica la pagina */Index* tramite il metodo *OnGetAsync()*: viene invocata un'apposita chiamata al backend che risponde con un oggetto *UserData* contenente l'id utente (che è
+il vero valore da inserire nel campo *Tags* della richiesta) e il corrispondente nome utente (che viene visualizzato nel menu a tendina).
+
+Una volta che i campi sono inseriti correttamente, l'utente può cliccare il pulsante *Send notification* ed invocare *OnPostAsync()*, che è il metodo che si collega al form descritto nel file *Index.cshtml*, in quanto ha *method="post"*. 
+Il seguente metodo è stato utilizzato per inviare il content della richiesta HTTP destinata al backend, che ha sostituito i placeholder con il testo e i tag inseriti nel form:
+
+```
+string PrepareRequestNotificationPayload(string text, string tag)
+{
+    if (string.IsNullOrEmpty(tag))
+        return NotificationRequestTemplate.body
+            .Replace("$(textNotification)", text, StringComparison.InvariantCulture)
+            .Replace(" \"$(tagsNotification)\" ", string.Empty, StringComparison.InvariantCulture);
+            //.Replace(", \"tags\": [ \"$(tagsNotification)\" ] ", string.Empty, StringComparison.InvariantCulture); --> removing "tags" key, we will obtain the same result of the row above
+    else
+        return NotificationRequestTemplate.body
+            .Replace("$(textNotification)", text, StringComparison.InvariantCulture)
+            .Replace("$(tagsNotification)", tag, StringComparison.InvariantCulture);
+}
+```
+
+Se la notifica è stata inviata con successo, sotto il form verrà stampato un messaggio di avvenuta ricezione.
+
+**5) Information.cshtml.cs**
+
+Questa classe contiene tutta la logica che appartiene alla pagina */Information*, che rappresenta una pagina informativa che ottiene su richiesta i principali dati dall'hub di notifica di Azure inerenti tutte 
+le installazioni dei dispositivi. I dati vengono visualizzati sotto forma tabellare e sono gli stessi rappresentati dalla classe *RegistrationData*.
+
+Il metodo *OnGetAsync()* viene chiamato ogni volta che viene richiesta la pagina */Information* e per ottenere le informazioni necessarie contatta l'API di Azure mediante la chiamata 
+```await _hub.GetAllRegistrationsAsync(0, CancellationToken.None)```, che ottiene la lista di tutte le installazioni a partire dalla prima tupla presente nell'elenco (ecco il significato del parametro 0).
+Ogni tupla viene poi salvata una ad una in *Data*, una lista parametrizzata con la classe *RegistrationData*, ed infine ogni tupla viene stampata come riga della tabella risultante nel codice di *Information.cshtml*.
 
 <div align="right"> 
 

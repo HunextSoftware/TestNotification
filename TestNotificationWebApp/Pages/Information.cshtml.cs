@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Azure.NotificationHubs;
 using Microsoft.Extensions.Options;
-using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
