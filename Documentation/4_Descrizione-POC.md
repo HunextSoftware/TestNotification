@@ -941,14 +941,6 @@ Il suo compito principale è quello di inviare la richiesta di notifica al backe
 La web application non è requisito fondamentale di questo progetto, ma è stata sviluppata per gli utenti che vogliono testare in modo semplice ed intuitivo il funzionamento dell'intero sistema di notifiche, 
 evitando l'utilizzo di software più complessi di terze parti.
 
-Per avviare la web application è necessario:
-- aprire Visual Studio 2019
-- fare click destro su *TestNotificationWebApp* e selezionare *Set as Startup Project*.
-- dal menu selezionare in sequenza *Debug --> Start Debugging*.
-- aprire il file presente nel percorso *TestNotificationWebApp --> Properties --> launchSettings.json*.
-- sotto la chiave *TestNotificationWebApp*, copiare uno degli URL presenti nella sotto-chiave *applicationUrl*.
-- aprire un browser, incollare l'URL appena copiata nella barra degli indirizzi e premere invio.
-
 La sezione è strutturata nelle seguenti sotto-sezioni:
 - [Le parti principali del codice TestNotificationWebApp](#le-parti-principali-del-codice-testnotificationwebapp)
 - [Manuale utente TestNotificationWebApp](#manuale-utente-testnotificationwebapp)
@@ -1088,7 +1080,54 @@ Ogni tupla viene poi salvata una ad una in *Data*, una lista parametrizzata con 
 
 ### Manuale utente TestNotificationWebApp
 
-TODO
+Per avviare la web application *TestNotificationWebApp* è necessario:
+- aprire Visual Studio 2019
+- fare click destro su *TestNotificationWebApp* e selezionare *Set as Startup Project*.
+- dal menu selezionare in sequenza *Debug --> Start Debugging*.
+- aprire il file presente nel percorso *TestNotificationWebApp --> Properties --> launchSettings.json*.
+- sotto la chiave *TestNotificationWebApp*, copiare uno degli URL presenti nella sotto-chiave *applicationUrl*.
+- aprire un browser, incollare l'URL appena copiata nella barra degli indirizzi e premere invio.
+
+In questo progetto, l'URL corrisponde a: *https://localhost:6001/*. L'utente vedrà la home page che contiene il form per l'invio della notifica.
+
+<div align="center">
+    <img src="Images/4_Document/Web-app/4.1)Home-page.png" alt="Home page web app"/>
+</div>
+
+Il form contiene l'input per il testo sotto la voce **Text notification** e una menu a discesa sotto la voce **Tag notification** che contiene tutti gli utenti alla quale è possibile inviare la 
+notifica. La voce di default è impostata a *Everyone*, che consente di inviare la notifica a tutti gli utenti autenticati al servizio di *TestNotification*.
+
+> Attenzione: se l'input **Tag notification** è selezionato a *Everyone*, la notifica non viene inviata a tutti gli utenti che sono presenti nel menu a tendina, in quanto i suddetti sono gli 
+> utenti presenti nel database del backend, e non gli utenti che hanno il dispositivo installato nell'hub di notifica di Azure.
+
+<div align="center">
+    <img src="Images/4_Document/Web-app/4.2.1)Select-user.png" alt="Input del form nell'home page"/>
+</div>
+
+L'utente vuole inviare una notifica allo stagista Alberto Gobbo, quindi compila l'input **Text notification** con il testo *Hey Alberto? How are things today?* e dal menu a tendina di **Tags 
+notification** seleziona la voce *Alberto.Gobbo*.
+Alla fine dell'inserimento dei dati, l'utente può cliccare il pulsante *Send notification* e aspettare una risposta dal server che indica l'esito della ricezione della notifica.
+
+<div align="center">
+    <img src="Images/4_Document/Web-app/4.2.2)Send-notification.png" alt="Invio della notifica ad Alberto Gobbo"/>
+</div>
+
+Se viene ricevuta la notifica dal dispositivo o dai dispositivi nella quale Alberto Gobbo è autenticato, allora la web application riceverà una risposta di avvenuta ricezione che verrà stampata
+sotto il form di invio notifica.
+
+<div align="center">
+    <img src="Images/4_Document/Web-app/4.2.3)Response-ok.png" alt="Notifica ricevuta correttamente"/>
+</div>
+
+L'utente vuole verificare quanti dispositivi sono installati in Azure Notification Hubs e quali sono i loro dettagli, quindi sposta il cursore del mouse all'interno della navigation bar e 
+seleziona la voce *Information*.
+
+<div align="center">
+    <img src="Images/4_Document/Web-app/4.3)Information-page.png" alt="Pagina con le informazioni di tutti i dispositivi installati in Azure"/>
+</div>
+
+L'utente può osservare che sono installati due dispositivi (il numero di tuple è visibile dall'ultima riga della colonna **Number**): nel dettaglio, può sapere il **TegistrationID**, i **Tags** ed
+infine l'**ExpirationTime** di ogni singolo dispositivo installato.
 
 <div align="right"> 
 
