@@ -40,7 +40,7 @@ progetto ha due sottocartelle .Droid e .iOS rispettivamente per dispositivi Andr
 Android in quanto l'account Apple Developer è a pagamento. 
 
 - **ASP.NET Core**: framework open-source multipiattaforma, successore di ASP.NET, per la realizzazione di siti Web, applicazioni e database. Nell'ambito di questo progetto è stato
-utilizzato per la realizzazione del back end, ovvero la componente d’integrazione tra la piattaforma cloud di push notification e la mobile application in grado di gestire tutte le richieste 
+utilizzato per la realizzazione del backend, ovvero la componente d’integrazione tra la piattaforma cloud di push notification e la mobile application in grado di gestire tutte le richieste 
 di registrazione/de-registrazione dei dispositivi da inoltrare all'hub di notifica di Azure e "costruire" la notifica per poi spedirla ai PNS specifici.
 
 - **ASP.NET Core Razor Page**: framework open-source specifico per la creazione di siti web multipiattaforma. Abbina il linguaggio C# per la programmazione server-side
@@ -69,9 +69,9 @@ Nel contesto del progetto, sono stati utilizzati due servizi gratuiti:
 - **Firebase Cloud Messaging (FCM)**: PNS per applicazioni Android, iOS e Web che appartiene alla piattaforma Firebase dell'azienda Google. Precedentemente chiamato 
   Google Cloud Messaging (GCM), è gratuito ed e utilizzato nell'ambito di questo progetto per l'invio di notifiche a dispositivi Android.
 
-- **Apple Platform Notification System (APNS)**: PNS specifico per applicazioni iOS. Non è stato utilizzato e tantomeno configurato a causa dell'account Apple Developer a pagamento.
+- **Apple Platform Notification System (APNS)**: PNS specifico per applicazioni iOS. Non è stato utilizzato e tanto meno configurato a causa dell'account Apple Developer a pagamento.
 
-> Nel prossimo documento verrà approfondito il funzionamento di tali piattaforme e le ragioni per il quale è stata scelta una piattaforma anzichè l'altra.
+> Nel prossimo documento verrà approfondito il funzionamento di tali piattaforme e le ragioni per il quale è stata scelta una piattaforma anziché l'altra.
 
 <div align="right">
 
@@ -115,7 +115,6 @@ Download disponibile al seguente [link](https://desktop.github.com/).
 ---
 
 ### Glossario
-
 
 - **PNS**: acronimo di *Platform Notification System*, è un'infrastruttura specifica che permette di creare un handle con i dispositivi per inviare notifiche push
 fino a quando il dispositivo è registrato al servizio. Per i dispositivi Android, l'invio delle notifiche è gestito da FCM, mentre per i dispositivi Apple da APNS.

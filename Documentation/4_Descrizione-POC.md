@@ -350,7 +350,7 @@ A fronte di ciò, il progetto che viene generato è composto da tre parti:
 > La parte inerente a *TestNotification.iOS* non verrà modificata per i motivi citati nei precedenti documenti. All'azienda verrà fornita la relativa documentazione.
 
 L'applicazione mobile è la parte obbligatoria da sviluppare nel frontend ed è il componente fondamentale per testare la ricezione di notifiche da parte della web application (nel contesto aziendale sarà
-dal backend). Le notifiche sono push, quindi la visualizzazione avviene sia in primo piano (notifiche *heads-up*) che nel centro notifiche, e in qualsiasi stato si trovi il dispositivo, con la prerogativa
+dal backend). Le notifiche sono push, quindi la visualizzazione avviene sia in primo piano (notifiche *heads-up*) che nel centro notifiche, e in qualsiasi stato si trovi il dispositivo, con la precondizione
 che esso sia connesso alla rete. In caso contrario, solo una volta che viene riattivata la rete allora il dispositivo sarà in grado di ricevere tutte le notifiche che sono rimaste accodate nei PNS di 
 riferimento.
 
@@ -392,14 +392,14 @@ public static partial class Config
 {
     static Config()
     {
-        // Uncomment ONLY one BackendServiceEndpoint string to start back end
+        // Uncomment ONLY one BackendServiceEndpoint string to start backend
 
-        // Use this string connection if the back end works on Web Service Azure, because it is loaded there 
+        // Use this string connection if the backend works on Web Service Azure, because it is loaded there 
         //BackendServiceEndpoint = "<your_api_app_url>";
 
         /* RECOMMENDED FOR DEBUG --> deactivate the firewall completely!
          * 
-         * Use this string connection if your back end works on localhost 
+         * Use this string connection if your backend works on localhost 
          * http(s)://<your-local-ipv4-address>:<service-port>
          */
         //BackendServiceEndpoint = "http(s)://<your-local-ipv4-address>:<service-port>";
@@ -654,7 +654,7 @@ Ora l'attenzione passa sulla focalizzazione delle classi più significative di T
 Questa classe estende l'interfaccia *IDeviceInstallationService* di TestNotification, in quanto contiene tutti i valori di installazione del dispositivo in Azure: è questa la parte di codice
 specifica che imposta i valori e crea l'oggetto di installazione.
 
-La precondizione è che il dispositivo Android abbia installati i Google Play Services, altrimenti non è possibile suportare la ricezione delle notifiche.
+La precondizione è che il dispositivo Android abbia installati i Google Play Services, altrimenti non è possibile supportare la ricezione delle notifiche.
 Se la precondizione è rispettata, allora si procede con la creazione dell'oggetto di installazione, che imposta:
 - *InstallationId* ad un ID univoco di 64 bit generato dal dispositivo con *Secure.AndroidId*. Questa informazione verrà salvata come tag speciale, necessaria per la cancellazione del dispositivo.
 - *Platform* ad *fcm*, che è la sigla della piattaforma di Firebase Cloud Messaging.
@@ -806,7 +806,7 @@ Lo stagista ha cercato di implementare in modo ottimale il *badge* della notific
 conto del numero di notifiche ancora non lette.
 
 <div align="center">
-    <img src="Images/4_Document/Mobile-app/4.4.1)Badge-counter-Android-7.0-and-lower.png" alt="Immagine badge fino ad Android 7.1"/>
+    <img src="Images/4_Document/Mobile-app/4.1.1)Badge-counter-Android-7.0-and-lower.png" alt="Immagine badge fino ad Android 7.1"/>
 </div>
 
 È stata trovata una libreria molto interessante e facile da applicare, il cui pacchetto prende il nome di **Xamarin.ShortcutBadger**, che è stata applicata nella classe *PushNotificationFirebaseMessagingService*.
@@ -846,7 +846,7 @@ chiamato *Notification dot* (consultare il seguente [link](https://developer.and
 premuta l'icona di partenza per qualche secondo, visualizzando l'ultima notifica e il numero di notifiche ricevute e non ancora lette. Pertanto, l'utilizzo della libreria *ShortcutBadger* è necessaria __solo__
 per le versioni di Android antecedenti alla 7.1, compresa quest'ultima.
 ><div align="center">
->    <img src="Images/4_Document/Mobile-app/4.4.2)Badge-counter-Android-8.0-and-higher.png" alt="Immagine badge da Android 8.0"/>
+>    <img src="Images/4_Document/Mobile-app/4.1.2)Badge-counter-Android-8.0-and-higher.png" alt="Immagine badge da Android 8.0"/>
 ></div>
 
 <div align="right"> 
@@ -862,10 +862,10 @@ L'utente, che in questo caso è lo stagista Alberto Gobbo, inserisce le proprie 
 <table width=”auto″ align="center">
     <tr>
         <td valign=”top” width=”30%″>
-            <img src="Images/4_Document/Mobile-app/4.1.1)Login-page.png" alt="Pagina di login"/>
+            <img src="Images/4_Document/Mobile-app/4.2.1)Login-page.png" alt="Pagina di login"/>
         </td>
         <td valign=”top” width=”30%″>
-            <img src="Images/4_Document/Mobile-app/4.1.2)Login-loading.png" alt="Richiesta di login"/>
+            <img src="Images/4_Document/Mobile-app/4.2.2)Login-loading.png" alt="Richiesta di login"/>
         </td>
     </tr>
 </table>
@@ -874,7 +874,7 @@ Se le credenziali sono state inserite correttamente, l'utente sarà autenticato 
 l'azienda e il settore specifico in cui lavora.
 
 <div align="center">
-    <img src="Images/4_Document/Mobile-app/4.1.3)Login-ok.png" alt="Login corretto e indirizzamento alla pagina successiva"/>
+    <img src="Images/4_Document/Mobile-app/4.3)Login-ok.png" alt="Login corretto e indirizzamento alla pagina successiva"/>
 </div>
 
 Ora il dispositivo è abilitato a ricevere qualsiasi notifica, in quanto anche il processo di installazione del dispositivo è andato a buon fine. 
@@ -884,7 +884,7 @@ Ad un certo punto l'utilizzatore della web application decide di inviare una not
 Ed è a questo punto che l'applicazione mobile *TestNotification* riceve la suddetta notifica in modalità heads-up, ovvero a comparsa.
 
 <div align="center">
-    <img src="Images/4_Document/Mobile-app/4.2)Heads-up-notification.png" alt="Ricezione notifica heads-up"/>
+    <img src="Images/4_Document/Mobile-app/4.4)Heads-up-notification.png" alt="Ricezione notifica heads-up"/>
 </div>
 
 Se non viene eseguita alcuna azione nella notifica heads-up prima che questa sparisca, allora la notifica viene salvata nella barra di stato.
@@ -897,7 +897,7 @@ Se l'utente vuole visualizzare la notifica che ha ricevuto, può fare swipe down
 Qui troverà la notifica che contiene l'icona dell'applicazione, il titolo del messaggio, il tempo che è passato dalla sua ricezione ed infine il testo del messaggio.
 
 <div align="center">
-    <img src="Images/4_Document/Mobile-app/4.3)Notification-on-shade.png" alt="Notifica nel centro notifiche"/>
+    <img src="Images/4_Document/Mobile-app/4.6)Notification-on-shade.png" alt="Notifica nel centro notifiche"/>
 </div>
 
 L'utente può cancellarla dal centro notifiche facendo swipe left/right, oppure selezionarla con un tap in modo da accedere nell'attività corrente dell'applicazione *TestNotification*
@@ -906,7 +906,7 @@ L'utente può cancellarla dal centro notifiche facendo swipe left/right, oppure 
 L'utente riceverà notifiche fino a quando non avvia la procedura di logout. Nel caso l'utente decida di disconnettersi dal servizio, allora premerà il pulsante *Logout*.
 
 <div align="center">
-    <img src="Images/4_Document/Mobile-app/4.6)Logout.png" alt="Logout corretto"/>
+    <img src="Images/4_Document/Mobile-app/4.7)Logout.png" alt="Logout corretto"/>
 </div>
 
 Se il logout è avvenuto correttamente, allora l'utente non è più autenticato e l'installazione del dispositivo è stata cancellata con successo.
@@ -978,14 +978,14 @@ public static partial class Config
 {
     static Config()
     {
-        // Uncomment ONLY one BackendServiceEndpoint string to start back end
+        // Uncomment ONLY one BackendServiceEndpoint string to start backend
 
-        // Use this string connection if the back end works on Web Service Azure, because it is loaded there 
+        // Use this string connection if the backend works on Web Service Azure, because it is loaded there 
         //BackendServiceEndpoint = "<your_api_app_url>";
 
         /* RECOMMENDED FOR DEBUG --> deactivate the firewall completely!
          * 
-         * Use this string connection if your back end works on localhost 
+         * Use this string connection if your backend works on localhost 
          * http(s)://<your-local-ipv4-address>:<service-port>
          */
         //BackendServiceEndpoint = "http(s)://<your-local-ipv4-address>:<service-port>";
@@ -1104,7 +1104,7 @@ notifica. La voce di default è impostata a *Everyone*, che consente di inviare 
     <img src="Images/4_Document/Web-app/4.2.1)Select-user.png" alt="Input del form nell'home page"/>
 </div>
 
-L'utente vuole inviare una notifica allo stagista Alberto Gobbo, quindi compila l'input **Text notification** con il testo *Hey Alberto? How are things today?* e dal menu a tendina di **Tags 
+L'utente vuole inviare una notifica allo stagista Alberto Gobbo, quindi compila l'input **Text notification** con il testo "*Hey Alberto? How are things today?*" e dal menu a tendina di **Tags 
 notification** seleziona la voce *Alberto.Gobbo*.
 Alla fine dell'inserimento dei dati, l'utente può cliccare il pulsante *Send notification* e aspettare una risposta dal server che indica l'esito della ricezione della notifica.
 
@@ -1145,7 +1145,7 @@ In seguito vengono illustrate le due modalità per l'utilizzo di Postman.
 **PRIMA MODALITÁ**
 
 La prima cosa da fare è creare una nuova richiesta, rispettando i seguenti passaggi:
-- nella barra in alto, selezionare il metodo **POST** e inserire l'URL relativo all'inoltro della notifica https://serverpushnotification.azurewebsites.net/api/notifications/requests (oppure avviare il back end locale all'indirizzo http://localhost:5000/api/notifications/requests).
+- nella barra in alto, selezionare il metodo **POST** e inserire l'URL relativo all'inoltro della notifica https://serverpushnotification.azurewebsites.net/api/notifications/requests (oppure avviare il backend locale all'indirizzo http://localhost:5000/api/notifications/requests).
 - selezionare la voce **Headers** presente nel tab, e:
     - Attivare la checkbox della key **Content-Type** e scrivere come value **application/json**.
 - selezionare la voce **Body** presente nel tab, attivare il radio button **raw** e selezionare **JSON** nel menu a tendina. Nella text box sottostante, scrivere il corpo del messaggio di notifica:
@@ -1160,7 +1160,7 @@ La prima cosa da fare è creare una nuova richiesta, rispettando i seguenti pass
 1) Il parametro **text** indica il testo che verrà inserito nella notifica. Il titolo è fissato di default come il nome dell'applicazione corrente.
 
 2) Il parametro **tags** invece indica un insieme di valori che specificano quali device, registrati con i relativi tag, possono essere raggiunti. È possibile inserire 0 tag (che equivale a raggiungere tutti i dispositivi registrati in Azure Hub Notification),
-e il numero massimo inseribile è di 10 tag. Questa limitazione è dovuta al fatto che la *tagExpression*, che viene costruita ed elaborata dal back end, è un'operazione logica di soli AND (&&). In merito a questa operazione, la documentazione è chiara, infatti utilizzando solo && 
+e il numero massimo inseribile è di 10 tag. Questa limitazione è dovuta al fatto che la *tagExpression*, che viene costruita ed elaborata dal backend, è un'operazione logica di soli AND (&&). In merito a questa operazione, la documentazione è chiara, infatti utilizzando solo && 
 è possibile inserire al massimo 10 tag.
 
 > Nel caso d'uso specifico di Hunext, il tag da inserire è il GUID al quale si vuole inviare la notifica.
@@ -1177,7 +1177,7 @@ Nel caso non si volesse preparare manualmente la richiesta, è possibile scarica
 
 Successivamente, aprire l'applicativo Postman, cliccare il bottone **Import** presente in alto sotto il menu e selezionare il file appena scaricato.
 
-Il file contiene due richieste HTTP avente lo stesso body ed indirizzate al tag dell'utente *Mario.Rossi*. La prima richiesta è indirizzata all'URL del back end locale che dev'essere avviato manualmente, mentre la seconda all'URL dello stesso back end ma caricato su Azure ed accessibile pubblicamente.
+Il file contiene due richieste HTTP avente lo stesso body ed indirizzate al tag dell'utente *Mario.Rossi*. La prima richiesta è indirizzata all'URL del backend locale che dev'essere avviato manualmente, mentre la seconda all'URL dello stesso backend ma caricato su Azure ed accessibile pubblicamente.
 
 **Pre-condizione**: almeno un device deve essere autenticato come *Mario.Rossi*.
 

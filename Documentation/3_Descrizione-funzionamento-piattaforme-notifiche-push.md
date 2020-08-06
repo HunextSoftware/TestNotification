@@ -35,7 +35,7 @@ ma che non sono accomunati da un'interfaccia unica. Proprio per questo motivo sa
 
 FCM è un PNS di Google che consente di inviare notifiche principalmente per i dispositivi Android. Questo servizio è comunque disponibile per i dispositivi Apple e gli applicativi Web.
 
-La prerogativa per il funzionamento di FCM, come per ogni PNS, consiste nella registrazione dei dispositivi per la ricezione dei messaggi da FCM.
+La precondizione per il funzionamento di FCM, come per ogni PNS, consiste nella registrazione dei dispositivi per la ricezione dei messaggi da FCM.
 Questa procedura viene avviata da un dispositivo che, una volta installata l'applicazione, contatta FCM per ottenere un token di registrazione, il quale identifica in modo univoco l'istanza dell'applicazione
 associata a quel dispositivo.
 Il token di registrazione viene poi salvato nel backend di FCM, e da quel momento il dispositivo è abilitato a ricevere le notifiche.
@@ -78,7 +78,7 @@ nel PNS (di default 28 giorni). Le sotto-chiavi che identificano la piattaforma 
 
 APNS è un PNS di Apple specifico in quanto consente di inviare notifiche solo ai dispositivi Apple. 
 
-La prerogativa per il funzionamento di APNS, come per ogni PNS, consiste nella registrazione dei dispositivi per la ricezione dei messaggi da APNS.
+La precondizione per il funzionamento di APNS, come per ogni PNS, consiste nella registrazione dei dispositivi per la ricezione dei messaggi da APNS.
 Questa procedura viene avviata da un dispositivo Apple che, una volta avviata l'istanza dell'applicazione, contatta APNS per ricevere il token del 
 dispositivo che identifica in modo univoco l'istanza dell'applicazione associata a quel dispositivo.
 Il token di registrazione viene poi inoltrato al server del provider, e da quel momento il dispositivo è abilitato a ricevere le notifiche.
@@ -232,7 +232,7 @@ Ora l'attenzione si focalizza sui dati che vengono recuperati sia a livello di d
 - **Tags**: array di etichette che identificano una serie di categorie alla quale l'utente appartiene (es. se il contesto dell'applicazione è lo sport, l'utente che tifa X e segue anche la squadra Y riceverà le notifiche sia della squadra X che della squadra Y).
   Nel caso d'uso specifico dell'applicazione *Hunext Mobile*, il tag specifico da utilizzare è il GUID utente che viene recuperato dal layer di persistenza del server aziendale. In questo modo, una notifica può essere indirizzata a specifici utenti.
   A causa dell'espressione implementata a livello backend (espressione logica con soli AND (&&)), il numero di tag possibili va da 0 a 10.
-  > Per questioni di sicurezza e di elaborazione, il recupero di questa informazione avviene lato back end. In questo modo, l'utente è svincolato da ogni responsabilità, demandandola al backend.
+  > Per questioni di sicurezza e di elaborazione, il recupero di questa informazione avviene lato backend. In questo modo, l'utente è svincolato da ogni responsabilità, demandandola al backend.
 
 
 ### Come viene salvata un'installazione specifica in Azure Notification Hubs
