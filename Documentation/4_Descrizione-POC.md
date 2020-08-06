@@ -91,6 +91,10 @@ Il progetto *TestNotification.Backend* è stato sviluppato a partire da un proge
 Il backend è una parte fondamentale di questo progetto in quanto gestisce le chiamate per la gestione delle installazioni dei dispositivi e le richieste di
 invio notifiche destinate all'hub di notifica di Azure, che a sua volta gestirà autonomamente l'invio delle notifiche ai PNS di riferimento.
 
+La sezione è strutturata nelle seguenti sotto-sezioni:
+- [Le parti principali del codice](#le-parti-principali-del-codice)
+- [Attività facoltative](#attivita-facoltative)
+
 ### Le parti principali del codice
 
 Il primo passaggio essenziale per lo sviluppatore è inserire valori di configurazione localmente utilizzando lo strumento *Secret Manager*. 
@@ -104,7 +108,7 @@ dotnet user-secrets set "NotificationHub:ConnectionString" <value>
 
 Il placeholder *\<value\>* va rimpiazzato in questo modo:
 - **NotificationHub:Name** è la voce *Name** che si trova in *Informazioni di base* nella pagina principale dell'hub di notifica appena creato.
-- **NotificationHub:ConnectionString** è il valore *DefaultFullSharedAccessSignature* copiato nel passaggio 5) della creazione dell'hub di notifica.
+- **NotificationHub:ConnectionString** è il valore *DefaultFullSharedAccessSignature* copiato nel passaggio 5) della creazione dell'hub di notifica per l'accesso in lettura e scrittura ad Azure.
 
 Il passaggio successivo è aggiungere le dipendenze necessarie al backend dal servizio *NuGet* di Visual Studio:
 - *Microsoft.Azure.NotificationHubs*, la libreria che permette di effettuare specifiche chiamate ad Azure Notification Hubs.
@@ -272,6 +276,11 @@ I metodi principali sono i seguenti:
 DELETE *~/api/notifications/installations/\{installationId}* per accertarsi che la richiesta HTTP sia autorizzata, verificando che nell'header sia presente l'id utente.
 - *AuthenticateUser(string username, string password)*: ritorna true se le credenziali dell'utente sono presenti nel database. Viene utilizzato nel codice dell'endpoint POST *~/login*.
 
+<div align="right">
+
+[Torna su](#descrizione-del-prototipo-software-sviluppato)
+</div>
+
 ### Attività facoltative
 
 #### Creazione dell'App Service su Azure
@@ -351,6 +360,13 @@ Questo passaggio è fondamentale ai fini della dimostrazione del funzionamento d
 ed è ciò che avviene realmente.
 Nella pagina è presente un pulsante di logout che ha il compito di disconnettere l'utente e cancellare l'installazione del dispositivo dall'hub di notifica. 
 Alla fine di questo passaggio l'utente è reindirizzato alla pagina iniziale di login e viene dimostrato che a questo punto non vengono più recapitate notifiche al dispositivo.
+
+La sezione è strutturata nelle seguenti sotto-sezioni:
+- [Le parti principali del codice TestNotification](#le-parti-principali-del-codice-testnotification)
+- [Le parti principali del codice TestNotification.Android](#le-parti-principali-del-codice-testnotification.android)
+- [Manuale utente TestNotification](#manuale-utente-testnotification)
+- [Sviluppo di TestNotification.iOS](#sviluppo-di-testnotification.ios)
+
 
 ### Le parti principali del codice TestNotification
 
@@ -591,7 +607,10 @@ I tentativi futuri di inviare un messaggio a quel dispositivo generano un errore
 >
 > Una volta che viene re-installata l'applicazione mobile, l'utente può tranquillamente eseguire la procedura di login in quanto verrebbe aggiornata l'istanza del dispositivo nell'hub di notifica di Azure con i dati aggiornati.
 
- 
+<div align="right"> 
+
+[Torna su](#descrizione-del-prototipo-software-sviluppato)
+</div> 
 
 ### Le parti principali del codice TestNotification.Android
 
@@ -612,6 +631,11 @@ Prima di andare nel dettaglio della codifica, sono necessari alcuni controlli ai
 - aggiungere dalla root del progetto *TestNotification.Android* il file *google-services.json* caricato precedentemente in locale.
     - fare click destro sul file.
     - verificare che *BuildAction* sia impostato a *GoogleServicesJson*.
+
+L'ultimo passaggi preliminare è controllare le variabili presenti nella classe *Constants.cs*. In questo file sono presenti i valori per la connessione ad Azure e per la creazione del canale di notifica.
+In particolare, vanno controllati i valori:
+- *NotificationHubName*, che corrisponde al nome dell'hub di notifica creato in Azure.
+- *ListenConnectionString*, che corrisponde alla stringa di connessione in sola lettura ad Azure, salvata precedentemente in un file a parte. 
 
 Da questo momento, è importante analizzare le tappe cruciali per la realizzazione dell'applicazione mobile in Android.
 Il progetto è strutturato in questa sequenza:
@@ -765,18 +789,138 @@ dal proprio dispositivo: *Impostazioni --> Applicazioni --> TestNotification.And
 le impostazioni *Banner*, *A schermo bloccato* e *Visualizzazione prioritaria*. In questo modo, verranno visualizzate le notifiche heads-up (a comparsa per 4 secondi nella parte superiore dello schermo)
 e le notifiche a schermo bloccato con i i dettagli della notifica nascosti.
 
+<div align="right"> 
+
+[Torna su](#descrizione-del-prototipo-software-sviluppato)
+</div>
+
 #### Implementazioni future per TestNotification.Android
 
-Alla conclusione di questa sezione viene segnalata un'implementazione futura che si può applicare nell'applicazione mobile.
+Alla conclusione di questa sezione viene segnalata un'implementazione futura più dettagliata che si può applicare nell'applicazione mobile.
 
-Lo stagista ha cercato di implementare in modo ottimale il *badge* della notifica, ovvero una segnalazione grafica che viene apposta in un angolo dell'icona dell'applicazione nella home che tiene
+Lo stagista ha cercato di implementare in modo ottimale il *badge* della notifica, ovvero una segnalazione grafica visibile in un angolo dell'icona dell'applicazione che tiene
 conto del numero di notifiche ancora non lette.
-È stata trovata una libreria molto interessante e facile da applicare, il cui pacchetto prende il nome di 
 
+<div align="center">
+    <img src="Images/4_Document/Mobile-app/4.4.1)Badge-counter-Android-7.0-and-lower.png" alt="Immagine badge fino ad Android 7.1"/>
+</div>
 
-### Breve presentazione del layout
+È stata trovata una libreria molto interessante e facile da applicare, il cui pacchetto prende il nome di **Xamarin.ShortcutBadger**, che è stata applicata nella classe *PushNotificationFirebaseMessagingService*.
 
-TODO
+Un esempio di codice è il seguente:
+```
+public override void OnCreate()
+{
+    base.OnCreate();
+
+    if (ShortcutBadger.IsBadgeCounterSupported(this))
+    {
+        if (MainActivity.isActivityActive)
+            badgeCount = 0;
+        else
+            badgeCount += 1;
+
+        ShortcutBadger.ApplyCount(this, badgeCount);
+    }
+}
+```
+
+Quello che succede a livello di codice è che il metodo *OnCreate()* viene invocato ad ogni azione che viene eseguita su una notifica (notifica ricevuta, notifica eliminata dall'utente, eccetera...)
+__solo__ quando l'attività di *TestNotification* non è nello stato *OnStart*, ovvero nella home del dispositivo, in un'altra applicazione oppure a schermo spento.
+
+Il codice viene eseguito correttamente quando una notifica viene ricevuta, in quanto viene incrementato il contatore del badge, oppure quando l'utente si riporta nell'applicazione *TestNotification*
+(invocando il metodo *OnStart()* della classe *MainActivity*). Il problema si genera ogni volta che la notifica viene eliminata manualmente dall'utente quando l'utente non è all'interno 
+dell'applicazione, in quanto viene invocato sempre il metodo *OnCreate()* e, per come è stato implementato il codice, viene incrementato erroneamente il contatore del badge.
+
+Lo stagista non ha trovato quindi un metodo che fosse in grado di decrementare il contatore del badge. È stato fatto un tentativo di prova con il metodo *OnDeletedMessages()* della classe
+*FirebaseMessagingService*, ma il suddetto metodo viene invocato dal PNS di Firebase solo le notifiche scadono, ovvero non arrivano a destinazione entro il tempo massimo di invio fissato a 28 giorni.
+
+Ergo, il seguente prototipo non implementa correttamente il badge di notifica, per questo viene segnalata come attività futura nel caso l'azienda ritenesse necessaria la sua implementazione. 
+
+> Nota a margine: il classico badge con il pallino rosso è disponibile fino alla versione di Android 7.1. Dalle versioni successive, Android ha implementato un nuovo modo automatico di visualizzazione delle notifiche
+chiamato *Notification dot* (consultare il seguente [link](https://developer.android.com/guide/topics/ui/notifiers/notifications#icon-badge)). Queste notifiche hanno la particolarità di essere visibili tenendo
+premuta l'icona di partenza per qualche secondo, visualizzando l'ultima notifica e il numero di notifiche ricevute e non ancora lette. Pertanto, l'utilizzo della libreria *ShortcutBadger* è necessaria __solo__
+per le versioni di Android antecedenti alla 7.1, compresa quest'ultima.
+><div align="center">
+>    <img src="Images/4_Document/Mobile-app/4.4.2)Badge-counter-Android-8.0-and-higher.png" alt="Immagine badge da Android 8.0"/>
+></div>
+
+<div align="right"> 
+
+[Torna su](#descrizione-del-prototipo-software-sviluppato)
+</div>
+
+### Manuale utente TestNotification
+
+Alla prima apertura dell'applicazione, viene presentata il form di login che offre la possibilità di accedere correttamente al servizio di *TestNotification*.
+L'utente, che in questo caso è lo stagista Alberto Gobbo, inserisce le proprie credenziali *Username* e *Password* e poi avvia la procedura di login premendo il pulsante *Login*.
+
+<table width=”auto″ align="center">
+    <tr>
+        <td valign=”top” width=”30%″>
+            <img src="Images/4_Document/Mobile-app/4.1.1)Login-page.png" alt="Pagina di login"/>
+        </td>
+        <td valign=”top” width=”30%″>
+            <img src="Images/4_Document/Mobile-app/4.1.2)Login-loading.png" alt="Richiesta di login"/>
+        </td>
+    </tr>
+</table>
+
+Se le credenziali sono state inserite correttamente, l'utente sarà autenticato e avrà diritto ad accedere alla pagina successiva, che mostra i dati dell'utenza, in particolare lo username appena inserito,
+l'azienda e il settore specifico in cui lavora.
+
+<div align="center">
+    <img src="Images/4_Document/Mobile-app/4.1.3)Login-ok.png" alt="Login corretto e indirizzamento alla pagina successiva"/>
+</div>
+
+Ora il dispositivo è abilitato a ricevere qualsiasi notifica, in quanto anche il processo di installazione del dispositivo è andato a buon fine. 
+Nel caso reale del contesto aziendale la notifica verrà elaborata ed inviata dal backend, mentre in questo progetto sarà la web application ad avere la responsabilità di invio della notifica.
+
+Ad un certo punto l'utilizzatore della web application decide di inviare una notifica con il seguente testo: "*Hey Alberto! How are things today?*" indirizzato all'utente *Alberto.Gobbo* oppure in modalità broadcast.
+Ed è a questo punto che l'applicazione mobile *TestNotification* riceve la suddetta notifica in modalità heads-up, ovvero a comparsa.
+
+<div align="center">
+    <img src="Images/4_Document/Mobile-app/4.2)Heads-up-notification.png" alt="Ricezione notifica heads-up"/>
+</div>
+
+Se non viene eseguita alcuna azione nella notifica heads-up prima che questa sparisca, allora la notifica viene salvata nella barra di stato.
+
+<div align="center">
+    <img src="Images/4_Document/Mobile-app/4.5)Home-notification.png" alt="Notifica sulla barra di stato"/>
+</div>
+
+Se l'utente vuole visualizzare la notifica che ha ricevuto, può fare swipe down dalla barra di stato per visualizzare il centro notifiche. 
+Qui troverà la notifica che contiene l'icona dell'applicazione, il titolo del messaggio, il tempo che è passato dalla sua ricezione ed infine il testo del messaggio.
+
+<div align="center">
+    <img src="Images/4_Document/Mobile-app/4.3)Notification-on-shade.png" alt="Notifica nel centro notifiche"/>
+</div>
+
+L'utente può cancellarla dal centro notifiche facendo swipe left/right, oppure selezionarla con un tap in modo da accedere nell'attività corrente dell'applicazione *TestNotification*
+(in questo caso la cancellazione della notifica è automatica).
+
+L'utente riceverà notifiche fino a quando non avvia la procedura di logout. Nel caso l'utente decida di disconnettersi dal servizio, allora premerà il pulsante *Logout*.
+
+<div align="center">
+    <img src="Images/4_Document/Mobile-app/4.6)Logout.png" alt="Logout corretto"/>
+</div>
+
+Se il logout è avvenuto correttamente, allora l'utente non è più autenticato e l'installazione del dispositivo è stata cancellata con successo.
+Quindi se l'utilizzatore della web application tenta di inviare una notifica ad *Alberto.Gobbo* oppure in modalità broadcast, l'utente che si è appena disconnesso non riceverà alcuna notifica.
+
+<div align="right"> 
+
+[Torna su](#descrizione-del-prototipo-software-sviluppato)
+</div>
+
+### Sviluppo di TestNotification.iOS
+
+Come ampiamente anticipato, l'implementazione per i dispositivi Apple non è stata eseguita. 
+
+Pertanto è dovere dello stagista condividere alcuni link che aiutano lo sviluppatore ad implementare i dettagli della notifica, come del resto fatto in TestNotification.Android per i dispositivi
+Android.
+
+La procedura per lo sviluppo di questa parte mancante è disponibile al seguente [link](https://docs.microsoft.com/it-it/azure/developer/mobile-apps/notification-hubs-backend-service-xamarin-forms#configure-the-native-ios-project-for-push-notifications).
 
 <div align="right"> 
 

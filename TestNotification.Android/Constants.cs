@@ -3,9 +3,9 @@
     public static class Constants
     {
         // Azure's constants
-        public const string ListenConnectionString = "Endpoint=sb://testpushnotificationhubns.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=JAqNrRS/eArWTIROSMjqYwzSlMWRuL9SB1E1Evyx3LQ=";
         public const string NotificationHubName = "testpushnotificationhub";
-
+        public const string ListenConnectionString = "Endpoint=sb://testpushnotificationhubns.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=JAqNrRS/eArWTIROSMjqYwzSlMWRuL9SB1E1Evyx3LQ=";
+        
         // Notification channel's constants
         public const int NOTIFICATION_ID = 1000;
         public const string CHANNEL_ID = "TestNotificationChannel";
