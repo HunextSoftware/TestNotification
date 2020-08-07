@@ -242,7 +242,7 @@ I metodi principali sono i seguenti:
 **6) LoginController.cs**
 
 Come *NotificationsController*, questa classe è abilitata a ricevere richieste da determinati endpoint grazie alla presenza dell'attributo *[ApiController]*.
-Questa classe è stata creata appositamente per separare le operazioni che coinvolgono le chiamate all'API di Azure Notifications Hubs dalle operazioni che interessano l'autenticazione dell'utente.
+Questa classe è stata creata appositamente per separare le operazioni che coinvolgono le chiamate all'API di Azure Notification Hubs dalle operazioni che interessano l'autenticazione dell'utente.
 
 In questo caso l'unico endpoint presente è:
 - POST *~/login*: ritorna una risposta HTTP 200 con l'annesso oggetto di risposta *LoginResponse* se le credenziali contenute nel corpo della richiesta di tipo *LoginRequest* sono presenti all'interno del database di LiteDB.
@@ -712,7 +712,7 @@ public void OnSuccess(Java.Lang.Object result)
         result.Class.GetMethod("getToken").Invoke(result).ToString();
 ```
 
-Inoltre il metodo *CreateNotificationChannel()* è responsabile della creazione del canale di notifica, una nuova feature disponibile a partire dalle versioni di Android 8.0 creata per raggruppare tipologie di notifiche diverse per la stessa applicazione. Viene impostato un ID univoco che identifica il canale, contrassegnato da un nome (visualizzabile dalle impostazioni di notifica dell'applicazione), una descrizione facoltativa ed infine la priorità delle notifiche. Acnhe in questo caso è stata fissata una priorità alta. 
+Inoltre il metodo *CreateNotificationChannel()* è responsabile della creazione del canale di notifica, una nuova feature disponibile a partire dalle versioni di Android 8.0 creata per raggruppare tipologie di notifiche diverse per la stessa applicazione. Viene impostato un ID univoco che identifica il canale, contrassegnato da un nome (visualizzabile dalle impostazioni di notifica dell'applicazione), una descrizione facoltativa ed infine la priorità delle notifiche. Anche in questo caso è stata fissata una priorità alta. 
 
 Il codice è il seguente:
 ```
@@ -942,7 +942,7 @@ Nello specifico Text va a sostituire $(textNotification), che sostituirà a sua 
 
 **2) NotificationRequestTemplate.cs**
 
-Questa classe contiene la stringa, serializzabile in JSON, che viene inviata come *content* della richiesta HTTP indirizzata al backend, in particolare all'endpoint *~/api/notifications/requests*.
+Questa classe contiene la stringa, che può essere serializzato in JSON, che viene inviata come *content* della richiesta HTTP indirizzata al backend, in particolare all'endpoint *~/api/notifications/requests*.
 
 Ecco il corpo della richiesta:
 ```
@@ -970,7 +970,7 @@ Il campo *Tags* è un menu a tendina dalla quale scegliere l'utente alla quale i
 La lista degli utenti viene aggiornata ogni volta che si ricarica la pagina */Index* tramite il metodo *OnGetAsync()*: viene invocata un'apposita chiamata al backend che risponde con un oggetto *UserData* contenente l'id utente (che è il vero valore da inserire nel campo *Tags* della richiesta, nascosto all'utente) e il corrispondente nome utente (che viene visualizzato nel menu a tendina).
 
 Una volta che i campi sono inseriti correttamente, l'utente può cliccare il pulsante *Send notification* ed invocare *OnPostAsync()*, che è il metodo che si collega al form descritto nel file *Index.cshtml*, in quanto ha *method="post"*. 
-Il seguente metodo è stato utilizzato per inviare il content della richiesta HTTP destinata al backend, che ha sostituito i placeholder con il testo e i tag inseriti nel form:
+Il seguente metodo è stato utilizzato per inviare il *content* della richiesta HTTP destinata al backend, che ha sostituito i placeholder con il testo e i tag inseriti nel form:
 
 ```
 string PrepareRequestNotificationPayload(string text, string tag)
@@ -1026,7 +1026,7 @@ Il form contiene l'input per il testo sotto la voce **Text notification** e un m
 </div>
 
 L'utente vuole inviare una notifica allo stagista Alberto Gobbo, quindi compila l'input **Text notification** con il testo "*Hey Alberto? How are things today?*" e dal menu a tendina di **Tags notification** seleziona la voce *Alberto.Gobbo*.
-Alla fine dell'inserimento dei dati, l'utente può cliccare il pulsante *Send notification* e aspettare una risposta dal server che indica l'esito della ricezione della notifica.
+Alla fine dell'inserimento dei dati, l'utente può cliccare il pulsante *Send notification* e aspettare una risposta dal server del provider che indica l'esito della ricezione della notifica.
 
 <div align="center">
     <img src="Images/4_Document/Web-app/4.2.2)Send-notification.png" alt="Invio della notifica ad Alberto Gobbo"/>
@@ -1074,13 +1074,13 @@ La prima cosa da fare è creare una nuova richiesta, rispettando i seguenti pass
 ```
 1) Il parametro **text** indica il testo che verrà inserito nella notifica. Il titolo è già fissato di default dal codice di *TestNotification.Android* con il nome dell'applicazione corrente.
 
-2) Il parametro **tags** invece indica un insieme di valori che specificano quali device, registrati con i relativi tag, possono essere raggiunti. È possibile inserire nessun tag (che equivale a raggiungere tutti i dispositivi registrati in Azure Hub Notification), oppure fino a 10 tag. Questa limitazione è dovuta al fatto che la *tagExpression*, che viene costruita ed elaborata dal backend, è un'operazione logica di soli AND (&&). In merito a questa operazione, la documentazione è chiara: utilizzando solo AND (&&) è possibile inserire al massimo 10 tag.
+2) Il parametro **tags** invece indica un insieme di valori che specificano quali dispositivi, registrati con i relativi tag, possono essere raggiunti. È possibile inserire nessun tag (che equivale a raggiungere tutti i dispositivi registrati in Azure Notification Hubs), oppure fino a 10 tag. Questa limitazione è dovuta al fatto che la *tagExpression*, che viene costruita ed elaborata dal backend, è un'operazione logica di soli AND (&&). In merito a questa operazione, la documentazione è chiara: utilizzando solo AND (&&) è possibile inserire al massimo 10 tag.
 
 > Nel caso d'uso specifico di Hunext, il tag da inserire è il GUID al quale si vuole inviare la notifica.
 Va evidenziato che, dopo vari tentativi di test, non è possibile inserire più di un guid all'interno della chiave **tags**.
 La best practice è inviare una notifica per ogni utente, quindi N notifiche per N utenti.
 
-- cliccare il bottone **Send** e inviare la notifica.
+- cliccare il pulsante **Send** e inviare la notifica.
 
 **SECONDA MODALITÁ**
 
@@ -1088,13 +1088,13 @@ Nel caso non si volesse preparare manualmente la richiesta, è possibile scarica
 
 > In alternativa, è possibile scaricare il suddetto file tramite questo [link](https://drive.google.com/file/d/1oDxEGqBFsqdU1l6WnUaa6LrwBHqt1HEP/view?usp=sharing).
 
-Successivamente, aprire l'applicativo Postman, cliccare il bottone **Import** presente in alto e selezionare il file appena scaricato.
+Successivamente, aprire l'applicativo Postman, cliccare il pulsante **Import** presente in alto e selezionare il file appena scaricato.
 
 Il file contiene 6 richieste HTTP, 3 indirizzate al backend localhost e 3 indirizzate all'App Service di Azure. Ogni gruppo ha le stesse richieste, ovvero:
 1) notifica inoltrata a tutti, con la chiave *tags* assente dal body della richiesta.
 2) notifica inoltrata a tutti, con la chiave *tags* presente nel body della richiesta ma vuota.
 3) notifica inoltrata a tutti i dispositivi che sono autenticati con lo username *Mario.Rossi*.
-    - la precondizione è che ci sia almeno un device autenticato come *Mario.Rossi*, in modo che questi possano ricevere la suddetta notifica.
+    - la precondizione è che ci sia almeno un dispositivo autenticato come *Mario.Rossi*, in modo che questi possano ricevere la suddetta notifica.
 
 > Come descritto nella issue [#8](https://github.com/HunextSoftware/TestNotification/issues/8), l'invio della notifica comporta una risposta HTTP 422 (lo si può sia visualizzare da Postman che dalla console della web application). Questo errore semantico è dovuto al fatto che è stata configurata solo la piattaforma FCM, in quanto il codice backend è già predisposto per l'invio di notifiche sia per dispositivi Android che per dispositivi Apple.
 È stato testato che, rimuovendo il codice specifico di TestNotification.Backend in Model/PushTemplates e Services/NotificationHubsService, l'invio della notifica comporta una risposta HTTP 200, con avvenuta ricezione della notifica. Ergo, questo problema verrà risolto non appena verrà effettuata la configurazione della piattaforma APNS, senza che il codice backend subisca ulteriori modifiche.

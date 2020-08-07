@@ -17,7 +17,7 @@ Il documento è strutturato nelle seguenti sezioni:
 
 ## Panoramica generale sui PNS
 
-La mobile application Hunext Mobile è multipiattaforma e più nello specifico è indirizzata a dispositivi Android ed iOS.
+L'applicazione mobile Hunext Mobile è multipiattaforma e più nello specifico è indirizzata a dispositivi Android ed iOS.
 
 Per ricevere notifiche dall'applicazione installata, la precondizione necessaria è che ogni dispositivo deve obbligatoriamente registrarsi al PNS di riferimento, instaurando un collegamento diretto ad esso: questa procedura viene chiamata nel gergo *PNS Handling*. 
 
@@ -181,7 +181,7 @@ Le informazioni che vengono salvate sono:
 - eventualmente i tag che vanno ad identificare gruppi di interesse.
 - eventualmente i modelli di notifica personalizzati.
 
-D'altronde lo stato dell'arte al momento della scrittura prende il nome di __installazione__, ovvero una registrazione più avanzata e moderna che consente di includere informazioni acnora più specifiche.
+D'altronde lo stato dell'arte al momento della scrittura prende il nome di __installazione__, ovvero una registrazione più avanzata e moderna che consente di includere informazioni ancora più specifiche.
 Oltre alle informazioni viste nel processo di registrazione, l'installazione comprende le seguenti operazioni:
 - crea ed aggiorna un'installazione in modo idempotente, evitando registrazioni duplicate.
 - il modello di installazione supporta un formato di tag speciale ( *$InstallationId:{INSTALLATION_ID}* ) che consente l'invio di una notifica direttamente al dispositivo specifico.
@@ -204,14 +204,14 @@ Ora l'attenzione si focalizza sui dati che vengono recuperati sia a livello di d
 - **Platform**: identifica la piattaforma, mediante un'apposita sigla, nella quale il dispositivo si registra. 
   > Il recupero di questa informazione può avvenire solo lato app.
   
-- **PushChannel**: è il token recuperato dal PNS handle che identifica l'installazione di un dispositivo nella piattaforma di notifica apposita. Chiamato anche **Registration ID**, non ha alcuna associazione logica con *Registration ID* generato da Azure (vedere sotto).
+- **PushChannel**: è il token recuperato dal PNS handle che identifica l'installazione di un dispositivo nella piattaforma di notifica apposita. Chiamato anche **Registration ID**, non ha alcuna associazione logica con *Registration ID* generato da Azure Notification Hubs(vedere sotto).
   Questo parametro è strettamente legato a *Platform*, tanto che ci sono modi diversi per recuperare il token in base al sistema operativo del dispositivo.
   > Il recupero di questa informazione può avvenire solo lato app.
 
 - **Tags**: array di informazioni che identificano una serie di categorie alla quale l'utente appartiene (es. se il contesto dell'applicazione è lo sport, l'utente che tifa X ma  che vuole seguire anche la squadra Y riceverà le notifiche sia della squadra X che della squadra Y).
   Nel caso d'uso specifico dell'applicazione *Hunext Mobile*, il tag specifico da utilizzare è il GUID utente che viene recuperato dal layer di persistenza del server del provider. In questo modo, una notifica può essere indirizzata a specifici utenti.
   A causa dell'espressione implementata a livello backend (espressione logica con soli AND (&&)), il numero di tag possibili va da 0 a 10.
-  > Per questioni di sicurezza e di elaborazione, il recupero di questa informazione avviene lato backend. In questo modo l'utente non ha alcuna resposnabilità su questo tipo di informazione.
+  > Per questioni di sicurezza e di elaborazione, il recupero di questa informazione avviene lato backend. In questo modo l'utente non ha alcuna responsabilità su questo tipo di informazione.
 
 ### Come viene salvata un'installazione specifica in Azure Notification Hubs
 
@@ -273,7 +273,7 @@ Inoltre, è già disponibile al percorso *Archive/Estimate-€-Azure-Hub-Notific
 
 ### Glossario
 
-- **Broker**: architettura di elaborazione che rende possibile la cooperazione di più sistemi. Per quanto riguarda il caso d'uso specifico di Interner, è la struttura che consente a un sistema connesso in rete di mettere a disposizione i propri servizi e a sua volta di accedere a quelli degli altri sistemi.
+- **Broker**: architettura di elaborazione che rende possibile la cooperazione di più sistemi. Per quanto riguarda il caso d'uso specifico di Internet, è la struttura che consente a un sistema connesso in rete di mettere a disposizione i propri servizi e a sua volta di accedere a quelli degli altri sistemi.
 
 <div align="right">
 

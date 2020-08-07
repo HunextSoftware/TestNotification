@@ -34,13 +34,13 @@ ed estensioni per facilitare la programmazione sia lato frontend che backend.
 
 - **C#**: linguaggio di programmazione utilizzato in tutte le piattaforme utilizzate nell'ambito del progetto.
 
-- **Xamarin**: framework open-source per lo sviluppo di mobile application multipiattaforma (per Android, iOS e Windows Phone). Xamarin permette di scrivere codice
+- **Xamarin**: framework open-source per lo sviluppo di applicazioni mobile multipiattaforma (per Android, iOS e Windows Phone). Xamarin permette di scrivere codice
 comune a tutti i sistemi operativi, per poi specializzarsi nelle sottocartelle apposite. *Hunext Mobile* è indirizzata a dispositivi Android e iOS, quindi il
 progetto ha due sottocartelle .Droid e .iOS rispettivamente per dispositivi Android e per dispositivi Apple. L'attenzione di questo progetto si è focalizzata su
 Android in quanto l'account Apple Developer è a pagamento. 
 
 - **ASP.NET Core**: framework open-source multipiattaforma, successore di ASP.NET, per la realizzazione di siti Web, applicazioni e database. Nell'ambito di questo progetto è stato
-utilizzato per la realizzazione del backend, ovvero la componente d’integrazione tra la piattaforma cloud di push notification e la mobile application in grado di gestire tutte le registrazioni dei dispositivi da inoltrare all'hub di notifica di Azure ed elaborare le notifiche da inviare ai PNS specifici.
+utilizzato per la realizzazione del backend, ovvero la componente d’integrazione tra la piattaforma cloud di push notification e l'applicazione mobile in grado di gestire tutte le registrazioni dei dispositivi da inoltrare all'hub di notifica di Azure ed elaborare le notifiche da inviare ai PNS specifici.
 
 - **ASP.NET Core Razor Pages**: framework open-source specifico per la creazione di siti web multipiattaforma. Abbina il linguaggio C# per la programmazione server-side
 con i linguaggi statici e dinamici per la programmazione web. Nell'ambito di questo progetto è stato utilizzato per la creazione di una web application in grado di inoltrare

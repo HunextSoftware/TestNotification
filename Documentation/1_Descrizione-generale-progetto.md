@@ -86,7 +86,7 @@ Va a sostituire uno strumento di test più tecnico quale è *Postman*, soprattut
 
 ### Backend
 
-Il server è necessario per gestire le operazioni CRUD (Create, Read, Update, Delete) tramite degli endpoint particolari che gestiscono le comunicazioni tra l'applicazione mobile e la piattaforma di push notification.
+Il server è necessario per gestire le operazioni HTTP che permettono una continua comunicazione tra l'applicazione mobile e la piattaforma di push notification.
 
 È stato scritto in ASP.NET Core per una serie di motivi qui elencati:
 
