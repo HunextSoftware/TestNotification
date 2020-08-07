@@ -91,7 +91,7 @@ invio notifiche destinate all'hub di notifica di Azure, che a sua volta gestirà
 
 La sezione è strutturata nelle seguenti sotto-sezioni:
 - [Le parti principali del codice TestNotificationBackend](#le-parti-principali-del-codice-testnotificationbackend)
-- [Attività facoltative](#attivita-facoltative)
+- [Attività facoltative](#attività-facoltative)
 
 ### Le parti principali del codice TestNotificationBackend
 
