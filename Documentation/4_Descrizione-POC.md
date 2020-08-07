@@ -867,10 +867,9 @@ La procedura per lo sviluppo di questa parte mancante è disponibile al seguente
 ## Sviluppo web application
 
 Il progetto *TestNotificationWebApp* è stato sviluppato a partire da un progetto ASP.NET Core Razor Page. 
-Il suo compito principale è quello di inviare la richiesta di notifica al backend che si occupa di elaborare la richiesta per poi inoltrarla all'hub di notifica di Azure, che poi invierà a sua volta la notifica a tutti i PNS disponibili.
+Il suo compito principale è quello di inviare la richiesta di notifica al backend che poi si occupa di elaborarla ed infine inoltrarla all'hub di notifica di Azure, che a sua volta invierà la notifica a tutti i PNS disponibili.
 
-La web application non è requisito fondamentale di questo progetto, ma è stata sviluppata per gli utenti che vogliono testare in modo semplice ed intuitivo il funzionamento dell'intero sistema di notifiche, 
-evitando l'utilizzo di software più complessi di terze parti.
+La web application non è requisito fondamentale di questo progetto, ma è stata sviluppata per gli utenti che vogliono testare in modo semplice ed intuitivo il funzionamento dell'intero sistema di notifiche, evitando l'utilizzo di software più complessi di terze parti.
 
 La sezione è strutturata nelle seguenti sotto-sezioni:
 - [Le parti principali del codice TestNotificationWebApp](#le-parti-principali-del-codice-testnotificationwebapp)
@@ -901,8 +900,7 @@ public static partial class Config
 }
 ```
 
-Il valore *BACKEND_SERVICE_ENDPOINT* verrà sostituito da un'altra nuova classe *Config.local_secrets.cs* che non dovrà mai essere pubblicata in rete (controllare il file .gitignore) e quindi 
-rimanere in locale.
+Il valore *BACKEND_SERVICE_ENDPOINT* verrà sostituito da un'altra nuova classe *Config.local_secrets.cs* che dovrà essere disponibile solo localmente e non dovrà mai essere pubblicata in rete (controllare il file .gitignore).
 Il codice è il seguente:
 ```
 public static partial class Config
@@ -924,29 +922,26 @@ public static partial class Config
 }
 ```
 
-Se il servizio backend è istanziato nell'App Service di Azure, allora de-commentare la riga *BackendServiceEndpoint = "<your_api_app_url>";* e sostituire il placeholder con l'URL dell'App Service 
-salvata precedentemente su un file a parte.
-Nel caso contrario in cui il servizio backend sia locale, de-commentare la riga *BackendServiceEndpoint = "http(s)://\<your-local-ipv4-address>:\<service-port>";* e sostituire il placeholder con
-l'indirizzo locale del nodo nella quale il server è in funzione nella rete interna e la porta per accedere al servizio.
+Se il servizio backend è istanziato nell'App Service di Azure, allora de-commentare la riga *BackendServiceEndpoint = "<your_api_app_url>";* e sostituire il placeholder con l'URL dell'App Service salvata precedentemente su un file a parte.
+Nel caso contrario in cui il servizio backend sia locale, de-commentare la riga *BackendServiceEndpoint = "http(s)://\<your-local-ipv4-address>:\<service-port>";* e sostituire il placeholder con l'indirizzo locale del server che è in funzione nella rete interna e la porta per accedere al servizio.
 
 Da questo momento, è importante analizzare le tappe cruciali per la realizzazione del backend. Il progetto è strutturato in questa sequenza:
 - *Properties*, la cartella che contiene tutti i parametri per avviare la web application e i file che contengono un riferimento allo strumento *Secret Manager*.
 - *wwwroot*, la cartella dove risiedono tutti i file statici, ovvero i file .css, .js e le immagini.
 - *Configuration*, la cartella dove risiedono i file di configurazione.
-- *Models*, la cartella che contiene tutte le classi con la logica di business e di convalida.
+- *Models*, la cartella che contiene tutte le classi con la logica di business.
 - *Pages*, la cartella dove risiedono tutte le pagine web, sia nel formato .cshtml per la formattazione delle pagine HTML che nel formato .cshtml.cs per codificare il comportamento dei vari elementi delle pagine.
 
-Ora l'attenzione passa sulla focalizzazione delle classi più significative di TestNotificationWebApp.
+Ora l'attenzione passa alle classi più significative di *TestNotificationWebApp*.
 
 **1) NotificationRequest.cs**
 
 Questa classe contiene i dati che vengono passati all'invio della notifica e rimpiazzano i placeholder nei payload di notifica che si trova nella classe *NotificationRequestTemplate*. 
-Nello specifico Text va a sostituire $(textNotification), che sostituirà a sua volta $(alertMessage) nel payload finale della notifica nel backend, mentre Tags va a sostituire $(tagsNotification), che poi nel 
-backend verrà elaborato ed inserito come parametro nella chiamata all'API di Azure Notification Hubs che si occupa nello specifico di inviare notifiche con una specifica tagExpression.
+Nello specifico Text va a sostituire $(textNotification), che sostituirà a sua volta $(alertMessage) nel payload finale della notifica nel backend, mentre Tags va a sostituire $(tagsNotification), che poi nel backend verrà elaborato ed inserito come parametro nella chiamata all'API di Azure Notification Hubs che si occupa nello specifico di inviare notifiche con una specifica tagExpression.
 
 **2) NotificationRequestTemplate.cs**
 
-Questa classe contiene la stringa (che può essere serializzata in JSON) che viene inviata come content della richiesta HTTP indirizzata al backend, in particolare all'endpoint *~/api/notifications/requests*.
+Questa classe contiene la stringa, serializzabile in JSON, che viene inviata come *content* della richiesta HTTP indirizzata al backend, in particolare all'endpoint *~/api/notifications/requests*.
 
 Ecco il corpo della richiesta:
 ```
@@ -955,25 +950,23 @@ public const string body = "{ \"text\": \"$(textNotification)\", \"tags\": [ \"$
 
 **3) RegistrationData.cs**
 
-Questa classe contiene i dati principali per quanto riguarda l'insieme delle installazioni dei dispositivi in Azure Notification Hubs.
-È stata creata appositamente in quanto è necessaria alla realizzazione della pagina *Information* della web application.
+Questa classe contiene i dati principali per quanto riguarda l'elenco delle installazioni dei dispositivi salvato in Azure Notification Hubs.
+La suddetta classe è stata creata appositamente per la realizzazione della pagina *Information* della web application.
 
 I dati che verranno salvati sono:
 - *RegistrationId*
 - *Tags*
 - *ExpirationTime*
 
-> Per capire il significato di questi dati, andare alla sotto-sezione *Come viene salvata un'installazione specifica in Azure Notification Hubs* della sezione *Approfondimento sul processo di registrazione 
-del dispositivo* del documento *3_Descrizione-funzionamento-piattaforme-notifiche-push*.
+> Per capire il significato di questi dati, andare alla sotto-sezione *Come viene salvata un'installazione specifica in Azure Notification Hubs* della sezione *Approfondimento sul processo di registrazione del dispositivo* del documento *3_Descrizione-funzionamento-piattaforme-notifiche-push*.
 
 **4) Index.cshtml.cs**
 
-Questa classe contiene tutta la logica che appartiene alla home page */Index*, contenente un form con i due input che corrispondono ai campi di *NotificationRequest*, ovvero *Text* e *Tags*.
+Questa classe contiene tutta la logica che appartiene alla home page */Index*, contenente un form con due input che corrispondono ai campi di *NotificationRequest*, ovvero *Text* e *Tags*.
 
 Il campo *Text* corrisponde al testo da inviare nella notifica che va inserito obbligatoriamente, altrimenti il form non fa partire la richiesta.
 Il campo *Tags* è un menu a tendina dalla quale scegliere l'utente alla quale inviare la notifica, oppure selezionando la voce predefinita *Everyone* che permette l'invio della notifica in modalità broadcast.
-La lista degli utenti viene aggiornata ogni volta che si ricarica la pagina */Index* tramite il metodo *OnGetAsync()*: viene invocata un'apposita chiamata al backend che risponde con un oggetto *UserData* contenente l'id utente (che è
-il vero valore da inserire nel campo *Tags* della richiesta) e il corrispondente nome utente (che viene visualizzato nel menu a tendina).
+La lista degli utenti viene aggiornata ogni volta che si ricarica la pagina */Index* tramite il metodo *OnGetAsync()*: viene invocata un'apposita chiamata al backend che risponde con un oggetto *UserData* contenente l'id utente (che è il vero valore da inserire nel campo *Tags* della richiesta, nascosto all'utente) e il corrispondente nome utente (che viene visualizzato nel menu a tendina).
 
 Una volta che i campi sono inseriti correttamente, l'utente può cliccare il pulsante *Send notification* ed invocare *OnPostAsync()*, che è il metodo che si collega al form descritto nel file *Index.cshtml*, in quanto ha *method="post"*. 
 Il seguente metodo è stato utilizzato per inviare il content della richiesta HTTP destinata al backend, che ha sostituito i placeholder con il testo e i tag inseriti nel form:
@@ -997,11 +990,9 @@ Se la notifica è stata inviata con successo, sotto il form verrà stampato un m
 
 **5) Information.cshtml.cs**
 
-Questa classe contiene tutta la logica che appartiene alla pagina */Information*, che rappresenta una pagina informativa che ottiene su richiesta i principali dati dall'hub di notifica di Azure inerenti tutte 
-le installazioni dei dispositivi. I dati vengono visualizzati sotto forma tabellare e sono gli stessi rappresentati dalla classe *RegistrationData*.
+Questa classe contiene tutta la logica che appartiene alla pagina */Information*, che rappresenta una pagina informativa che ottiene su richiesta i principali dati dall'hub di notifica di Azure inerenti tutte le installazioni dei dispositivi. I dati vengono visualizzati sotto forma tabellare e sono gli stessi rappresentati dalla classe *RegistrationData*.
 
-Il metodo *OnGetAsync()* viene chiamato ogni volta che viene richiesta la pagina */Information* e per ottenere le informazioni necessarie contatta l'API di Azure mediante la chiamata 
-```await _hub.GetAllRegistrationsAsync(0, CancellationToken.None)```, che ottiene la lista di tutte le installazioni a partire dalla prima tupla presente nell'elenco (ecco il significato del parametro 0).
+Il metodo *OnGetAsync()* viene chiamato ogni volta che viene richiesta la pagina */Information* e per ottenere le informazioni necessarie contatta l'API di Azure mediante la chiamata ```await _hub.GetAllRegistrationsAsync(0, CancellationToken.None)```, che ottiene la lista di tutte le installazioni a partire dalla prima tupla presente nell'elenco (ecco il significato del parametro 0).
 Ogni tupla viene poi salvata una ad una in *Data*, una lista parametrizzata con la classe *RegistrationData*, ed infine ogni tupla viene stampata come riga della tabella risultante nel codice di *Information.cshtml*.
 
 <div align="right"> 
@@ -1012,53 +1003,47 @@ Ogni tupla viene poi salvata una ad una in *Data*, una lista parametrizzata con 
 ### Manuale utente TestNotificationWebApp
 
 Per avviare la web application *TestNotificationWebApp* è necessario:
-- aprire Visual Studio 2019
+- aprire Visual Studio 2019.
 - fare click destro su *TestNotificationWebApp* e selezionare *Set as Startup Project*.
-- dal menu selezionare in sequenza *Debug --> Start Debugging*.
+- dal menu principale, selezionare in sequenza *Debug --> Start Debugging*.
 - aprire il file presente nel percorso *TestNotificationWebApp --> Properties --> launchSettings.json*.
 - sotto la chiave *TestNotificationWebApp*, copiare uno degli URL presenti nella sotto-chiave *applicationUrl*.
 - aprire un browser, incollare l'URL appena copiata nella barra degli indirizzi e premere invio.
 
-In questo progetto, l'URL corrisponde a: *https://localhost:6001/*. L'utente vedrà la home page che contiene il form per l'invio della notifica.
+In questo progetto, l'URL corrisponde a: *https://localhost:6001/*. L'utente vedrà la home page con il form per l'invio della notifica.
 
 <div align="center">
     <img src="Images/4_Document/Web-app/4.1)Home-page.png" alt="Home page web app"/>
 </div>
 
-Il form contiene l'input per il testo sotto la voce **Text notification** e una menu a discesa sotto la voce **Tag notification** che contiene tutti gli utenti alla quale è possibile inviare la 
-notifica. La voce di default è impostata a *Everyone*, che consente di inviare la notifica a tutti gli utenti autenticati al servizio di *TestNotification*.
+Il form contiene l'input per il testo sotto la voce **Text notification** e un menu a discesa sotto la voce **Tag notification** che contiene tutti gli utenti ai quali è possibile inviare la notifica. La voce di default è impostata a *Everyone*, che consente di inviare la notifica a tutti gli utenti autenticati al servizio di *TestNotification*.
 
-> Attenzione: se l'input **Tag notification** è selezionato a *Everyone*, la notifica non viene inviata a tutti gli utenti che sono presenti nel menu a tendina, in quanto i suddetti sono gli 
-> utenti presenti nel database del backend, e non gli utenti che hanno il dispositivo installato nell'hub di notifica di Azure.
+> Attenzione: se l'input **Tag notification** è selezionato a *Everyone*, la notifica non viene inviata a tutti gli utenti che sono presenti nel menu a tendina, in quanto i suddetti sono gli utenti presenti nel database del backend, e non gli utenti che hanno il dispositivo installato nell'hub di notifica di Azure (e quindi autenticati).
 
 <div align="center">
     <img src="Images/4_Document/Web-app/4.2.1)Select-user.png" alt="Input del form nell'home page"/>
 </div>
 
-L'utente vuole inviare una notifica allo stagista Alberto Gobbo, quindi compila l'input **Text notification** con il testo "*Hey Alberto? How are things today?*" e dal menu a tendina di **Tags 
-notification** seleziona la voce *Alberto.Gobbo*.
+L'utente vuole inviare una notifica allo stagista Alberto Gobbo, quindi compila l'input **Text notification** con il testo "*Hey Alberto? How are things today?*" e dal menu a tendina di **Tags notification** seleziona la voce *Alberto.Gobbo*.
 Alla fine dell'inserimento dei dati, l'utente può cliccare il pulsante *Send notification* e aspettare una risposta dal server che indica l'esito della ricezione della notifica.
 
 <div align="center">
     <img src="Images/4_Document/Web-app/4.2.2)Send-notification.png" alt="Invio della notifica ad Alberto Gobbo"/>
 </div>
 
-Se viene ricevuta la notifica dal dispositivo o dai dispositivi nella quale Alberto Gobbo è autenticato, allora la web application riceverà una risposta di avvenuta ricezione che verrà stampata
-sotto il form di invio notifica.
+Se viene ricevuta la notifica dal dispositivo o dai dispositivi nella quale Alberto Gobbo è autenticato, allora la web application riceverà una risposta di avvenuta ricezione che verrà stampata sotto il form di invio notifica.
 
 <div align="center">
     <img src="Images/4_Document/Web-app/4.2.3)Response-ok.png" alt="Notifica ricevuta correttamente"/>
 </div>
 
-L'utente vuole verificare quanti dispositivi sono installati in Azure Notification Hubs e quali sono i loro dettagli, quindi sposta il cursore del mouse all'interno della navigation bar e 
-seleziona la voce *Information*.
+L'utente vuole verificare quanti dispositivi sono installati in Azure Notification Hubs e quali sono i loro dettagli, quindi sposta il cursore del mouse all'interno della navigation bar e seleziona la voce *Information*.
 
 <div align="center">
     <img src="Images/4_Document/Web-app/4.3)Information-page.png" alt="Pagina con le informazioni di tutti i dispositivi installati in Azure"/>
 </div>
 
-L'utente può osservare che sono installati due dispositivi (il numero di tuple è visibile dall'ultima riga della colonna **Number**): nel dettaglio, può sapere il **RegistrationID**, i **Tags** ed
-infine l'**ExpirationTime** di ogni singolo dispositivo installato.
+L'utente può osservare che sono installati due dispositivi (il numero di tuple è visibile dall'ultima riga della colonna **Number**): nel dettaglio, può sapere il **RegistrationID**, i **Tags** ed infine l'**ExpirationTime** di ogni singolo dispositivo installato.
 
 <div align="right"> 
 
@@ -1067,9 +1052,7 @@ infine l'**ExpirationTime** di ogni singolo dispositivo installato.
 
 ### Software alternativo: inviare notifiche con Postman
 
-Lo stagista ha creato una web application che permette di inviare una notifica da un'interfaccia web semplice, presente nel progetto *TestNotificationWebApp*.
-
-Prima di creare la web application si è cimentato nell'utilizzo di [Postman](https://www.postman.com/), un programma adatto per inoltrare richieste a determinati endpoint indipendentemente dalla posizione del server.
+Lo stagista ha creato una web application che permette di inviare una notifica da un'interfaccia web semplice, presente nel progetto *TestNotificationWebApp*, ma prima della sua creazione si è cimentato nell'utilizzo di [Postman](https://www.postman.com/), un programma adatto per inoltrare richieste a determinati endpoint indipendentemente dalla posizione del server.
 
 In seguito vengono illustrate le due modalità per l'utilizzo di Postman.
 
@@ -1088,36 +1071,32 @@ La prima cosa da fare è creare una nuova richiesta, rispettando i seguenti pass
     ]
 }
 ```
-1) Il parametro **text** indica il testo che verrà inserito nella notifica. Il titolo è fissato di default come il nome dell'applicazione corrente.
+1) Il parametro **text** indica il testo che verrà inserito nella notifica. Il titolo è già fissato di default dal codice di *TestNotification.Android* con il nome dell'applicazione corrente.
 
-2) Il parametro **tags** invece indica un insieme di valori che specificano quali device, registrati con i relativi tag, possono essere raggiunti. È possibile inserire 0 tag (che equivale a raggiungere tutti i dispositivi registrati in Azure Hub Notification),
-e il numero massimo inseribile è di 10 tag. Questa limitazione è dovuta al fatto che la *tagExpression*, che viene costruita ed elaborata dal backend, è un'operazione logica di soli AND (&&). In merito a questa operazione, la documentazione è chiara, infatti utilizzando solo && 
-è possibile inserire al massimo 10 tag.
+2) Il parametro **tags** invece indica un insieme di valori che specificano quali device, registrati con i relativi tag, possono essere raggiunti. È possibile inserire nessun tag (che equivale a raggiungere tutti i dispositivi registrati in Azure Hub Notification), oppure fino a 10 tag. Questa limitazione è dovuta al fatto che la *tagExpression*, che viene costruita ed elaborata dal backend, è un'operazione logica di soli AND (&&). In merito a questa operazione, la documentazione è chiara: utilizzando solo AND (&&) è possibile inserire al massimo 10 tag.
 
 > Nel caso d'uso specifico di Hunext, il tag da inserire è il GUID al quale si vuole inviare la notifica.
-Va evidenziato che, dopo vari tentativi di test, non è possibile inserire più tag diversi all'interno del parametro **tags**.
-La best practice da tenere è inviare una notifica per ogni utente, quindi N notifiche per N utenti.
+Va evidenziato che, dopo vari tentativi di test, non è possibile inserire più di un guid all'interno della chiave **tags**.
+La best practice è inviare una notifica per ogni utente, quindi N notifiche per N utenti.
 
 - cliccare il bottone **Send** e inviare la notifica.
 
 **SECONDA MODALITÁ**
 
-Nel caso non si volesse preparare manualmente la richiesta, è possibile scaricare il file con alcune richieste di default che si trova, a partire dalla radice di questo repository, in *Archive/PostmanTestNotificationRequests*.
+Nel caso non si volesse preparare manualmente la richiesta, è possibile scaricare il file che si trova, a partire dalla radice di questo repository, in *Archive/PostmanTestNotificationRequests*. 
 
 > In alternativa, è possibile scaricare il suddetto file tramite questo [link](https://drive.google.com/file/d/1oDxEGqBFsqdU1l6WnUaa6LrwBHqt1HEP/view?usp=sharing).
 
-Successivamente, aprire l'applicativo Postman, cliccare il bottone **Import** presente in alto sotto il menu e selezionare il file appena scaricato.
+Successivamente, aprire l'applicativo Postman, cliccare il bottone **Import** presente in alto e selezionare il file appena scaricato.
 
-Il file contiene due richieste HTTP avente lo stesso body ed indirizzate al tag dell'utente *Mario.Rossi*. La prima richiesta è indirizzata all'URL del backend locale che dev'essere avviato manualmente, mentre la seconda all'URL dello stesso backend ma caricato su Azure ed accessibile pubblicamente.
+Il file contiene 6 richieste HTTP, 3 indirizzate al backend localhost e 3 indirizzate all'App Service di Azure. Ogni gruppo ha le stesse richieste, ovvero:
+1) notifica inoltrata a tutti, con la chiave *tags* assente dal body della richiesta.
+2) notifica inoltrata a tutti, con la chiave *tags* presente nel body della richiesta ma vuota.
+3) notifica inoltrata a tutti i dispositivi che sono autenticati con lo username *Mario.Rossi*.
+    - la precondizione è che ci sia almeno un device autenticato come *Mario.Rossi*, in modo che questi possano ricevere la suddetta notifica.
 
-**Pre-condizione**: almeno un device deve essere autenticato come *Mario.Rossi*.
-
-**Post-condizione**: una volta che la richiesta HTTP viene inoltrata, tutti i device che sono autenticati come *Mario.Rossi* ricevono una notifica.
-
-> Come descritto nella issue [#8](https://github.com/HunextSoftware/TestNotification/issues/8), l'invio della notifica comporta una risposta HTTP 422 (lo si può sia visualizzare da Postman che dalla console 
-della web application). Questo errore semantico è dovuto al fatto che è stato configurata la piattaforma FCM ma non APNS, infatti il codice backend è già predisposto per l'invio di notifiche a dispositivi Apple.
-È stato testato che, rimuovendo il codice specifico di TestNotification.Backend in Model/PushTemplates e Services/NotificationHubsService, l'invio della notifica comporta una risposta HTTP 200, con avvenuta 
-ricezione della notifica. Ergo, questo problema verrà risolto non appena verrà ultimata la configurazione dell'APN, con il codice backend che deve rimanere intatto.
+> Come descritto nella issue [#8](https://github.com/HunextSoftware/TestNotification/issues/8), l'invio della notifica comporta una risposta HTTP 422 (lo si può sia visualizzare da Postman che dalla console della web application). Questo errore semantico è dovuto al fatto che è stata configurata solo la piattaforma FCM, in quanto il codice backend è già predisposto per l'invio di notifiche sia per dispositivi Android che per dispositivi Apple.
+È stato testato che, rimuovendo il codice specifico di TestNotification.Backend in Model/PushTemplates e Services/NotificationHubsService, l'invio della notifica comporta una risposta HTTP 200, con avvenuta ricezione della notifica. Ergo, questo problema verrà risolto non appena verrà effettuata la configurazione della piattaforma APNS, senza che il codice backend subisca ulteriori modifiche.
 
 <div align="right">
 
