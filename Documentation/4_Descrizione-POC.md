@@ -315,27 +315,22 @@ Per come è stato configurato l'intero progetto, il backend funziona solo su Azu
 
 ## Sviluppo applicazione mobile
 
-Il progetto *TestNotification* è stato sviluppato a partire da un progetto Xamarin.Forms nella quale sono state selezionate le destinazioni Android e iOS.
+Il progetto *TestNotification* è stato sviluppato a partire da un progetto Xamarin.Forms nel quale sono state selezionate le destinazioni Android e iOS.
 A fronte di ciò, il progetto che viene generato è composto da tre parti:
-- *TestNotification*, che contiene parte di codice condivisa e comune sia ad Android che iOS.
+- *TestNotification*, che contiene parte di codice condivisa e comune sia per Android che per iOS.
 - *TestNotification.Android*, che contiene la parte specializzata di Android.
 - *TestNotification.iOS*, che contiene la parte specializzata di iOS.
 
 > La parte inerente a *TestNotification.iOS* non verrà modificata per i motivi citati nei precedenti documenti. All'azienda verrà fornita la relativa documentazione.
 
-L'applicazione mobile è la parte obbligatoria da sviluppare nel frontend ed è il componente fondamentale per testare la ricezione di notifiche da parte della web application (nel contesto aziendale sarà
-dal backend). Le notifiche sono push, quindi la visualizzazione avviene sia in primo piano (notifiche *heads-up*) che nel centro notifiche, e in qualsiasi stato si trovi il dispositivo, con la precondizione
-che esso sia connesso alla rete. In caso contrario, solo una volta che viene riattivata la rete allora il dispositivo sarà in grado di ricevere tutte le notifiche che sono rimaste accodate nei PNS di 
-riferimento.
+L'applicazione mobile è la parte obbligatoria da sviluppare nel frontend ed è il componente fondamentale per testare la ricezione di notifiche da parte della web application (nel contesto aziendale verrà effettuato nel backend). Le notifiche sono push, quindi la visualizzazione avviene sia in primo piano (notifiche *heads-up*) che nel centro notifiche, in qualsiasi stato si trovi il dispositivo, con la precondizione che esso sia connesso alla rete. In caso contrario, solo una volta che viene riattivata la rete il dispositivo sarà in grado di ricevere tutte le notifiche che sono rimaste accodate nei PNS di riferimento.
 
 La struttura dell'applicazione mobile è divisa in due parti. 
 Nella prima parte l'utente accede per la prima volta all'applicazione e deve inserire le proprie credenziali mediante l'apposito form di login. 
-Se le credenziali sono corrette, a livello di codice avviene l'installazione del dispositivo nell'hub di notifica e poi si viene reindirizzati ad una pagina che mostra alcune informazioni personali 
-ricavate dal database del backend. 
-Questo passaggio è fondamentale ai fini della dimostrazione del funzionamento delle notifiche push, in quanto solo se l'utente è autenticato all'app è interessato a ricevere le notifiche, 
-ed è ciò che avviene realmente.
+Se le credenziali sono corrette, a livello di codice avviene l'installazione del dispositivo nell'hub di notifica e poi si viene reindirizzati ad una pagina che fa visualizzare alcune informazioni personali provenienti dal database del backend. 
+Questo passaggio è fondamentale ai fini della dimostrazione del funzionamento delle notifiche push, in quanto solo se l'utente è autenticato all'app è interessato a ricevere le notifiche, ed è ciò che avviene nei contesti reali.
 Nella pagina è presente un pulsante di logout che ha il compito di disconnettere l'utente e cancellare l'installazione del dispositivo dall'hub di notifica. 
-Alla fine di questo passaggio l'utente è reindirizzato alla pagina iniziale di login e viene dimostrato che a questo punto non vengono più recapitate notifiche al dispositivo.
+Alla fine di questo passaggio l'utente viene indirizzato alla pagina iniziale di login e viene dimostrato che, alla fine di questa procedura, non vengono più recapitate notifiche al dispositivo.
 
 La sezione è strutturata nelle seguenti sotto-sezioni:
 - [Le parti principali del codice TestNotification](#le-parti-principali-del-codice-testnotification)
@@ -358,8 +353,7 @@ public static partial class Config
 }
 ```
 
-Il valore *BACKEND_SERVICE_ENDPOINT* verrà sostituito da un'altra nuova classe *Config.local_secrets.cs* che non dovrà mai essere pubblicata in rete (controllare il file .gitignore) e quindi 
-rimanere in locale.
+Il valore *BACKEND_SERVICE_ENDPOINT* verrà sostituito da un'altra nuova classe *Config.local_secrets.cs* che rimarrà sempre locale e non dovrà mai essere pubblicata in rete (per sicurezza, controllare il file .gitignore prima di effettuare qualsiasi operazione su GitHub).
 Il codice è il seguente:
 ```
 public static partial class Config
@@ -381,47 +375,37 @@ public static partial class Config
 }
 ```
 
-Se il servizio backend è istanziato nell'App Service di Azure, allora de-commentare la riga *BackendServiceEndpoint = "<your_api_app_url>";* e sostituire il placeholder con l'URL dell'App Service 
-salvata precedentemente su un file a parte.
-Nel caso contrario in cui il servizio backend sia locale, de-commentare la riga *BackendServiceEndpoint = "http(s)://\<your-local-ipv4-address>:\<service-port>";* e sostituire il placeholder con
-l'indirizzo locale del nodo nella quale il server è in funzione nella rete interna e la porta per accedere al servizio.
+Se il servizio backend è istanziato nell'App Service di Azure, allora de-commentare la riga *BackendServiceEndpoint = "<your_api_app_url>";* e sostituire il placeholder con l'URL dell'App Service salvata precedentemente su un file a parte.
+Nel caso contrario in cui il servizio backend sia locale, de-commentare la riga *BackendServiceEndpoint = "http(s)://\<your-local-ipv4-address>:\<service-port>";* e sostituire il placeholder con l'indirizzo locale del nodo nella quale il server è in funzione nella rete interna e la porta per accedere al servizio.
 
 Da questo momento, è importante analizzare le tappe cruciali per la realizzazione dell'applicazione mobile.
 Il progetto è strutturato in questa sequenza:
-- *Models*, la cartella che contiene tutte le classi con la logica di business e di convalida.
+- *Models*, la cartella che contiene tutte le classi con la logica di business.
 - *Services*, la cartella che contiene tutte le classi che si occupano di costruire richieste HTTP da inviare al backend.
-- *AuthorizedUserPage.xaml*, il file che contiene il codice inerente all'activity nella quale l'utente ha accesso solo dopo aver inserito correttamente le credenziali.
-- *LoginPage.xaml*, il file che contiene il codice inerente l'activity principale con il form di login.
+- *AuthorizedUserPage.xaml.cs*, il file che contiene il codice inerente all'activity nella quale l'utente ha accesso solo dopo aver inserito correttamente le credenziali.
+- *LoginPage.xaml.cs*, il file che contiene il codice inerente all'activity principale con il form di login.
 
-Ora l'attenzione passa sulla focalizzazione delle classi più significative di TestNotification.
+Ora l'attenzione passa sulle classi più significative di *TestNotification*.
 
 **1) DeviceInstallation.cs**
 
-Questa classe è analoga all'omonima classe presente nel codice backend, con l'unica differenza che ogni variabile è associata alla proprietà *JsonProperty*.
+Questa classe è analoga a quella omonima presente nel codice backend, con l'unica differenza che ogni variabile è associata alla proprietà *JsonProperty*.
 
-> Tutte le classi di *Models* associano la proprietà *JsonProperty* alle variabili interne, per la corretta serializzazione degli oggetti generati che verranno inseriti nelle chiamate HTTP.
+> Tutte le classi di *Models* associano la proprietà *JsonProperty* alle variabili interne, per la corretta serializzazione degli oggetti che verranno poi inseriti nelle chiamate HTTP.
 
-Va evidenziato il fatto che in questa classe sono presenti solo le informazioni minime che devono essere gestite obbligatoriamente dal dispositivo.
-La responsabilità di ricavare i tag appartiene al backend in quanto è meno vulnerabile rispetto ad un'applicazione mobile e rende le operazioni più veloci offrendo un'esperienza utente migliore.
+Va evidenziato che in questa classe sono presenti solo le informazioni minime che devono essere gestite obbligatoriamente dal dispositivo.
+La responsabilità di ricavare i tag appartiene al backend in quanto è meno vulnerabile rispetto ad un'applicazione mobile e velocizza le operazioni lato client offrendo un'esperienza utente migliore.
 
 **2) NotificationRegistrationService**
 
-Questa classe contiene tutti i metodi che corrispondono alle richieste che il dispositivo può inoltrare al backend. In particolare, sono presenti i metodi per la gestione dell'installazione del 
-dispositivo.
+Questa classe contiene tutti i metodi che corrispondono alle richieste che il dispositivo può inoltrare al backend. In particolare, sono presenti i metodi per la gestione dell'installazione del dispositivo.
 
 I metodi principali sono i seguenti:
-- *RegisterDeviceAsync()*: si occupa di prelevare tutti i dati per l'installazione del dispositivo (che vengono recapitati da TestNotification.Android oppure TestNotification.Apple) per poi essere
-inviati nella specifica richiesta HTTP. Se la procedura va a buon fine, il dispositivo riceverà come risposta i tag, che successivamente verranno salvati segretamente al pari del token che 
-rappresenta il PNS handle.
-- *RefreshRegistrationAsync()*: si occupa di aggiornare l'installazione del dispositivo se ancora presente nell'hub di notifica di Azure. Se il PNS handle e i tag sono presenti nella memoria segreta locale
-e il token del PNS handle è diverso dal token appena recapitato dal PNS, allora viene richiamato nuovamente il metodo *RegisterDeviceAsync()*, altrimenti l'aggiornamento non viene effettuato in quanto
-non necessario.
-- *DeregisterDeviceAsync()*: si occupa di cancellare l'installazione del dispositivo. Se la procedura va a buon fine, il dispositivo cancellerà i segreti che erano stati salvati a partire dalla 
-procedura di installazione.
+- *RegisterDeviceAsync()*: si occupa di prelevare tutti i dati per l'installazione del dispositivo (che vengono recapitati da TestNotification.Android oppure TestNotification.iOS) per poi essere inviati alla specifica richiesta HTTP. Se la procedura va a buon fine, il dispositivo riceverà come risposta i tag, che successivamente verranno salvati segretamente al pari del token che rappresenta il PNS handle.
+- *RefreshRegistrationAsync()*: si occupa di aggiornare l'installazione del dispositivo se ancora presente nell'hub di notifica di Azure. Se il PNS handle e i tag sono presenti nella memoria segreta locale e il token del PNS handle è diverso dal token appena recapitato dal PNS, allora viene richiamato nuovamente il metodo *RegisterDeviceAsync()*, altrimenti l'aggiornamento non viene effettuato in quanto non necessario.
+- *DeregisterDeviceAsync()*: si occupa di cancellare l'installazione del dispositivo. Se la procedura va a buon fine, il dispositivo cancellerà i segreti che erano stati salvati a partire dalla procedura di installazione.
 
-Ogni chiamata HTTP viene costruita a partire dal metodo *SendAsync\<T\>(HttpMethod requestType, string requestUri, T obj)*, che ha il compito di inserire nell'header la chiave *User-Id* che corrisponde
-all'id dell'utente che fa la richiesta, che a sua volta è anche il tag salvato nell'installazione del dispositivo nell'hub di notifica; inoltre viene costruito il *content* della richiesta che corrisponde
-ai parametri che vengono ricevuti nei metodi corrispondenti agli endpoint descritti nel backend. Infine ritorna il codice della risposta HTTP.
+Ogni chiamata HTTP viene costruita a partire dal metodo *SendAsync\<T\>(HttpMethod requestType, string requestUri, T obj)*, che ha il compito di inserire nell'header la chiave *User-Id* corrispondente all'id dell'utente che fa la richiesta, che a sua volta è anche il tag salvato nell'installazione del dispositivo nell'hub di notifica; inoltre viene costruito il *content* della richiesta che corrisponde ai parametri che vengono ricevuti nei metodi corrispondenti agli endpoint descritti nel backend. Infine ritorna il codice della risposta HTTP.
 
 Di seguito viene illustrato il codice:
 ```
@@ -451,10 +435,7 @@ private async Task<HttpResponseMessage> SendAsync<T>(HttpMethod requestType, str
 **3) LoginService.cs**
 
 Questa classe contiene l'unico metodo utile per inoltrare la richiesta di autenticazione al backend, che è il seguente:
-- *Login(string username, string password)*: questo metodo si occupa di costruire la richiesta HTTP con il *content* che corrisponde all'oggetto *LoginRequest*. Una volta che la 
-richiesta viene inoltrata, si aspetta la risposta che corrisponde all'oggetto *LoginResponse* che, in caso di esito positivo, verrà inoltrata al metodo 
-*OnLoginButtonClicked(object sender, EventArgs e)* della classe *LoginPage.xaml.cs* che salverà nei segreti locali sia l'id dell'utente che i dati restanti che serviranno per la 
-seconda activity.
+- *Login(string username, string password)*: questo metodo si occupa di costruire la richiesta HTTP con il *content* che corrisponde all'oggetto *LoginRequest*. Una volta che la richiesta viene inoltrata, si aspetta la risposta che corrisponde all'oggetto *LoginResponse* che, in caso di esito positivo, verrà inoltrata al metodo *OnLoginButtonClicked(object sender, EventArgs e)* della classe *LoginPage.xaml.cs* che salverà nei segreti locali sia l'id dell'utente che i dati restanti che serviranno per la seconda activity.
 
 **4) LoginPage.xaml.cs**
 
@@ -462,17 +443,14 @@ Questa classe contiene tutta la logica della pagina *LoginPage* che corrisponde 
 
 > La grafica della pagina *LoginPage* viene codificata con il linguaggio XAML e risiede nel file *LoginPage.xaml*.
 
-L'evento più significativo avviene quando viene premuto il pulsante di login e avviene sia la procedura di login che quella di installazione del dispositivo.
+L'evento più significativo avviene quando viene premuto il pulsante di login, nella quale avviene sia la procedura di login che quella di installazione del dispositivo.
 Il procedimento è il seguente: se i campi del form sono stati compilati, allora viene richiamato il metodo *Login(usernameEntry.Text, passwordEntry.Text)*. 
 Se tutto va a buon fine, allora viene salvato nei segreti locali l'id utente e viene richiamato il metodo della medesima classe *RegistrationDevice()*. 
-A questo punto viene invocato in modo asincrono il metodo *RegisterDeviceAsync()* della classe *NotificationRegistrationService*: se il task va a buon fine allora l'utente verrà indirizzato 
-nell'activity successiva *AuthorizedUserPage*.
+A questo punto viene invocato in modo asincrono il metodo *RegisterDeviceAsync()* della classe *NotificationRegistrationService*: se il task va a buon fine allora l'utente verrà indirizzato nell'activity successiva *AuthorizedUserPage*.
 
-> In caso di successo, l'ultima operazione è il salvataggio di *Username*, *Company* e *SectorCompany* nel segreto locale di *App.CachedDataAuthorizedUserKey*. Se ancora presenti localmente, questi dati 
-vengono recuperati all'avvio dell'applicazione insieme all'activity *AuthorizedUserPage*. Questa operazione è fondamentale per salvare la sessione utente attuale, altrimenti l'applicazione ripartirebbe
-da zero e richiederebbe un altro login, cosa che non deve succedere se un utente è già autenticato oppure non ha fatto richiesta di disconnessione dal servizio.
+> In caso di successo, l'ultima operazione è il salvataggio di *Username*, *Company* e *SectorCompany* nel segreto locale di *App.CachedDataAuthorizedUserKey*. Se ancora presenti localmente, questi dati vengono recuperati all'avvio dell'applicazione insieme all'activity *AuthorizedUserPage*. Questa operazione è fondamentale per salvare la sessione utente attuale, altrimenti l'applicazione ripartirebbe da zero e richiederebbe un altro login, cosa che non deve succedere se un utente è già autenticato oppure non ha fatto richiesta di disconnessione al servizio.
 >
-> Il codice è consultabile in *App.xaml.cs*.
+> Il codice è consultabile nel metodo *OnStart()* presente nel file *App.xaml.cs*.
 
 Ora l'utente può ricevere notifiche dall'applicazione mobile TestNotification fino a quando non viene avviata la procedura di logout e questa avvenga con esito positivo.
 
@@ -532,15 +510,14 @@ async void RegistrationDevice()
 
 **5) *AuthorizedUserPage.xaml.cs*
 
-Questa classe contiene tutta la logica della pagina *AuthorizedUserPage* che corrisponde alla seconda activity che contiene le informazioni dell'utente autenticato in TestNotification.
+Questa classe contiene tutta la logica della pagina *AuthorizedUserPage*, corrispondente alla seconda activity che contiene le informazioni dell'utente autenticato in TestNotification.
 
 > La grafica della pagina *AuthorizedUserPage* viene codificata con il linguaggio XAML e risiede nel file *AuthorizedUserPage.xaml*. 
 
 L'evento più significativo avviene quando viene premuto il pulsante di logout e avviene sia la procedura di logout che quella di cancellazione dell'installazione del dispositivo.
-Il procedimento è il seguente: viene invocato il metodo della medesima classe *DeregistrationDevice()*, che invoca il metodo *DeregisterDeviceAsync()* della classe *NotificationRegistrationService*:
-se il task va a buon fine, vengono rimossi tutti i segreti locali inerenti ai dati utente e all'id utente e infine l'utente viene indirizzato alla pagina principale di login.
+Il procedimento è il seguente: viene invocato il metodo della medesima classe *DeregistrationDevice()*, che invoca il metodo *DeregisterDeviceAsync()* della classe *NotificationRegistrationService*: se il task va a buon fine, vengono rimossi tutti i segreti locali inerenti ai dati utente e all'id utente e infine l'utente viene indirizzato alla pagina principale di login.
 
-L'utente non può più ricevere notifiche dall'applicazione mobile TestNotification fino a quando non viene avviata la procedura di login e questa avvenga con esito positivo.
+L'utente non può più ricevere notifiche dall'applicazione mobile *TestNotification* fino a quando non viene avviata una nuova procedura di login e questa avvenga con esito positivo.
 
 Di seguito viene illustrato il codice:
 ```
@@ -578,8 +555,7 @@ public async void DeregistrationDevice()
 }
 ```
 
-> Caso limite: se l'applicazione mobile viene disinstallata e il PNS tenta di recapitare un messaggio al dispositivo, il PNS elimina immediatamente quel messaggio e annulla il token di registrazione.
-I tentativi futuri di inviare un messaggio a quel dispositivo generano un errore *NotRegisteredError*. 
+> Caso limite: se l'applicazione mobile viene disinstallata e il PNS tenta di recapitare un messaggio al dispositivo, il PNS elimina immediatamente quel messaggio e annulla il token di registrazione. I tentativi futuri di inviare un messaggio a quel dispositivo generano un errore *NotRegisteredError*. 
 >
 > Una volta che viene re-installata l'applicazione mobile, l'utente può tranquillamente eseguire la procedura di login in quanto verrebbe aggiornata l'istanza del dispositivo nell'hub di notifica di Azure con i dati aggiornati.
 
@@ -596,10 +572,10 @@ Nonostante questo, deve essere specializzata una piccola parte della logica per 
 - l'assegnazione dei valori principali per la procedura di installazione del dispositivo, ovvero *InstallationId*, *Platform* ed infine *PushChannel*.
 - la personalizzazione della visualizzazione grafica della notifica.
 
-> A fine sezione è presente una breve sotto-sezione che spiega quali possono essere le [implementazioni future per TestNotification.Android](#implementazioni-future-per-testnotification.android).
+> A fine sezione è presente una breve sotto-sezione che spiega quali possono essere le [implementazioni future per TestNotification.Android](#implementazioni-future-per-testnotificationandroid).
 
 Prima di andare nel dettaglio della codifica, sono necessari alcuni controlli ai fini del funzionamento dell'applicazione Android:
-- verificare che il package name al valore usato nel progetto creato dalla console di Firebase (nel caso di questo progetto *TestPushNotification*):
+- verificare che il package name sia uguale al valore usato nel progetto creato dalla console di Firebase (nel caso di questo progetto *TestPushNotification*):
     - fare click destro sul progetto *TestNotification.Android*.
     - selezionare *Properties*.
     - selezionare *Android Manifest*.
@@ -608,33 +584,33 @@ Prima di andare nel dettaglio della codifica, sono necessari alcuni controlli ai
 - aggiungere da NuGet i pacchetti *Xamarin.GooglePlayServices.Base* e *Xamarin.Firebase.Messaging*.
 - aggiungere dalla root del progetto *TestNotification.Android* il file *google-services.json* caricato precedentemente in locale.
     - fare click destro sul file.
+    - selezionare la voce *Properties*.
     - verificare che *BuildAction* sia impostato a *GoogleServicesJson*.
 
-L'ultimo passaggi preliminare è controllare le variabili presenti nella classe *Constants.cs*. In questo file sono presenti i valori per la connessione ad Azure e per la creazione del canale di notifica.
+L'ultimo passaggio preliminare è controllare le variabili presenti nel file *Constants.cs*. In questo file sono presenti i valori per la connessione ad Azure e per la creazione del canale di notifica.
 In particolare, vanno controllati i valori:
 - *NotificationHubName*, che corrisponde al nome dell'hub di notifica creato in Azure.
-- *ListenConnectionString*, che corrisponde alla stringa di connessione in sola lettura ad Azure, salvata precedentemente in un file a parte. 
+- *ListenConnectionString*, che corrisponde alla stringa di connessione ad Azure Notification Hubs in sola lettura, salvata precedentemente in un file a parte. 
 
 Da questo momento, è importante analizzare le tappe cruciali per la realizzazione dell'applicazione mobile in Android.
 Il progetto è strutturato in questa sequenza:
-- *Properties*, la cartella che contiene il file *AndroidManifest.xml*, fondamentale per impostare i permessi e il range di versioni di Android compatibili con l'applicazione mobile.
-- *Services*, la cartella che contiene tutte le classi che si occupano di impostare i valori di installazione del dispositivo e ricevere notifiche da Firebase 
+- *Properties*, la cartella che contiene il file *AndroidManifest.xml*, fondamentale per impostare i permessi e limitare l'utilizzo dell'applicazione mobile impostando un range delle versioni Android.
+- *Services*, la cartella che contiene tutte le classi che si occupano di impostare i valori di installazione del dispositivo e rimanere in ascolto di FCM. 
 - *MainActivity.cs*, il file che rappresenta il punto di accesso all'applicazione Android.
 
-Ora l'attenzione passa sulla focalizzazione delle classi più significative di TestNotification.Android.
+Ora l'attenzione passa alle classi più significative di *TestNotification.Android*.
 
 **1) DeviceInstallationService.cs**
 
-Questa classe estende l'interfaccia *IDeviceInstallationService* di TestNotification, in quanto contiene tutti i valori di installazione del dispositivo in Azure: è questa la parte di codice
-specifica che imposta i valori e crea l'oggetto di installazione.
+Questa classe estende l'interfaccia *IDeviceInstallationService* di TestNotification, in quanto contiene tutti i valori di installazione del dispositivo in Azure: è questa la parte di codice specifica che imposta i valori e crea l'oggetto di installazione.
 
-La precondizione è che il dispositivo Android abbia installati i Google Play Services, altrimenti non è possibile supportare la ricezione delle notifiche.
+La precondizione è che nel dispositivo Android siano abilitati i Google Play Services, altrimenti non è possibile supportare la ricezione delle notifiche.
 Se la precondizione è rispettata, allora si procede con la creazione dell'oggetto di installazione, che imposta:
-- *InstallationId* ad un ID univoco di 64 bit generato dal dispositivo con *Secure.AndroidId*. Questa informazione verrà salvata come tag speciale, necessaria per la cancellazione del dispositivo.
-- *Platform* ad *fcm*, che è la sigla della piattaforma di Firebase Cloud Messaging.
+- *InstallationId* ad un ID univoco di 64 bit generato dal dispositivo con *Secure.AndroidId*. Questa informazione verrà salvata come tag speciale nell'installazione del dispositivo, necessaria per la cancellazione del dispositivo.
+- *Platform* ad *fcm*, che è la sigla della piattaforma di Firebase Cloud Messaging (FCM).
 - *PushChannel* al token del PNS handle che viene recuperato ed impostato nel metodo *OnNewToken(string token)* della classe *PushNotificationFirebaseMessagingService*. 
 
-Il metodo *GetDeviceInstallation()* viene infine richiamato nel metodo *RegisterDeviceAsync()* della classe *NotificationRegistrationService*.
+Il metodo *GetDeviceInstallation()* viene infine richiamato dal metodo *RegisterDeviceAsync()* della classe *NotificationRegistrationService*.
 
 Il codice è il seguente:
 ```
@@ -659,15 +635,11 @@ public DeviceInstallation GetDeviceInstallation()
 
 **2) PushNotificationFirebaseMessagingService.cs**
 
-Questa classe estende la classe *FirebaseMessagingService*, che permette di gestire gli eventi delle notifiche in arrivo.
+Questa classe estende *FirebaseMessagingService*, la classe che permette di gestire gli eventi delle notifiche in arrivo da FCM.
 
-Come visto nella classe precedente, *OnNewToken(string token)* è il metodo che viene invocato ogni volta che viene richiesto un PNS handle, ritornando il token che poi verrà gestito nel codice per una
-nuova installazione oppure per un aggiornamento dell'installazione del dispositivo.
+*OnNewToken(string token)* è il metodo che viene invocato ogni volta che viene richiesto un PNS handle, ritornando il token che poi verrà gestito nel codice per una nuova installazione oppure per un aggiornamento dell'installazione del dispositivo.
 
-Il metodo *OnMessageReceived(RemoteMessage message)* viene invocato all'arrivo di nuove notifiche e, se non ci sono errori nel recupero di queste, lancia il metodo locale *SendLocalNotification(string body)*
-che personalizza la notifica visualizzata nei dispositivi Android. Per esempio, nella notifica viene impostata l'icona, il titolo e il corpo della notifica. Ogni volta che questa viene selezionata dal
-centro notifiche, si cancella automaticamente e viene rilanciata nell'activity attuale dell'applicazione *TestNotification*. Inoltre le notifiche vengono impostate con una priorità alta: questo significa
-che le notifiche di *TestNotification* vengono visualizzate nel centro notifiche prima di tutte le altre notifiche con priorità inferiore. La priorità viene impostata manualmente nell'oggetto *builder* se
+Il metodo *OnMessageReceived(RemoteMessage message)* viene invocato all'arrivo di nuove notifiche e, se non ci sono errori nel loro recupero, invoca il metodo locale *SendLocalNotification(string body)* che personalizza la notifica visualizzata nei dispositivi Android. Per esempio, viene impostata l'icona, il titolo e il corpo della notifica. Ogni volta che questa viene selezionata dal centro notifiche, si cancella in modo automatico e contemporaneamente l'utente si ritrova nell'activity precedente allo stato *OnStop()* dell'applicazione *TestNotification*. Inoltre le notifiche vengono impostate con una priorità alta: questo significa che le notifiche di *TestNotification* vengono visualizzate nel centro notifiche prima di tutte le altre notifiche con priorità inferiore. La priorità viene impostata manualmente nell'oggetto *builder* se
 la versione di Android è inferiore alla 7.1 (compresa quest'ultima), altrimenti viene impostata nel metodo *CreateNotificationChannel()* della classe *MainActivity*.
 
 Il codice è il seguente:
@@ -727,8 +699,7 @@ public void SendLocalNotification(string body)
 
 **3) MainActivity.cs**
 
-Questa classe rappresenta il punto d'ingresso dell'applicazione mobile. La proprietà *LaunchMode* è stata impostata al valore *SingleTop* in quanto MainActivity non deve essere creato ogni volta che 
-l'applicazione viene aperta.
+Questa classe rappresenta il punto d'ingresso dell'applicazione mobile. La proprietà *LaunchMode* è stata impostata al valore *SingleTop* in quanto MainActivity non deve essere creato ogni volta che l'applicazione viene aperta.
 
 Il metodo più importante è *OnSuccess(Java.Lang.Object result)*, in quanto è il vero responsabile del recupero e dell'archiviazione del token FCM del PNS handle.
 
@@ -740,9 +711,7 @@ public void OnSuccess(Java.Lang.Object result)
         result.Class.GetMethod("getToken").Invoke(result).ToString();
 ```
 
-Inoltre il metodo *CreateNotificationChannel()* è responsabile della creazione del canale di notifica, nuovo a partire dalle versioni di Android 8.0, che ha l'obiettivo di raggruppare tipi di notifiche 
-diverse per la stessa applicazione. I valori che vengono impostati sono un ID univoco che identifica il canale, contrassegnato da un nome (visualizzabile dalle impostazioni di notifica dell'applicazione), 
-una descrizione facoltativa ed infine la priorità delle notifiche.
+Inoltre il metodo *CreateNotificationChannel()* è responsabile della creazione del canale di notifica, una nuova feature disponibile a partire dalle versioni di Android 8.0 creata per raggruppare tipologie di notifiche diverse per la stessa applicazione. Viene impostato un ID univoco che identifica il canale, contrassegnato da un nome (visualizzabile dalle impostazioni di notifica dell'applicazione), una descrizione facoltativa ed infine la priorità delle notifiche. Acnhe in questo caso è stata fissata una priorità alta. 
 
 Il codice è il seguente:
 ```
@@ -762,10 +731,7 @@ void CreateNotificationChannel()
 }
 ```
 
-> Nota a margine: una volta che l'applicazione *TestNotification*, per i dispositivi Android con versione <= 7.1 si consiglia vivamente di controllare le impostazioni di notifica seguendo il percorso 
-dal proprio dispositivo: *Impostazioni --> Applicazioni --> TestNotification.Android --> Notifiche* (Attenzione: il percorso può variare da sistema operativo). A questo punto, controllare se sono attive
-le impostazioni *Banner*, *A schermo bloccato* e *Visualizzazione prioritaria*. In questo modo, verranno visualizzate le notifiche heads-up (a comparsa per 4 secondi nella parte superiore dello schermo)
-e le notifiche a schermo bloccato con i i dettagli della notifica nascosti.
+> Nota a margine: una volta che viene lanciata l'applicazione *TestNotification*, si consiglia vivamente **per i dispositivi Android con versione <= 7.1** di controllare le impostazioni di notifica andando in: *Impostazioni --> Applicazioni --> TestNotification.Android --> Notifiche* (Attenzione: il percorso può variare dalla versione del sistema operativo Android). A questo punto, controllare se sono attive le impostazioni *Banner*, *A schermo bloccato* e *Visualizzazione prioritaria*. In questo modo, verranno visualizzate le notifiche heads-up (a comparsa per 4 secondi nella parte superiore dello schermo) e le notifiche a schermo bloccato con i dettagli nascosti della notifica.
 
 <div align="right"> 
 
@@ -774,9 +740,9 @@ e le notifiche a schermo bloccato con i i dettagli della notifica nascosti.
 
 #### Implementazioni future per TestNotification.Android
 
-Alla conclusione di questa sezione viene segnalata un'implementazione futura più dettagliata che si può applicare nell'applicazione mobile.
+Alla conclusione di questa sezione viene segnalata una possibile implementazione futura più dettagliata che si può applicare nell'applicazione mobile.
 
-Lo stagista ha cercato di implementare in modo ottimale il *badge* della notifica, ovvero una segnalazione grafica visibile in un angolo dell'icona dell'applicazione che tiene
+Lo stagista ha cercato di implementare in modo ottimale il *badge* della notifica, ovvero una segnalazione grafica visibile in un angolo dell'icona del launcher che tiene
 conto del numero di notifiche ancora non lette.
 
 <div align="center">
@@ -806,19 +772,13 @@ public override void OnCreate()
 Quello che succede a livello di codice è che il metodo *OnCreate()* viene invocato ad ogni azione che viene eseguita su una notifica (notifica ricevuta, notifica eliminata dall'utente, eccetera...)
 __solo__ quando l'attività di *TestNotification* non è nello stato *OnStart*, ovvero nella home del dispositivo, in un'altra applicazione oppure a schermo spento.
 
-Il codice viene eseguito correttamente quando una notifica viene ricevuta, in quanto viene incrementato il contatore del badge, oppure quando l'utente si riporta nell'applicazione *TestNotification*
-(invocando il metodo *OnStart()* della classe *MainActivity*). Il problema si genera ogni volta che la notifica viene eliminata manualmente dall'utente quando l'utente non è all'interno 
-dell'applicazione, in quanto viene invocato sempre il metodo *OnCreate()* e, per come è stato implementato il codice, viene incrementato erroneamente il contatore del badge.
+Il codice viene eseguito correttamente quando una notifica viene ricevuta, in quanto viene incrementato il contatore del badge, oppure quando l'utente si riporta nell'applicazione *TestNotification* (invocando il metodo *OnStart()* della classe *MainActivity*). Il problema si genera ogni volta che la notifica viene eliminata manualmente dall'utente (ovvero dal centro notifiche) quando l'utente non è all'interno dell'applicazione, in quanto viene invocato sempre il metodo *OnCreate()* e, per come è stato implementato il codice, viene incrementato erroneamente il contatore del badge.
 
-Lo stagista non ha trovato quindi un metodo che fosse in grado di decrementare il contatore del badge. È stato fatto un tentativo di prova con il metodo *OnDeletedMessages()* della classe
-*FirebaseMessagingService*, ma il suddetto metodo viene invocato dal PNS di Firebase solo le notifiche scadono, ovvero non arrivano a destinazione entro il tempo massimo di invio fissato a 28 giorni.
+Lo stagista non ha trovato quindi un metodo che fosse in grado di decrementare il contatore del badge. È stato fatto un tentativo di prova con il metodo *OnDeletedMessages()* della classe *FirebaseMessagingService*, ma il suddetto metodo viene invocato dal PNS di Firebase solo se le notifiche scadono, ovvero non arrivano a destinazione entro il tempo massimo di invio fissato a 28 giorni.
 
 Ergo, il seguente prototipo non implementa correttamente il badge di notifica, per questo viene segnalata come attività futura nel caso l'azienda ritenesse necessaria la sua implementazione. 
 
-> Nota a margine: il classico badge con il pallino rosso è disponibile fino alla versione di Android 7.1. Dalle versioni successive, Android ha implementato un nuovo modo automatico di visualizzazione delle notifiche
-chiamato *Notification dot* (consultare il seguente [link](https://developer.android.com/guide/topics/ui/notifiers/notifications#icon-badge)). Queste notifiche hanno la particolarità di essere visibili tenendo
-premuta l'icona di partenza per qualche secondo, visualizzando l'ultima notifica e il numero di notifiche ricevute e non ancora lette. Pertanto, l'utilizzo della libreria *ShortcutBadger* è necessaria __solo__
-per le versioni di Android antecedenti alla 7.1, compresa quest'ultima.
+> Nota a margine: il classico badge con il pallino rosso è disponibile fino alla versione di Android 7.1. Dalle versioni successive, Android ha implementato un nuovo modo automatico di visualizzazione delle notifiche chiamato *Notification dot* (consultare il seguente [link](https://developer.android.com/guide/topics/ui/notifiers/notifications#icon-badge)). Queste notifiche hanno la particolarità di essere visibili tenendo premuta l'icona del launcher per qualche secondo, visualizzando l'ultima notifica e il numero di notifiche ricevute e non ancora lette. Pertanto, l'utilizzo della libreria *ShortcutBadger* è necessaria __solo__ per le versioni di Android antecedenti alla 7.1, compresa quest'ultima.
 ><div align="center">
 >    <img src="Images/4_Document/Mobile-app/4.1.2)Badge-counter-Android-8.0-and-higher.png" alt="Immagine badge da Android 8.0"/>
 ></div>
@@ -830,7 +790,7 @@ per le versioni di Android antecedenti alla 7.1, compresa quest'ultima.
 
 ### Manuale utente TestNotification
 
-Alla prima apertura dell'applicazione, viene presentata il form di login che offre la possibilità di accedere correttamente al servizio di *TestNotification*.
+Alla prima apertura dell'applicazione, viene presentato il form di login che offre la possibilità di accedere correttamente al servizio di *TestNotification*.
 L'utente, che in questo caso è lo stagista Alberto Gobbo, inserisce le proprie credenziali *Username* e *Password* e poi avvia la procedura di login premendo il pulsante *Login*.
 
 <table width=”auto″ align="center">
@@ -844,8 +804,7 @@ L'utente, che in questo caso è lo stagista Alberto Gobbo, inserisce le proprie 
     </tr>
 </table>
 
-Se le credenziali sono state inserite correttamente, l'utente sarà autenticato e avrà diritto ad accedere alla pagina successiva, che mostra i dati dell'utenza, in particolare lo username appena inserito,
-l'azienda e il settore specifico in cui lavora.
+Se le credenziali sono state inserite correttamente, l'utente sarà autenticato e avrà diritto ad accedere alla pagina successiva, che mostra i dati dell'utenza, in particolare lo username appena inserito, l'azienda e il settore specifico in cui lavora.
 
 <div align="center">
     <img src="Images/4_Document/Mobile-app/4.3)Login-ok.png" alt="Login corretto e indirizzamento alla pagina successiva"/>
@@ -874,8 +833,7 @@ Qui troverà la notifica che contiene l'icona dell'applicazione, il titolo del m
     <img src="Images/4_Document/Mobile-app/4.6)Notification-on-shade.png" alt="Notifica nel centro notifiche"/>
 </div>
 
-L'utente può cancellarla dal centro notifiche facendo swipe left/right, oppure selezionarla con un tap in modo da accedere nell'attività corrente dell'applicazione *TestNotification*
-(in questo caso la cancellazione della notifica è automatica).
+L'utente può cancellarla dal centro notifiche facendo swipe left/right, oppure selezionarla con un tap in modo da accedere nell'attività corrente dell'applicazione *TestNotification* (in questo caso la cancellazione della notifica è automatica).
 
 L'utente riceverà notifiche fino a quando non avvia la procedura di logout. Nel caso l'utente decida di disconnettersi dal servizio, allora premerà il pulsante *Logout*.
 
@@ -884,7 +842,7 @@ L'utente riceverà notifiche fino a quando non avvia la procedura di logout. Nel
 </div>
 
 Se il logout è avvenuto correttamente, allora l'utente non è più autenticato e l'installazione del dispositivo è stata cancellata con successo.
-Quindi se l'utilizzatore della web application tenta di inviare una notifica ad *Alberto.Gobbo* oppure in modalità broadcast, l'utente che si è appena disconnesso non riceverà alcuna notifica.
+Quindi se l'utilizzatore della web application tenta di inviare una notifica ad *Alberto.Gobbo* oppure in modalità broadcast, l'utente che si è appena disconnesso non riceverà alcuna notifica fino a successivo login.
 
 <div align="right"> 
 
@@ -895,8 +853,7 @@ Quindi se l'utilizzatore della web application tenta di inviare una notifica ad 
 
 Come ampiamente anticipato, l'implementazione per i dispositivi Apple non è stata eseguita. 
 
-Pertanto è dovere dello stagista condividere alcuni link che aiutano lo sviluppatore ad implementare i dettagli della notifica, come del resto fatto in TestNotification.Android per i dispositivi
-Android.
+Pertanto è dovere dello stagista condividere alcuni riferimento che aiutano lo sviluppatore ad implementare i dettagli della notifica, come del resto fatto in *TestNotification.Android* per i dispositivi Android.
 
 La procedura per lo sviluppo di questa parte mancante è disponibile al seguente [link](https://docs.microsoft.com/it-it/azure/developer/mobile-apps/notification-hubs-backend-service-xamarin-forms#configure-the-native-ios-project-for-push-notifications).
 
