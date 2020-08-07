@@ -51,9 +51,9 @@ mentre nel contesto di questo progetto è affidata alla web application.
 2) la richiesta viene passata al backend di FCM, il quale si occupa di inoltrare la richiesta ai vari livelli di trasporto.
 3) la notifica viene indirizzata ai dispositivi di destinazione, applicando la configurazione della piattaforma specifica. Questo passaggio avviene
 al di fuori di Firebase, nello specifico:
-  - nell'Android Transport Layer (ATL) per dispositivi Android che supportano i Google Play Services.
-  - nella piattaforma Apple Push Notification Service (APNS) per dispositivi iOS.
-  - mediante il protocollo push Web per applicativi web.
+    - nell'Android Transport Layer (ATL) per dispositivi Android che supportano i Google Play Services.
+    - nella piattaforma Apple Push Notification Service (APNS) per dispositivi iOS.
+    - mediante il protocollo push Web per applicativi web.
 4) i dispositivi ricevono la notifica in base allo stato attuale del dispositivo e alle configurazioni precedenti.
 
 
@@ -62,14 +62,13 @@ personalizzare le proprie chiavi.
 Le chiavi predefinite sono:
 - *token*, che è una stringa alfanumerica generata da Firebase che identifica il collegamento unidirezionale da Firebase al dispositivo.
 - *notification*, che contiene le informazioni base della notifica, ovvero:
-    - *title*, ovvero il titolo che appare nella notifica.
-    - *body*, ovvero il messaggio che appare nella notifica.
+    - *title*, il titolo che appare nella notifica.
+    - *body*, il messaggio che appare nella notifica.
 - eccetera.
 
 I parametri opzionali sono contenuti dentro la chiave *data*, che a sua volta contiene delle sotto-chiavi personalizzabili dall'utente. 
 
-Inoltre è possibile inserire opzioni specifiche per ogni piattaforma che vanno a sovrascrivere le opzioni base, per esempio la priorità della notifica oppure il suo tempo di permanenza massima
-nel PNS (di default 28 giorni). Le sotto-chiavi che identificano la piattaforma sono: *android*, *apns* e *webpush*.
+Inoltre è possibile inserire opzioni specifiche per ogni piattaforma che vanno a sovrascrivere le opzioni base, per esempio la priorità della notifica oppure il suo tempo di permanenza massima nel PNS (di default fissato a 28 giorni). Le sotto-chiavi che identificano la piattaforma sono: *android*, *apns* e *webpush*.
 
 > Per maggiori informazioni, visitare il seguente [link](https://firebase.google.com/docs/cloud-messaging/concept-options).
 
