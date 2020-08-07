@@ -1,4 +1,9 @@
+<div align="center"> 
+<img src="Images/_icon.png" alt="Immagine dell'icona"/>
+
 # LINK UTILI PER LA COMPRENSIONE DEL DOMINIO E PER LO SVILUPPO SOFTWARE
+</div>
+
 
 In questo documento vengono inseriti i link principali usufruiti dallo stagista.
 
