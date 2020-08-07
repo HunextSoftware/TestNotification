@@ -1,3 +1,11 @@
+- [DESCRIZIONE GENERALE DEL PROGETTO](#descrizione-generale-del-progetto)
+  * [Studio dei vari servizi di push notification](#studio-dei-vari-servizi-di-push-notification)
+  * [Sviluppo del prototipo](#sviluppo-del-prototipo)
+    + [Frontend](#frontend)
+    + [Backend](#backend)
+
+<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+
 <div align="center"> 
 <img src="Images/_icon.png" alt="Immagine dell'icona"/>
 
