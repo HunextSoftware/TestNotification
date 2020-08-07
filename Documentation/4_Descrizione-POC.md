@@ -94,7 +94,7 @@ La sezione è strutturata nelle seguenti sotto-sezioni:
 
 ### Le parti principali del codice TestNotificationBackend
 
-Il primo passaggio essenziale per lo sviluppatore è inserire valori di configurazione localmente utilizzando lo strumento *Secret Manager*. 
+Il primo passaggio essenziale per lo sviluppatore è inserire localmente valori di configurazione utilizzando lo strumento *Secret Manager*. 
 Assicurandosi di essere all'interno della cartella *TestNotificationBackend*, aprire il terminale ed inserire i seguenti comandi:
 
 ```
@@ -105,7 +105,7 @@ dotnet user-secrets set "NotificationHub:ConnectionString" <value>
 
 Il placeholder *\<value\>* va rimpiazzato in questo modo:
 - **NotificationHub:Name** è la voce *Name** che si trova in *Informazioni di base* nella pagina principale dell'hub di notifica appena creato.
-- **NotificationHub:ConnectionString** è il valore *DefaultFullSharedAccessSignature* copiato nel passaggio 5) della creazione dell'hub di notifica per l'accesso in lettura e scrittura ad Azure.
+- **NotificationHub:ConnectionString** è il valore *DefaultFullSharedAccessSignature* copiato nel passaggio 5) della creazione dell'hub di notifica di Azure per l'accesso in lettura e scrittura.
 
 Il passaggio successivo è aggiungere le dipendenze necessarie al backend dal servizio *NuGet* di Visual Studio:
 - *Microsoft.Azure.NotificationHubs*, la libreria che permette di effettuare specifiche chiamate ad Azure Notification Hubs.
@@ -113,21 +113,20 @@ Il passaggio successivo è aggiungere le dipendenze necessarie al backend dal se
 
 Da questo momento, è importante analizzare le tappe cruciali per la realizzazione del backend.
 Il progetto è strutturato in questa sequenza:
-- *Properties*, la cartella che contiene tutti i parametri per avviare il backend e i file contenenti un riferimento con lo strumento *Secret Manager*.
+- *Properties*, la cartella che contiene tutti i parametri per avviare il backend e i file che contengono un riferimento allo strumento *Secret Manager*.
 - *Controllers*, la cartella che contiene le classi responsabili della logica di controllo, in particolare
     - in *LoginController* viene gestito un unico endpoint per l'accesso autenticato degli utenti dall'applicazione mobile.
     - in *NotificationsController* vengono gestiti gli endpoint per l'installazione dei dispositivi, la cancellazione della medesima e l'invio delle notifiche.
-- *Models*, la cartella che contiene tutte le classi con la logica di business e di convalida.
+- *Models*, la cartella che contiene tutte le classi con la logica di business.
 - *Services*, la cartella che contiene tutti i servizi che vengono richiamati dal controller, responsabili delle chiamate alle librerie di progetto.
 
 Prima di spiegare le parti più importanti e significative del codice, va fatto un piccolo appunto sul layer di persistenza del backend.
-L'utilizzo di LiteDB è fondamentale per simulare le dinamiche del backend aziendale, dove molte informazioni vengono carpite dal database aziendale.
+L'utilizzo di LiteDB è fondamentale per simulare le dinamiche del backend aziendale, dove la maggior parte delle informazioni vengono carpite dal database aziendale.
 Nel caso di questo progetto il database non ha bisogno di implementazione (essendo NoSQL) ed è talmente leggero che non va a gravare sulle prestazioni del backend.
 Viene utilizzato prevalentemente per due motivi:
 - per l'autenticazione degli utenti dall'applicazione mobile nella procedura di login.
 - una volta che l'utente è autorizzato, si vogliono ottenere dati utili per l'installazione del dispositivo e per la visualizzazione di dati utente nella parte autorizzata 
 dell'applicazione mobile.
-
 
 Ora che è stata fatta chiarezza sull'utilizzo del database, si può passare l'attenzione alle classi più importanti del backend.
 
@@ -140,20 +139,16 @@ Questa classe contiene i dati, tutti obbligatori, che sono gestiti e devono esse
 
 > Per capire il significato di questi dati, andare a vedere la sezione *Approfondimento sul processo di installazione del dispositivo* nel documento *3_Descrizione-funzionamento-piattaforme-notifiche-push*.
 
-Un altro dato che servirà nel processo di installazione del dispositivo è **Tags**, un vettore nel quale verrà salvato il GUID dell'utente che ha effettuato il login, in modo da 
-poter indirizzare le richieste ad un utente specifico come richiesto dal tutor aziendale. Lo stesso dato viene utilizzato per essere inserito nell'header delle richieste HTTP(S) 
-per certificare che le richieste effettuate dall'applicazione mobile siano autenticate.
+Un altro dato che servirà nel processo di installazione del dispositivo è **Tags**, un vettore nel quale verrà salvato il GUID dell'utente che ha effettuato il login, in modo da poter indirizzare le richieste ad un utente specifico come richiesto dal tutor aziendale. Lo stesso dato viene utilizzato per essere inserito nell'header delle richieste HTTP(S) per certificare che le richieste effettuate dall'applicazione mobile siano autenticate.
 
-> **Tags** verrà inserito nella classe *NotificationsController* all'endpoint PUT *~/installations*, dopo aver fatto la verifica che la chiamata sia autorizzata.
+> **Tags** verrà inserito nella classe *NotificationsController* all'endpoint PUT *~/api/notifications/installations*, dopo aver verificato che la chiamata sia autorizzata.
 
 **2) PushTemplates.cs**
 
 Questa classe contiene i payload di notifica nel formato stringa (pronto per essere serializzato in formato JSON) sia per dispositivi Android che per iOS. 
 All'interno sono presenti due classi interne:
-- *Generic*, che rappresenta la notifica classica che viene ricevuta da tutti i dispositivi. È l'unica classe utilizzata in questo prototipo.
-- *Silent*, che rappresenta una notifica silenziosa, ovvero non invasiva a livello visivo in quanto presente solo nel caso in cui l'utente scrolli la tendina delle notifiche. Solitamente è utilizzata per
-segnalare servizi attivi in background, come per esempio la navigazione su Google Maps. Non è utile ai fini del progetto, ma se nel futuro l'azienda volesse utilizzare questo tipo di notifica
-l'implementazione sarebbe quasi immediata.
+- *Generic*, che rappresenta la notifica classica che viene ricevuta da tutti i dispositivi. È anche l'unica utilizzata in questo prototipo.
+- *Silent*, che rappresenta una notifica silenziosa, ovvero non invasiva a livello visivo in quanto presente solo nel caso in cui l'utente scrolli la tendina delle notifiche. Solitamente è utilizzata per segnalare servizi attivi in background, come per esempio la navigazione su Google Maps. Non è utile ai fini del progetto, ma se nel futuro l'azienda volesse utilizzare questo tipo di notifica l'implementazione sarebbe quasi immediata.
 
 *Payload generico Android:*
 ```
@@ -176,14 +171,14 @@ l'implementazione sarebbe quasi immediata.
 }
 ```
 
-Il placeholder *$(alertMessage)* verrà sostituito in *NotificatioHubsService.cs* con il metodo seguente:
+Il placeholder *$(alertMessage)* verrà sostituito in *NotificationHubsService* con il metodo seguente:
 ```
 string PrepareNotificationPayload(string template, string text) => template
     .Replace("$(alertMessage)", text, StringComparison.InvariantCulture); 
 ```
 
-Utilizzando questo payload non viene registrato alcun modello di notifica, in quanto quello utilizzato è un modello che, nel gergo tecnico, viene chiamato *nativo*.
-Per l'installazione del dispositivo è comunque prevista la registrazione di modelli personalizzati, inserendo ulteriori chiavi come analizzato nel documento *3_Descrizione-funzionamento-piattaforme-notifiche-push*.
+Utilizzando questo payload non viene registrato alcun modello di notifica, in quanto quello utilizzato è un modello che nel gergo tecnico viene chiamato *nativo*.
+Per l'installazione del dispositivo è comunque prevista l'installazione di modelli personalizzati, inserendo ulteriori chiavi come analizzato nel documento *3_Descrizione-funzionamento-piattaforme-notifiche-push*.
 
 **3) NotificationRequest.cs**
 
@@ -191,42 +186,32 @@ Questa classe contiene i dati che vengono passati all'invio della notifica (nel 
 notifica. Nello specifico *Text* va a sostituire $(alertMessage), mentre *Tags* viene elaborato e poi inserito come parametro nella chiamata all'API di Azure Notification Hubs 
 che si occupa nello specifico di inviare notifiche con una specifica *tagExpression*.
 
-> La classe *NotificationRequestTemplate.cs* non è stata implementata, ma sarà pronta all'uso nel momento in cui gli sviluppatori implementeranno la logica di invio delle notifiche dal backend anziché 
-dalla web application.
+> La classe *NotificationRequestTemplate.cs* non è stata implementata, ma sarà pronta all'uso nel momento in cui gli sviluppatori implementeranno la logica di invio delle notifiche dal backend anziché dalla web application.
  
 **4) NotificationsController.cs**
 
-Qui risiede il fulcro della Web API RESTful: infatti questa classe funge un ruolo fondamentale per la comunicazione e la gestione delle richieste tra i dispositivi e il backend stesso.
+Qui risiede il fulcro della Web API RESTful: infatti questa classe funge un ruolo fondamentale per la comunicazione e la gestione delle richieste inoltrate dai dispositivi al backend stesso.
 Grazie all'inserimento in cima alla classe dell'attributo *[ApiController]*, viene abilitato il routing delle richieste a specifici endpoint e le risposte HTTP sono automatiche.
 
 Gli endpoint che possono essere accettati dal backend sono i seguenti:
-- GET *~/api/notifications/users/all*: ritorna una risposta HTTP 200 con annesso oggetto che contiene tutti gli id utente con annesso username. Necessario per creare dinamicamente la tendina selezionabile della web 
-application per l'invio di notifiche mirate ad utenti precisi.
+- GET *~/api/notifications/users/all*: ritorna una risposta HTTP 200 con annesso oggetto che contiene tutti gli id utente con i corrispondenti username. Necessario per creare dinamicamente la tendina selezionabile della web application per l'invio di notifiche mirate ad utenti precisi.
 - PUT *~/api/notifications/installations*: ritorna una risposta HTTP 200 con i tag del dispositivo se la creazione dell'installazione di un dispositivo o il suo conseguente aggiornamento avviene con successo.
-- DELETE *~/api/notifications/installations/\{installationId}*: ritorna una risposta HTTP 200 se la cancellazione dell'installazione del dispositivo specificato dal parametro *installationId* avviene con 
-successo. 
-- POST *~/api/notifications/requests*: ritorna una risposta HTTP 200 se la richiesta di invio della notifica è andata a buon fine.
+- DELETE *~/api/notifications/installations/\{installationId}*: ritorna una risposta HTTP 200 se la cancellazione dell'installazione del dispositivo specificato nel parametro *installationId* avviene con successo. 
+- POST *~/api/notifications/requests*: ritorna una risposta HTTP 200 se la richiesta di invio della notifica è avvenuta con successo.
 
 **5) NotificationHubsService.cs**
 
-In questa classe sono presenti i metodi che sono stati richiamati dagli endpoint di *NotificationsController*. In particolare la logica è incentrata sulle operazioni da effettuare con Azure, infatti è
-alto l'utilizzo dell'API di Azure Notification Hubs.
+In questa classe sono presenti i metodi che sono stati richiamati dagli endpoint di *NotificationsController*. In particolare, la logica è incentrata sulle operazioni da effettuare con Azure, utilizzando massivamente l'API di Azure Notification Hubs.
 
 I metodi principali sono i seguenti:
-- *CreateOrUpdateInstallationAsync(DeviceInstallation deviceInstallation, CancellationToken token, string[] tags)*: chiamato dal codice dell'endpoint PUT *~/api/notifications/installations*, viene prima 
-creato l'oggetto *Installation* che contiene tutti i dati di *DeviceInstallation* e il vettore stringa *tags*, ed infine effettua una chiamata all'API con 
-*_hub.CreateOrUpdateInstallationAsync(installation, token)* per creare oppure aggiornare l'installazione del dispositivo. Se la chiamata va a buon fine, il metodo ritorna il tag salvato nel processo di 
-installazione (ovvero l'id utente) che servirà successivamente all'applicazione mobile per essere aggiunto nell'header di specifiche richieste HTTP ed essere gestito come "token" per l'autorizzazione.
-- *DeleteInstallationByIdAsync(string installationId, CancellationToken token)*: chiamato dal codice dell'endpoint DELETE *~/api/notifications/installations/\{installationId}*, procede alla cancellazione di 
-una specifica installazione (il parametro *installationId*) effettuando una chiamata all'API con * _hub.DeleteInstallationAsync(installationId, token)*. Ritorna true se la cancellazione è andata a buon fine.
-- *RequestNotificationAsync(NotificationRequest notificationRequest, CancellationToken token)*: chiamato dal codice dell'endpoint POST *~/api/notifications/requests*, viene prima elaborato  l'oggetto 
-*NotificationRequest* per preparare il payload di notifica, sia per Android che per iOS, e l'espressione logica di tag (*tagExpression*) per indirizzare la notifica a categorie di utenti specifici (in questo caso all'id
-di uno specifico utente). 
+- *CreateOrUpdateInstallationAsync(DeviceInstallation deviceInstallation, CancellationToken token, string[] tags)*: chiamato dal codice dell'endpoint PUT *~/api/notifications/installations*, viene prima creato l'oggetto *Installation* che contiene tutti i dati di *DeviceInstallation* e il vettore stringa *tags*, ed infine effettua una chiamata all'API con *_hub.CreateOrUpdateInstallationAsync(installation, token)* per creare oppure aggiornare l'installazione del dispositivo. Se la chiamata va a buon fine, il metodo ritorna il tag salvato nel processo di installazione (ovvero l'id utente) che servirà successivamente all'applicazione mobile per essere aggiunto nell'header di specifiche richieste HTTP ed essere gestito come "token" per l'autorizzazione.
+- *DeleteInstallationByIdAsync(string installationId, CancellationToken token)*: chiamato dal codice dell'endpoint DELETE *~/api/notifications/installations/\{installationId}*, procede alla cancellazione di una specifica installazione (il parametro *installationId*) effettuando una chiamata all'API con *_hub.DeleteInstallationAsync(installationId, token)*. Ritorna true se la cancellazione è andata a buon fine.
+- *RequestNotificationAsync(NotificationRequest notificationRequest, CancellationToken token)*: chiamato dal codice dell'endpoint POST *~/api/notifications/requests*, viene prima elaborato l'oggetto *NotificationRequest* per preparare il payload di notifica, sia per Android che per iOS, e l'espressione logica di tag (*tagExpression*) per indirizzare la notifica a categorie di utenti specifici (in questo caso all'id di uno specifico utente). 
     - Se non sono presenti tag viene richiamato il metodo *SendPlatformNotificationsAsync(androidPayload, iOSPayload, token)* che inoltra la notifica in modalità broadcast, 
     - altrimenti viene fissato un limite massimo di 10 tag (perché l'espressione logica contiene solo operatori logici AND (&&)) e viene richiamato il metodo 
-    *SendPlatformNotificationsAsync(androidPayload, iOSPayload, tagExpression.ToString(), token)* per inviare notifiche mirate grazie all'inserimento del parametro *tagExpression()*.
+    *SendPlatformNotificationsAsync(androidPayload, iOSPayload, tagExpression.ToString(), token)* per inviare notifiche mirate grazie all'inserimento del parametro *tagExpression* convertito in stringa.
     
-    I seguenti metodi sono responsabili delle chiamate all'API come si può vedere dal seguente codice:
+    I seguenti metodi effettuano chiamate all'API per inviare la notifica alle piattaforme FCM e APNS, come si può vedere dal seguente codice:
     ```
     Task SendPlatformNotificationsAsync(string androidPayload, string iOSPayload, CancellationToken token)
     {
@@ -258,19 +243,17 @@ di uno specifico utente).
 Come *NotificationsController*, questa classe è abilitata a ricevere richieste da determinati endpoint grazie alla presenza dell'attributo *[ApiController]*.
 Questa classe è stata creata appositamente per separare le operazioni che coinvolgono le chiamate all'API di Azure Notifications Hubs dalle operazioni che interessano l'autenticazione dell'utente.
 
-In questo caso l'endpoint presente è solo uno:
-- POST *~/login*: ritorna una risposta HTTP 200 con l'annesso oggetto di risposta *LoginResponse* se le credenziali contenute nel corpo della richiesta sono presenti all'interno del database di LiteDB.
+In questo caso l'unico endpoint presente è:
+- POST *~/login*: ritorna una risposta HTTP 200 con l'annesso oggetto di risposta *LoginResponse* se le credenziali contenute nel corpo della richiesta di tipo *LoginRequest* sono presenti all'interno del database di LiteDB.
 
 **7) UserManagerService.cs**
 
-In questa classe sono presenti metodi che, in base al loro scopo, vengono utilizzati sia da *LoginController* che da *NotificationsController*. In particolare vengono gestite tutte le operazioni con 
-LiteDB.
+In questa classe sono presenti metodi che, in base al loro scopo, vengono utilizzati sia da *LoginController* che da *NotificationsController*. In particolare vengono gestite tutte le operazioni con LiteDB.
 
 I metodi principali sono i seguenti:
 - *GetAllUsers()*: ritorna la lista di tutti gli utenti, in particolare gli id associati agli username. Viene utilizzato nel codice dell'endpoint GET *~/api/notifications/users/all*
 - *GetUserByUsername(string username)*: ritorna un utente in base allo username passato come parametro del metodo. Viene utilizzato nel codice dell'endpoint POST *~/login*.
-- *GetUserById(Guid id)*: ritorna un utente in base all'id passato come parametro del metodo. Viene utilizzato nel codice degli endpoint PUT *~/api/notifications/installations* e 
-DELETE *~/api/notifications/installations/\{installationId}* per accertarsi che la richiesta HTTP sia autorizzata, verificando che nell'header sia presente l'id utente.
+- *GetUserById(Guid id)*: ritorna un utente in base all'id passato come parametro del metodo. Viene utilizzato nel codice degli endpoint PUT *~/api/notifications/installations* e DELETE *~/api/notifications/installations/\{installationId}* per accertarsi che la richiesta HTTP sia autorizzata, verificando che nell'header sia presente l'id utente.
 - *AuthenticateUser(string username, string password)*: ritorna true se le credenziali dell'utente sono presenti nel database. Viene utilizzato nel codice dell'endpoint POST *~/login*.
 
 <div align="right">
@@ -282,27 +265,26 @@ DELETE *~/api/notifications/installations/\{installationId}* per accertarsi che 
 
 #### Creazione dell'App Service su Azure
 
-In questo progetto è risultato necessario creare un'API Application nel servizio di Azure *App Service* per ospitare il backend e averlo a disposizione in rete in qualsiasi momento.
-Ovviamente ai fini dell'azienda questo passaggio è inutile in quanto il backend aziendale è già ospitato in altri servizi di hosting.
+In questo progetto è risultato necessario creare un'API App nel servizio di Azure *App Service* per ospitare il backend e averlo a disposizione in rete in qualsiasi momento.
+Ovviamente ai fini dell'azienda questo passaggio è inutile in quanto il backend aziendale è già ospitato da altri servizi di hosting. Nonostante questa premessa, si vuole mostrare quali misure ha adottato lo stagista per sopperire a questo problema.
 
-Nonostante questa premessa, si vuole mostrare quali misure ha adottato lo stagista per sopperire a questo problema.
 Di seguito vengono elencati in sequenza i passaggi da effettuare per attivare questo servizio:
 1) Se si è già registrati, accedere ad [Azure](https://portal.azure.com/).
 2) Dalla pagina principale, sotto la voce *Servizi di Azure* selezionare la voce *Crea una risorsa*.
-    - nella barra di ricerca digitare *API App*, selezionare il risultato ottenuto e cliccare il bottone *Crea*.
+    - nella barra di ricerca digitare *API App*, selezionare il risultato ottenuto e cliccare il pulsante *Crea*.
 3) Inserire i dati nei rispettivi campi:
     - **Nome app**: inserire un nome univo che identifica l'API App.
     - **Sottoscrizione**: selezionare la stessa sottoscrizione scelta durante la creazione dell'hub di notifica.
     - **Gruppo di risorse**: selezionare lo stesso gruppo di risorse scelta durante la creazione dell'hub di notifica.
-    - **Località**: scegliere la zona desiderabile per localizzare il server dall'elenco a discesa.
+    - **Località**: scegliere dall'elenco a discesa la zona desiderabile per localizzare il server.
     - **Application Insights:**: lasciare le opzioni suggerite da Azure.
-4) Una volta inserito i dati del punto 3), confermare la creazione del servizio ed entrare all'interno della risorsa.
-5) Salvare in un file a parte l'URL *https://<app_name>.azurewebsites.net* che si trova in *Informazioni di base*, in quanto verrà utilizzato nell'applicazione mobile.
-6) Selezionare dal menu della risorsa la voce *Configurazione*.
+4) Una volta inseriti i dati del punto 3), confermare la creazione del servizio ed entrare all'interno della risorsa.
+5) Salvare in un file a parte l'URL *https://<app_name>.azurewebsites.net* che si trova in *Informazioni di base*, in quanto verrà utilizzato nell'applicazione mobile e nella web application.
+6) Dal menu della risorsa, selezionare la voce *Configurazione*.
     - cliccare sul pulsante *Nuova impostazione applicazione* ed inserire le seguenti chiavi con gli annessi valori (salvati in precedenza):
         - *NotificationHub:Name*.
         - *NotificationHub:ConnectionString*.
-    - cliccare sul bottone *Salva* e poi su *Continua*.
+    - cliccare sul pulsante *Salva* e poi su *Continua*.
 
 #### Pubblicare il backend
 
@@ -320,12 +302,9 @@ Per distribuire il backend e renderlo pubblico su Azure, seguire in sequenza i s
 
 #### Note a margine
 
-L'utilizzo del backend può essere sia locale che remoto. Lo stagista ha preferito creare un App Service in modo da poter testare in una modo più fedele alla realtà il funzionamento dell'applicazione 
-mobile e dell'intera infrastruttura. D'altro canto Azure non offre strumenti di debug del backend caricato, quindi l'utilizzo del backend in locale si è rivelato molto utile per poter fare debugging 
-in profondità per rilevare e risolvere i problemi del codice backend.
+L'utilizzo del backend può essere sia locale che remoto. Lo stagista ha preferito creare un App Service in modo da poter testare da remoto il funzionamento dell'applicazione mobile e dell'intera infrastruttura. D'altro canto Azure non offre strumenti di debug del backend caricato, quindi l'utilizzo del backend in locale si è rivelato molto utile per fare debugging, rilevando e risolvendo i problemi del codice backend.
 
-Di default il backend funziona solo su Azure. Nel caso lo sviluppatore sia interessato a farlo funzionare in locale, cambiare le configurazioni nel file *Program.cs* e cambiare l'indirizzo del server 
-nell'applicazione mobile.
+Per come è stato configurato l'intero progetto, il backend funziona solo su Azure. Nel caso lo sviluppatore sia interessato a farlo funzionare in locale, cambiare le configurazioni nel file *Program.cs* e, parallelamente nell'applicazione mobile e web application, cambiare l'indirizzo del backend nel file *Config.local_secrets.cs* seguendo le istruzioni nei commenti del file.
 
 <div align="right">
 
@@ -943,7 +922,7 @@ La sezione è strutturata nelle seguenti sotto-sezioni:
 
 ### Le parti principali del codice TestNotificationWebApp
 
-Il primo passaggio essenziale per lo sviluppatore è inserire valori di configurazione localmente utilizzando lo strumento *Secret Manager*. 
+Il primo passaggio essenziale per lo sviluppatore è inserire localmente valori di configurazione utilizzando lo strumento *Secret Manager*. 
 Assicurandosi di essere all'interno della cartella *TestNotificationWebApp*, aprire il terminale ed inserire i seguenti comandi:
 
 ```
@@ -954,7 +933,7 @@ dotnet user-secrets set "NotificationHub:ConnectionString" <value>
 
 Il placeholder *\<value\>* va rimpiazzato in questo modo:
 - **NotificationHub:Name** è la voce *Name** che si trova in *Informazioni di base* nella pagina principale dell'hub di notifica appena creato.
-- **NotificationHub:ConnectionString** è il valore *DefaultFullSharedAccessSignature* copiato nel passaggio 5) della creazione dell'hub di notifica per l'accesso in lettura e scrittura ad Azure.
+- **NotificationHub:ConnectionString** è il valore *DefaultFullSharedAccessSignature* copiato nel passaggio 5) della creazione dell'hub di notifica di Azure per l'accesso in lettura e scrittura.
 
 Il secondo passaggio è creare una classe *Config.cs* che ha il compito di mantenere tutti i valori segreti fuori dal controllo del codice sorgente
 Il codice è il seguente:
@@ -994,7 +973,7 @@ Nel caso contrario in cui il servizio backend sia locale, de-commentare la riga 
 l'indirizzo locale del nodo nella quale il server è in funzione nella rete interna e la porta per accedere al servizio.
 
 Da questo momento, è importante analizzare le tappe cruciali per la realizzazione del backend. Il progetto è strutturato in questa sequenza:
-- *Properties*, la cartella che contiene tutti i parametri per avviare la web application e i file contenenti un riferimento con lo strumento Secret Manager.
+- *Properties*, la cartella che contiene tutti i parametri per avviare la web application e i file che contengono un riferimento allo strumento *Secret Manager*.
 - *wwwroot*, la cartella dove risiedono tutti i file statici, ovvero i file .css, .js e le immagini.
 - *Configuration*, la cartella dove risiedono i file di configurazione.
 - *Models*, la cartella che contiene tutte le classi con la logica di business e di convalida.
