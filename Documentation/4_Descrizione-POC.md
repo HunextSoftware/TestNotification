@@ -361,9 +361,9 @@ Alla fine di questo passaggio l'utente è reindirizzato alla pagina iniziale di 
 
 La sezione è strutturata nelle seguenti sotto-sezioni:
 - [Le parti principali del codice TestNotification](#le-parti-principali-del-codice-testnotification)
-- [Le parti principali del codice TestNotification.Android](#le-parti-principali-del-codice-testnotification.android)
+- [Le parti principali del codice TestNotification.Android](#le-parti-principali-del-codice-testnotificationandroid)
 - [Manuale utente TestNotification](#manuale-utente-testnotification)
-- [Sviluppo di TestNotification.iOS](#sviluppo-di-testnotification.ios)
+- [Sviluppo di TestNotification.iOS](#sviluppo-di-testnotification-ios)
 
 
 ### Le parti principali del codice TestNotification
