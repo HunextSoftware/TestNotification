@@ -301,5 +301,5 @@ disposizione i propri servizi (informazioni e funzioni elaborative) e a sua volt
 
 <div align="right">
 
-[Torna su](#descrizione-delle-tecnologie-utilizzate)
+[Torna su](#descrizione-del-funzionamento-delle-piattaforme-per-la-gestione-delle-push-notification-per-android-ed-ios)
 </div>
