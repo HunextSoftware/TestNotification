@@ -20,8 +20,7 @@ A causa di molteplici fattori quali:
 - il linguaggio C# da apprendere,
 - la mancanza della conoscenza del dominio HR, 
 
-lo stagista non sarà coinvolto direttamente nei processi aziendali e tanto meno non modificherà il codice aziendale esistente, ma partirà da un progetto vuoto che alla fine del periodo 
-di stage rappresenterà il prototipo (o più nello specifico POC, acronimo di Proof Of Concept) dalla quale gli sviluppatori di Hunext partiranno per lo sviluppo di questa feature specifica. 
+lo stagista non sarà coinvolto direttamente nei processi aziendali e tanto meno non modificherà il codice aziendale esistente, ma partirà da un progetto ex novo che alla fine del periodo di stage rappresenterà il prototipo (o più nello specifico POC, acronimo di Proof Of Concept) dalla quale gli sviluppatori di Hunext partiranno per lo sviluppo di questa feature specifica. 
 
 Il documento è strutturato nelle seguenti sezioni:
 
