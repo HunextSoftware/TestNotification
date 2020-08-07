@@ -84,14 +84,16 @@ namespace TestNotification.Droid
 
         public override void OnBackPressed()
         {
-            using var alert = new AlertDialog.Builder(this);
-            alert.SetTitle("Confirm Exit")
+            using (var alert = new AlertDialog.Builder(this))
+            {
+                alert.SetTitle("Confirm Exit")
                 .SetMessage("Are you sure you want to exit?")
                 .SetPositiveButton("Yes", (sender, args) => { Finish(); })
                 .SetNegativeButton("No", (sender, args) => { });
 
-            var dialog = alert.Create();
-            dialog.Show();
+                var dialog = alert.Create();
+                dialog.Show();
+            }
         }
 
         // Retrieve and store the Firebase token

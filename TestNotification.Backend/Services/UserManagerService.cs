@@ -13,7 +13,6 @@ namespace TestNotificationBackend.Services
             using (var db = new LiteDatabase("data.db"))
             {
                 var collection = db.GetCollection<UserData>("UserData");
-                //return collection.FindAll().ToList();
                 return collection.FindAll().Select(x => new UserData(x.Id, x.Username)).ToList();
             }
         }
