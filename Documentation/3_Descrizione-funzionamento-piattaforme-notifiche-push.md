@@ -102,42 +102,40 @@ Tutte le altre chiavi personalizzabili dall'utente possono essere aggiunte nel p
 
 ### Azure Notification Hubs
 
-A differenza di FCM e APNS, Azure Notification Hubs non è un PNS bensì un broker multipiattaforma di Microsoft (o anche detto hub di notifica), che riceve dettagli di comunicazione dal server del 
-provider da elaborare ed infine instradare ai PNS di riferimento. 
+A differenza di FCM e APNS, Azure Notification Hubs non è un PNS bensì un broker multipiattaforma di Microsoft (o anche detto hub di notifica), che riceve dettagli di comunicazione dal server del provider da elaborare ed infine instradare ai PNS di riferimento. 
 
 Notification Hubs consente di inviare notifiche a qualsiasi piattaforma da qualsiasi backend, locale o remoto che sia.
 Ciò che lo differenzia da tutte le altre piattaforme è che consente di inviare messaggi a più piattaforme con una sola chiamata. 
-Inoltre è Azure che si preoccupa di mantenere il registro completo di PNS handle e una serie di informazioni importanti, come i tag e i modelli associati alla registrazione di un dispositivo.
+Inoltre è Azure che si preoccupa di mantenere il registro completo di PNS handle ed una serie di informazioni importanti, come i tag e i modelli associati alla registrazione di un dispositivo.
 
-La differenza che intercorre tra il funzionamento generale dei vari PNS e Azure Notification Hubs si intuisce dal flusso della notifica push.
+La differenza che intercorre tra il funzionamento generale dei vari PNS ed Azure Notification Hubs si intuisce dal flusso della notifica push.
 
 <div align="center"> 
 <img src="Images/3_Document/3.3)Push-notification-workflow.png" alt="Immagine processo notifiche push"/>
 </div>
 
 Nel caso generale dei PNS, il flusso è il seguente:
-1) il dispositivo contatta il PNS per la piattaforma di destinazione in cui l'applicazione è in esecuzione e richiede un PNS handle univoco e temporaneo. Come visto per FCM e APNS, il tipo di handle 
-dipende dal PNS di riferimento.
+1) il dispositivo contatta il PNS per la piattaforma di destinazione in cui l'applicazione è in esecuzione e richiede un PNS handle univoco. Come visto per FCM e APNS, il tipo di handle dipende dal PNS di riferimento.
 2) il dispositivo archivia il PNS handle nel server del provider.
 3) il backend deve inviare una notifica, quindi contatta il PNS usando il PNS handle che identifica l'applicazione del dispositivo mobile.
 4) il PNS inoltra la notifica al dispositivo specificato dal PNS handle.
 
-Come si può notare, il flusso è comune per tutte le piattaforme, ma l'implementazione del sistema di notifiche non è la stessa. 
-Quindi se l'obiettivo è inviare notifiche a N piattaforme, l'implementazione della funzionalità a livello di codice avviene N volte, una per ogni servizio.
+In questo caso il flusso è comune per tutte le piattaforme, ma l'implementazione del sistema di notifiche cambia per ogni piattaforma. 
+Quindi se l'obiettivo è inviare una notifica a N piattaforme, l'implementazione della stessa funzionalità a livello di codice avviene N volte, una per ogni servizio.
 
 <div align="center"> 
 <img src="Images/3_Document/3.4)Notification-hub-diagram.png" alt="Immagine processo Azure"/>
 </div>
 
 Nel caso specifico di Azure Notification Hubs, invece, il flusso è il seguente:
-1) il dispositivo contatta il PNS per la piattaforma di destinazione in cui l'applicazione è in esecuzione e richiede un PNS handle univoco e temporaneo. Come visto per FCM e APNS, il tipo di handle 
-dipende dal PNS di riferimento. Questo passaggio è l'unico a rimanere intatto al flusso discusso nel caso precedente.
-2) il dispositivo passa il PNS handle per il backend del provider, che poi lo inoltra all'hub di notifica che ha l'onere di archiviarlo.
-3) il backend deve inviare una notifica, quindi contatta l'hub di notifica che la acquisisce e la inoltra a tutti i PNS, che a loro volta si occupano di inviarla ad utenti specifici oppure a gruppi di 
-interesse.
+1) il dispositivo contatta il PNS per la piattaforma di destinazione in cui l'applicazione è in esecuzione e richiede un PNS handle univoco. Come visto per FCM e APNS, il tipo di handle dipende dal PNS di riferimento. Questo passaggio è l'unico a rimanere intatto al flusso discusso nel caso precedente.
+2) il dispositivo inoltra il PNS handle al backend del provider, che infine lo inoltra all'hub di notifica in quanto possiede l'onere di archiviarlo.
+3) il backend deve inviare una notifica, quindi contatta l'hub di notifica che la acquisisce e la inoltra a tutti i PNS, che a loro volta si occupano di inviarla ad utenti specifici oppure a gruppi di interesse.
 
-La differenza sostanziale in questo caso d'uso specifico è l'invio automatico delle notifiche push dal server del provider: basta una chiamata all'API per inviare la notifica su tutte le piattaforme.
-Quindi se l'obiettivo è inviare notifiche a N piattaforme, l'implementazione della funzionalità a livello di codice avviene con una sola chiamata.
+In questo caso a differenza sostanziale le differenze sono due:
+- non è più il backend a salvare i PNS handle, bensì l'hub di notifica.
+- l'invio di una notifica push da parte del server del provider avviene mediante una sola chiamata all'API di Azure Notification Hubs per inviarla a tutte le piattaforme.
+Quindi se l'obiettivo è inviare una notifica a N piattaforme, l'implementazione della stessa funzionalità a livello di codice avviene una sola volta con una sola chiamata.
 
 > Per maggiori informazioni, visitare il seguente [link](https://docs.microsoft.com/it-it/previous-versions/azure/azure-services/jj927170(v=azure.100)).
 
