@@ -197,27 +197,26 @@ Ora l'attenzione si focalizza sui dati che vengono recuperati sia a livello di d
 - **InstallationId**: identifica un dispositivo specifico associato all'applicazione dalla quale è partito il processo di installazione. Il suo utilizzo è legato soprattutto alla cancellazione dell'installazione dall'hub di notifica.
     - Questo valore può essere un GUID generato nel momento in cui viene eseguito il codice per l'installazione.
     - In Android 8.0 e superiori, il codice ```Secure.GetString(Application.Context.ContentResolver, Secure.AndroidId)``` consente di generare una stringa di 64 bit, espressa come stringa esadecimale, ottenuta dalla combinazione dei seguenti dati: chiave firmata della mobile app, utente e dispositivo. Per le restanti versioni di Android, lo stesso codice consente di generare un stringa random di 64 bit, espressa come stringa esadecimale, che rimane unica nel ciclo di vita del dispositivo dell'utente.
-  <p></p>
+<p></p>
 
   > Il recupero di questa informazione può avvenire solo lato app.
 
-- **Platform**: identifica la piattaforma nella quale il dispositivo si registra mediante un'apposita sigla. 
+- **Platform**: identifica la piattaforma, mediante un'apposita sigla, nella quale il dispositivo si registra. 
   > Il recupero di questa informazione può avvenire solo lato app.
   
 - **PushChannel**: è il token recuperato dal PNS handle che identifica l'installazione di un dispositivo nella piattaforma di notifica apposita. Chiamato anche **Registration ID**, non ha alcuna associazione logica con *Registration ID* generato da Azure (vedere sotto).
   Questo parametro è strettamente legato a *Platform*, tanto che ci sono modi diversi per recuperare il token in base al sistema operativo del dispositivo.
   > Il recupero di questa informazione può avvenire solo lato app.
 
-- **Tags**: array di etichette che identificano una serie di categorie alla quale l'utente appartiene (es. se il contesto dell'applicazione è lo sport, l'utente che tifa X e segue anche la squadra Y riceverà le notifiche sia della squadra X che della squadra Y).
-  Nel caso d'uso specifico dell'applicazione *Hunext Mobile*, il tag specifico da utilizzare è il GUID utente che viene recuperato dal layer di persistenza del server aziendale. In questo modo, una notifica può essere indirizzata a specifici utenti.
+- **Tags**: array di informazioni che identificano una serie di categorie alla quale l'utente appartiene (es. se il contesto dell'applicazione è lo sport, l'utente che tifa X ma  che vuole seguire anche la squadra Y riceverà le notifiche sia della squadra X che della squadra Y).
+  Nel caso d'uso specifico dell'applicazione *Hunext Mobile*, il tag specifico da utilizzare è il GUID utente che viene recuperato dal layer di persistenza del server del provider. In questo modo, una notifica può essere indirizzata a specifici utenti.
   A causa dell'espressione implementata a livello backend (espressione logica con soli AND (&&)), il numero di tag possibili va da 0 a 10.
-  > Per questioni di sicurezza e di elaborazione, il recupero di questa informazione avviene lato backend. In questo modo, l'utente è svincolato da ogni responsabilità, demandandola al backend.
-
+  > Per questioni di sicurezza e di elaborazione, il recupero di questa informazione avviene lato backend. In questo modo l'utente non ha alcuna resposnabilità su questo tipo di informazione.
 
 ### Come viene salvata un'installazione specifica in Azure Notification Hubs
 
-> La precondizione necessaria per poter accertarsi di quanto viene scritto è che l'utente deve essere registrato ad un account Azure e ha già creato un hub di notifica con il
-suo spazio di nomi. 
+> La precondizione necessaria per potersi accertare di quanto viene scritto è che l'utente sia registrato ad un account Azure e abbia già creato un hub di notifica con il
+suo spazio di nomi (namespace). 
 >
 > I seguenti dati possono essere visualizzati in tempo reale aprendo Visual Studio 2019 e, dal menu principale, seguire il seguente percorso:
 > **View -> Server Explorer -> Azure (*mailoutlook*@outlook.com) -> Notification Hubs -> *NomeNotificationHub***
@@ -225,21 +224,21 @@ suo spazio di nomi.
 > Questa procedura sarà descritta nel dettaglio nel documento *4_Descrizione-POC*.
 
 In questo momento non è ancora stato spiegato come avviene a livello di codice l'installazione, ma è importante evidenziare come vengono salvati i dati di un'installazione.
-- **Platform**: identifica il tipo di piattaforma utilizzata nella registrazione mediante un'apposita sigla. 
+- **Platform**: identifica il tipo di piattaforma utilizzata nell'installazione mediante un'apposita sigla. 
     - GCM => Google, è l'equivalente di FCM
     - APN => Apple
     - WNS => Windows
     - MPNS => Windows Phone
     - ADM => Amazon
     - BCP => Baidu
-- **Type**: indica il nome del modello salvato al momento della registrazione, ovvero il formato della notifica che si vuole inviare all'utente. Se è contrassegnato come *Native*, significa che <span style="text-decoration: underline;">non</span> è stato personalizzato e si utilizza il modello standard. 
-- **Tags**: etichetta/e che identificano l'utente secondo una o più categorie di interesse. I tag non sono obbligatori, ma sono molto utili per indirizzare le notifiche a gruppi di utenti. Se non è presente alcun tag, le notifiche saranno indirizzate a tutti gli utenti registrati in Azure Notification Hubs.
-- **PNS Identifier**: token che funge da identificativo per un specifico dispositivo, che viene recuperato nell'operazione di PNS handle, eseguito in prima istanza tra mobile app e la piattaforma di notifica specifica. Come descritto nella documentazione, non è garantita l'univocità. È associato al valore *PushChannel* visto sopra.
-    - Per i dispositivi Android, l'identificativo è l'ID di registrazione di Firebase (*onNewToken()*).
+- **Type**: indica il nome del modello salvato al momento dell'installazione, ovvero il formato della notifica che si vuole inviare all'utente. Se è contrassegnato come *Native*, significa che __non__ è stato personalizzato e si utilizza il modello standard. 
+- **Tags**: informazioni che identificano l'utente secondo una o più categorie di interesse. I tag non sono obbligatori, ma sono molto utili per indirizzare le notifiche a gruppi di utenti. Se non è presente alcun tag, l'utente riceverà la notifica solo se questa è indirizzata a tutti gli utenti.
+- **PNS Identifier**: token che funge da identificativo per un specifico dispositivo, che viene recuperato nell'operazione di PNS handle, richiesto dall'applicazione mobile alla piattaforma di notifica specifica. Come descritto nella documentazione, non è garantita l'univocità. È associato al valore *PushChannel* visto sopra.
+    - Per i dispositivi Android, l'identificativo è l'ID di installazione di Firebase (*onNewToken()*).
     - Per i dispositivi Apple, l'identificativo è il token del dispositivo.
     - Per i dispositivi Windows, l'identificativo è un URI che identifica il canale. 
-- **Registration ID**: ID generato automaticamente da Azure per identificare una singola registrazione.
-- **Expiration date**: data di scadenza della registrazione in Azure. È impostata di default alla data 31/12/9999, in modo che la registrazione non possa mai scadere.
+- **Registration ID**: ID generato automaticamente da Azure per identificare una singola installazione.
+- **Expiration date**: data di scadenza dell'installazione del dispositivo in Azure Notification Hubs. È impostata di default alla data 31/12/9999, in modo che la registrazione non possa mai scadere.
 
 <div align="right">
 
@@ -253,11 +252,10 @@ In questo momento non è ancora stato spiegato come avviene a livello di codice 
 Il servizio Azure di Microsoft offre una suite di prodotti molto ampia. Nel progetto sono stati utilizzati i servizi *Notification Hubs* e *App Service*.
 I suddetti servizi sono stati utilizzati con un piano di abbonamento gratuito, sfruttando il fatto che lo stagista è studente universitario e quindi avente diritto alla gratuità del piano base.
 
-Nel contesto aziendale va preventivato che il servizio Notification Hubs dovrà essere usufruito mediante piani di abbonamento a pagamento.
-Il motivo è semplice: il piano base gratuito utilizzato durante lo stage consente al massimo solo 500 dispositivi registrati nello spazio dei nomi dell'hub di notifica, e inoltre sono consentiti al massimo
-un milione di notifiche push.
+Nel contesto aziendale va preventivato che, ai fini dell'intero funzionamento del sistema di notifiche push, il servizio Azure Notification Hubs sarà obbligatorio e con ogni probabilità dovrà essere tenuta in considerazione la possibilità di usufruire piani di abbonamento a pagamento.
+Il motivo è semplice: il piano base gratuito utilizzato durante lo stage consente al massimo solo 500 dispositivi registrati nello spazio dei nomi dell'hub di notifica, e inoltre sono consentiti al massimo un milione di notifiche push.
 
-> NB) Il servizio *App Service* è stato utilizzato dallo stagista per caricare il backend locale e renderlo disponibile online. Pertanto l'azienda non deve farsi carico di questo specifico servizio di Azure.
+> NB) Il servizio *App Service* è stato utilizzato dallo stagista per caricare il backend locale e averlo a disposizione in rete. Pertanto l'azienda non deve farsi carico di questo specifico servizio di Azure.
 
 Microsoft offre gratuitamente un [calcolatore dei costi](https://azure.microsoft.com/it-it/pricing/calculator/?service=notification-hubs) che permette di capire qual'è l'abbonamento Notification Hubs più idoneo per il contesto aziendale.
 
@@ -275,8 +273,7 @@ Inoltre, è già disponibile al percorso *Archive/Estimate-€-Azure-Hub-Notific
 
 ### Glossario
 
-- **Broker**: architettura di elaborazione che rende possibile la cooperazione in sistemi; in particolare, nel linguaggio di Internet, la struttura che consente a un sistema connesso in rete di mettere a
-disposizione i propri servizi (informazioni e funzioni elaborative) e a sua volta di accedere a quelli degli altri sistemi.
+- **Broker**: architettura di elaborazione che rende possibile la cooperazione di più sistemi. Per quanto riguarda il caso d'uso specifico di Interner, è la struttura che consente a un sistema connesso in rete di mettere a disposizione i propri servizi e a sua volta di accedere a quelli degli altri sistemi.
 
 <div align="right">
 
