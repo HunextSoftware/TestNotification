@@ -31,10 +31,10 @@ Prima di iniziare, è necessario accertarsi di avere un account Google e una sot
 
 Ecco la sequenza di azioni da effettuare:
 1) accedere alla [console di Firebase](https://firebase.google.com/console/), cliccare su *Aggiungi progetto* e inserire il nome del progetto che deve essere univoco (in questo caso è *TestPushNotification*).
-2) una volta effettuata la creazione del progetto, selezionare *Aggiungi Firebase alla tua app Android* e si aprirà una pagina con un form da compilare.
-    - in *Nome pacchetto Android* inserire un nome per il pacchetto (in questo caso è *com.hunext.testnotification*) e clicca il bottone *Registra app*.
-    - cliccare il bottone *Scarica google-services.json.* e copiarlo in locale: successivamente, verrà copiato in *TestNotification.Android*. Cliccare il bottone *Avanti*.
-    - infine cliccare il bottone *Vai alla console*.
+2) una volta effettuata la creazione del progetto, selezionare *Aggiungi Firebase alla tua app Android*: si aprirà una pagina con un form da compilare.
+    - in *Nome pacchetto Android* inserire un nome per il pacchetto (in questo caso è *com.hunext.testnotification*) e cliccare il pulsante *Registra app*.
+    - cliccare il pulsante *Scarica google-services.json.* e copiare il file in locale: successivamente, verrà copiato in *TestNotification.Android*. Cliccare il pulsante *Avanti*.
+    - infine cliccare il pulsante *Vai alla console*.
 3) sulla tendina a sinistra, andare sulle impostazioni di *Panoramica del progetto* e selezionare la voce *Impostazioni progetto*.
     - passare alla scheda *Cloud Messaging* e cercare in *Credenziali di progetto* il valore di *Chiave server*. A questo punto, copiare il token e salvarlo in un file per utilizzarlo successivamente.
 
@@ -42,7 +42,9 @@ Ecco la sequenza di azioni da effettuare:
 <img src="Images/4_Document/Configuration/4.1)Create-Firebase-project.png" alt="Creazione progetto Firebase"/>
 </div>
 
-Una volta configurato le varie piattaforme, il passo successivo è creare un hub di notifica in Azure. 
+> Per configurare Apple Push Notification Services (APNS) e l'hub di notifica in Azure con le informazioni di APNS, visitare la seguente [sezione](https://docs.microsoft.com/it-it/azure/developer/mobile-apps/notification-hubs-backend-service-xamarin-forms#set-up-push-notification-services-and-azure-notification-hub).
+
+Una volta configurate le varie piattaforme, il passo successivo è creare un hub di notifica in Azure. 
 
 Ecco la sequenza di azioni da effettuare:
 1) accedere ad [Azure](https://portal.azure.com/).
@@ -53,7 +55,7 @@ Ecco la sequenza di azioni da effettuare:
     - *Gruppo di risorse*: creare un nuovo gruppo di risorse o selezionarne uno esistente.
     - *Spazio dei nomi di Hub di notifica*: inserire un nome univoco globale (__nuovo__) per lo spazio dei nomi, o *namespace*, di *Hub di notifica*.
     - *Hub di notifica*: inserire un nome per il nuovo hub di notifica.
-    - *Località*: scegliere la zona desiderabile per localizzare il server dall'elenco a discesa.
+    - *Località*: scegliere dall'elenco a discesa la zona desiderabile per localizzare il server. 
     - *Piano tariffario*: scegliere il tipo di piano tra gratuito, basic e standard. In questo progetto è stato selezionata la voce *gratuito*.
 4) confermare la creazione della risorsa.
 5) dalla pagina principale, selezionare l'hub di notifica appena creato.
@@ -61,7 +63,7 @@ Ecco la sequenza di azioni da effettuare:
         - salvare in un file le due *Connection String* inerenti alle *Policy Name*: *DefaultListenSharedAccessSignature* e *DefaultFullSharedAccessSignature*.
 6) configurare l'hub di notifica con le informazioni di FCM.
     - selezionare dal menu della risorsa la voce *Google (GCM/FCM)*.
-    - inserire la *Chiave server* che è stata copiata nell'ultimo passo nella console di Firebase.
+    - inserire la *Chiave server* che è stata copiata nel passo 3) della configurazione di Firebase.
     - cliccare il pulsante *Save*.
 
 <div align="center">
@@ -69,10 +71,7 @@ Ecco la sequenza di azioni da effettuare:
 </div>
 <p></p>
 
-> Per configurare Apple Push Notification Services (APNS) e l'hub di notifica in Azure con le informazioni di APNS, visitare la seguente [sezione](https://docs.microsoft.com/it-it/azure/developer/mobile-apps/notification-hubs-backend-service-xamarin-forms#set-up-push-notification-services-and-azure-notification-hub).
-
-A questo punto, l'hub di notifica e i PNS sono configurati correttamente e possono svolgere la loro funzione.
-Il prossimo passo è lo sviluppo del codice, a partire dal backend.
+A questo punto, l'hub di notifica e i PNS sono configurati correttamente e possono svolgere la loro funzione. Il prossimo passo è lo sviluppo del codice, a partire dal backend.
 
 <div align="right">
 
