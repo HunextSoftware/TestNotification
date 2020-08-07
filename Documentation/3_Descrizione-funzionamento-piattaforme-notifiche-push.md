@@ -149,24 +149,22 @@ Quindi se l'obiettivo è inviare una notifica a N piattaforme, l'implementazione
 ## La soluzione individuata: Azure Notification Hubs
 
 Gestire tutti i dettagli implementativi di un PNS a livello di codice aumenta la specializzazione per una piattaforma.
-D'altronde, questo lavoro diventa pesante nel momento in cui le piattaforme con la quale comunicare sono N (con N > 1). 
-La responsabilità da parte dello sviluppatore aumenta ed inoltre l'invio di notifiche push richiede un'infrastruttura complessa che non è correlata alla logica di business principale dell'applicazione.
+D'altronde, questo lavoro diventa ingestibile nel momento in cui le piattaforme con la quale comunicare sono N (con N > 1), in quanto richiederebbe molto tempo per lo sviluppo. Inoltre l'invio di notifiche push richiede un'infrastruttura complessa che non è correlata alla logica di business principale dell'applicazione.
 
 I problemi principali sono i seguenti:
 - il backend richiede una logica dipendente dalla piattaforma, e la complessità aumenta con l'aumentare del numero di piattaforme da gestire.
-- a causa delle linee guida, è necessario aggiornare i token di dispositivo ad ogni avvio dell'applicazione. Ciò significa che se il numero di dispositivi da raggiungere è considerevole, allora 
-l'infrastruttura intera non riuscirebbe a scalare orizzontalmente il traffico che viene a generarsi.
+- le linee guida affermano che è necessario aggiornare i token di dispositivo ad ogni avvio dell'applicazione. Ciò significa che se il numero di dispositivi da raggiungere è considerevole, allora l'infrastruttura intera non riuscirebbe ad ottimizzare il traffico che viene a generarsi, fallendo nell'obiettivo di garantire una scalabilità orizzontale.
 - il backend deve mantenere un registro per salvare tutti i dispositivi ed associarli a gruppi di interesse (tag), e questo carico di lavoro aumenta i tempi di produzione e i costi di manutenzione del codice.
 - monitorare e fare la telemetria di tutti i dati è assai difficile.
 
 Per ovviare a questi problemi, è stato scelto Azure Notification Hubs anziché i PNS visti in precedenza (FCM/APNS), in quanto:
 - supporta tutte le piattaforme push e la complessità delle comunicazioni con i PNS viene astratta, offrendo un'interfaccia semplice e comune.
-- è compatibile con qualsiasi backend (scritto in ASP.NET Core).
+- è compatibile con qualsiasi backend (in questo progetto è stato scritto in ASP.NET Core).
 - garantisce scalabilità grazie all'infrastruttura ben progettata, e quindi un invio istantaneo delle notifiche.
 - i dispositivi possono essere associati a tag che rappresentano utenti o gruppi di interesse.
 - ogni dispositivo può avere modelli di notifica non solo nativi della piattaforma, ma anche personalizzabili.
 - forniscono un servizio di telemetria ben equipaggiato.
-- infine, è uno strumento Microsoft, e quindi in linea con la suite di prodotti aziendale.
+- infine, è uno strumento Microsoft, e quindi compatibile con la suite di prodotti utilizzata in azienda.
 
 <div align="right">
 
@@ -183,25 +181,22 @@ Le informazioni che vengono salvate sono:
 - eventualmente i tag che vanno ad identificare gruppi di interesse.
 - eventualmente i modelli di notifica personalizzati.
 
-D'altronde lo stato dell'arte al momento della scrittura prende il nome di __installazione__, ovvero una registrazione più avanzata e moderna che consente di includere ancora più informazioni specifiche.
+D'altronde lo stato dell'arte al momento della scrittura prende il nome di __installazione__, ovvero una registrazione più avanzata e moderna che consente di includere informazioni acnora più specifiche.
 Oltre alle informazioni viste nel processo di registrazione, l'installazione comprende le seguenti operazioni:
-- creare ed aggiornare un'installazione in modo idempotente, evitando registrazioni duplicate.
-- il modello di installazione supporta un formato di tag speciale ( *$InstallationId:{INSTALLATION_ID}* ) che consente l'invio di una notifica direttamente al device specifico.
-- eseguire aggiornamenti parziali delle registrazioni, alleggerendo la computazione a livello backend. 
+- crea ed aggiorna un'installazione in modo idempotente, evitando registrazioni duplicate.
+- il modello di installazione supporta un formato di tag speciale ( *$InstallationId:{INSTALLATION_ID}* ) che consente l'invio di una notifica direttamente al dispositivo specifico.
+- esegue aggiornamenti parziali delle registrazioni, alleggerendo la computazione a livello backend. 
 
-Nel contesto specifico di Azure Notification Hubs, i processi di registrazione ed installazione sono accomunati dal fatto che l'esecuzione del processo avviene a livello backend mentre il salvataggio delle
-informazioni avviene a livello di hub di notifica. Inoltre, per default, una registrazione o installazione non scade mai.
+Nel contesto specifico di Azure Notification Hubs, i processi di registrazione ed installazione sono accomunati dal fatto che l'esecuzione dei medesimi processi avviene a livello backend mentre il salvataggio delle informazioni avviene a livello di hub di notifica. Inoltre, per default, la registrazione e l'installazione non scadono mai.
 
-> Come conseguenza a queste osservazioni, la via percorribile scelta è il processo di installazione. Da ora in poi non verranno utilizzati altri termini.
+> Come conseguenza a queste osservazioni, la modalità scelta è il processo di **installazione**. D'ora in poi non verranno utilizzati altri termini.
 >
 > Per maggiori informazioni, consultare il seguente [link](https://docs.microsoft.com/it-it/azure/notification-hubs/notification-hubs-push-notification-registration-management#registration-management-from-a-backend).
 
 Ora l'attenzione si focalizza sui dati che vengono recuperati sia a livello di dispositivo che a livello backend (in particolare nel layer di persistenza), per poi essere inglobati nel processo di installazione.
 - **InstallationId**: identifica un dispositivo specifico associato all'applicazione dalla quale è partito il processo di installazione. Il suo utilizzo è legato soprattutto alla cancellazione dell'installazione dall'hub di notifica.
     - Questo valore può essere un GUID generato nel momento in cui viene eseguito il codice per l'installazione.
-    - In Android 8.0 e superiori, il codice ```Secure.GetString(Application.Context.ContentResolver, Secure.AndroidId)``` consente di generare una stringa di 64 bit, espressa come stringa esadecimale, 
-    ottenuta dalla combinazione di: chiave firmata della mobile app, utente e dispositivo. Per le restanti versioni di Android, lo stesso codice consente di generare un stringa random di 64 bit, espressa come 
-    stringa esadecimale, che rimane unica nel ciclo di vita del dispositivo dell'utente.
+    - In Android 8.0 e superiori, il codice ```Secure.GetString(Application.Context.ContentResolver, Secure.AndroidId)``` consente di generare una stringa di 64 bit, espressa come stringa esadecimale, ottenuta dalla combinazione dei seguenti dati: chiave firmata della mobile app, utente e dispositivo. Per le restanti versioni di Android, lo stesso codice consente di generare un stringa random di 64 bit, espressa come stringa esadecimale, che rimane unica nel ciclo di vita del dispositivo dell'utente.
   <p></p>
 
   > Il recupero di questa informazione può avvenire solo lato app.
