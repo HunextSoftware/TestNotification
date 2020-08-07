@@ -58,17 +58,14 @@ notifiche personalizzate, in modo da sostituire la console di [Postman](https://
 - **Microsoft Azure**: piattaforma cloud di Microsoft che eroga servizi cloud, gratuiti per l'utilizzo sperimentale dei medesimi oppure a pagamento per le esigenze aziendali.
 Nel contesto del progetto, sono stati utilizzati due servizi gratuiti: 
   - **Notification Hubs**: servizio per l'invio di notifiche push a qualsiasi piattaforma PNS (come Android, iOS, Windows, Amazon, Baidu e Kindle) da qualsiasi backend, cloud o locale che sia. 
-  Garantisce una scalabilità orizzontale e si pone come interlocutore tra backend e i PNS gestendo la fase di registrazione/de-registrazione dei device dai PNS. 
-  Contiene inoltre dati basici per la telemetria.
-  - **App Service**: servizio multipiattaforma indicata per la creazione, la distribuzione e la gestione di web application. È servito nello specifico per caricare il codice backend scritto in 
-  ASP.NET Core in modo da renderlo accessibile nella rete esterna. Contiene inoltre dati basici per la telemetria.
-    > Da precisare che il backend può funzionare allo stesso modo in locale, soprattutto per fare debugging. App Service consente di far comunicare mobile application e web application con il 
-      backend da remoto in ogni istante.
+  Garantisce una scalabilità orizzontale e si pone come interlocutore tra il backend e i PNS gestendo le registrazioni dei dispositivi e l'inoltro delle notifiche. 
+  Infine elabora informazioni base per la telemetria.
+  - **App Service**: servizio multipiattaforma indicata per la creazione, la distribuzione e la gestione di web application. È servito nello specifico per caricare il codice backend scritto in ASP.NET Core in modo da renderlo accessibile in rete. Infine elabora informazioni base per la telemetria.
+    > Il backend può funzionare allo stesso modo in locale, soprattutto per fare debugging.
 
-- **Firebase Cloud Messaging (FCM)**: PNS per applicazioni Android, iOS e Web che appartiene alla piattaforma Firebase dell'azienda Google. Precedentemente chiamato 
-  Google Cloud Messaging (GCM), è gratuito ed e utilizzato nell'ambito di questo progetto per l'invio di notifiche a dispositivi Android.
+- **Firebase Cloud Messaging (FCM)**: PNS che appartiene alla piattaforma Firebase dell'azienda Google indirizzato principalmente per dispositivi Android, le cui funzionalità sono estese anche a dispositivi iOS e Web. Precedentemente chiamato *Google Cloud Messaging* (GCM), è gratuito ed e utilizzato nell'ambito di questo progetto per l'invio di notifiche a dispositivi Android.
 
-- **Apple Platform Notification System (APNS)**: PNS specifico per applicazioni iOS. Non è stato utilizzato e tanto meno configurato a causa dell'account Apple Developer a pagamento.
+- **Apple Platform Notification System (APNS)**: PNS che appartiene all'azienda Apple indirizzato per dispositivi iOS. Non è stato utilizzato e tanto meno configurato a causa dei motivi elencati nel documento *1_Descrizione-generale-progetto*.
 
 > Nel prossimo documento verrà approfondito il funzionamento di tali piattaforme e le ragioni per il quale è stata scelta una piattaforma anziché l'altra.
 
@@ -81,12 +78,10 @@ Nel contesto del progetto, sono stati utilizzati due servizi gratuiti:
 
 ## Database
 
-- **LiteDB**: database NoSQL non relazionale per .NET utilizzato lato backend per la memorizzazione dei dati utente. La sua particolarità è che non serve un'effettiva implementazione
-in quanto è embedded, ed è particolarmente utile ed efficiente in progetti piccoli in .NET. Il suo utilizzo serve per simulare l'autenticazione degli utenti alla mobile application 
-TestNotification e memorizzare dati utili, corrispondenti ai **tag**, per l'invio di notifiche mirate.
+- **LiteDB**: database NoSQL non relazionale per .NET utilizzato lato backend per la memorizzazione dei dati utente. LiteDB non ha bisogno di implementazioni in quanto è embedded, ed è particolarmente utile ed efficiente in progetti piccoli scritti in .NET. Il suo utilizzo è mirato alla simulazione dell'autenticazione degli utenti all'applicazione mobile *TestNotification* e memorizzare alcuni dati utili, corrispondenti ai **tag**, per l'invio di notifiche mirate.
 Pacchetto per Visual Studio 2019 disponibile al seguente [link](https://www.nuget.org/packages/LiteDB/).
 
-- **LiteDB.Studio**: applicativo che consente di visualizzare tutti i dati contenuti da un database selezionato. 
+- **LiteDB.Studio**: applicativo che consente di visualizzare tutti i dati di uno specifico database. 
 Download disponibile al seguente [link](https://github.com/mbdavid/LiteDB.Studio).
 
 <div align="right">
@@ -98,11 +93,10 @@ Download disponibile al seguente [link](https://github.com/mbdavid/LiteDB.Studio
 
 ## Altri strumenti
 
-- **Postman**: applicativo utilizzato per due terzi del progetto (prima dell'effettivo sviluppo della web application) e specifico per l'invio di richieste HTTP(S) verso il server locale
-oppure al server remoto di Azure che "ospita" il codice backend. Utile soprattutto per le attività di test.
+- **Postman**: applicativo utilizzato per due terzi del tempo di progetto, prima dell'effettivo sviluppo della web application, che è specifico per l'invio di richieste HTTP(S) verso il backend locale oppure al backend remoto caricato in Azure App Service. Utile per le attività di test inerenti all'invio delle notifiche.
 Download disponibile al seguente [link](https://www.postman.com/downloads/).
 
-- **GitHub Desktop**: applicativo utilizzato per la gestione locale e remota del codice sorgente mediante l'utilizzo del VCS (Version Control System) Git. 
+- **GitHub Desktop**: applicativo utilizzato per la gestione locale e remota del codice sorgente mediante l'utilizzo del VCS Git. 
 Download disponibile al seguente [link](https://desktop.github.com/).
 
 <div align="right">
@@ -117,6 +111,8 @@ Download disponibile al seguente [link](https://desktop.github.com/).
 
 - **PNS**: acronimo di *Platform Notification System*, è un'infrastruttura specifica che permette di creare un handle con i dispositivi per inviare notifiche push
 fino a quando il dispositivo è registrato al servizio. Per i dispositivi Android, l'invio delle notifiche è gestito da FCM, mentre per i dispositivi Apple da APNS.
+
+- **VCS**: acronimo di *Version Control System*, è un software di controllo di versione che permette di tenere traccia delle modifiche e delle versioni apportate al codice sorgente del software.
 
 <div align="right">
 
