@@ -42,7 +42,7 @@ Android in quanto l'account Apple Developer è a pagamento.
 - **ASP.NET Core**: framework open-source multipiattaforma, successore di ASP.NET, per la realizzazione di siti Web, applicazioni e database. Nell'ambito di questo progetto è stato
 utilizzato per la realizzazione del backend, ovvero la componente d’integrazione tra la piattaforma cloud di push notification e la mobile application in grado di gestire tutte le registrazioni dei dispositivi da inoltrare all'hub di notifica di Azure ed elaborare le notifiche da inviare ai PNS specifici.
 
-- **ASP.NET Core Razor Page**: framework open-source specifico per la creazione di siti web multipiattaforma. Abbina il linguaggio C# per la programmazione server-side
+- **ASP.NET Core Razor Pages**: framework open-source specifico per la creazione di siti web multipiattaforma. Abbina il linguaggio C# per la programmazione server-side
 con i linguaggi statici e dinamici per la programmazione web. Nell'ambito di questo progetto è stato utilizzato per la creazione di una web application in grado di inoltrare
 notifiche personalizzate, in modo da sostituire la console di [Postman](https://www.postman.com/). 
 
