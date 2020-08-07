@@ -19,14 +19,11 @@ Il documento è strutturato nelle seguenti sezioni:
 
 La mobile application Hunext Mobile è multipiattaforma e più nello specifico è indirizzata a dispositivi Android ed iOS.
 
-Per ricevere notifiche dall'applicazione installata, la precondizione necessaria è che ogni dispositivo deve obbligatoriamente registrarsi al PNS di riferimento, instaurando un collegamento diretto ad 
-esso: questa procedura viene chiamata nel gergo *PNS Handling*. 
+Per ricevere notifiche dall'applicazione installata, la precondizione necessaria è che ogni dispositivo deve obbligatoriamente registrarsi al PNS di riferimento, instaurando un collegamento diretto ad esso: questa procedura viene chiamata nel gergo *PNS Handling*. 
 
 > Questa procedura verrà approfondita nel documento *4_Descrizione-POC*.
 
-Purtroppo non esiste uno standard unico per la gestione, la configurazione e la comunicazione con i PNS, in quanto ogni ecosistema specifico offre strumenti che svolgono la stessa funzione
-ma che non sono accomunati da un'interfaccia unica. Proprio per questo motivo saranno analizzate nel dettaglio le piattaforme di notifica principali, ovvero:
-
+Purtroppo non esiste uno standard unico per la gestione, la configurazione e la comunicazione con i PNS, in quanto ogni ecosistema specifico offre strumenti che svolgono la stessa funzione ma che non sono accomunati da un'interfaccia unica. Proprio per questo motivo saranno analizzate nel dettaglio le piattaforme di notifica principali, ovvero:
 - [Firebase Cloud Messaging (FCM)](#firebase-cloud-messaging-fcm) per l'ecosistema Android.
 - [Apple Push Notification Service (APNS)](#apple-push-notification-service-apns) per l'ecosistema Apple.
 - [Azure Notification Hubs](#azure-notification-hubs) per l'ecosistema Android, Apple e Windows.
@@ -36,8 +33,7 @@ ma che non sono accomunati da un'interfaccia unica. Proprio per questo motivo sa
 FCM è un PNS di Google che consente di inviare notifiche principalmente per i dispositivi Android. Questo servizio è comunque disponibile per i dispositivi Apple e gli applicativi Web.
 
 La precondizione per il funzionamento di FCM, come per ogni PNS, consiste nella registrazione dei dispositivi per la ricezione dei messaggi da FCM.
-Questa procedura viene avviata da un dispositivo che, una volta installata l'applicazione, contatta FCM per ottenere un token di registrazione, il quale identifica in modo univoco l'istanza dell'applicazione
-associata a quel dispositivo.
+Questa procedura viene avviata da un dispositivo che, una volta installata l'applicazione, contatta FCM per ottenere un token di registrazione, il quale identifica in modo univoco l'istanza dell'applicazione associata a quel dispositivo.
 Il token di registrazione viene poi salvato nel backend di FCM, e da quel momento il dispositivo è abilitato a ricevere le notifiche.
 
 <div align="center">
@@ -46,19 +42,16 @@ Il token di registrazione viene poi salvato nel backend di FCM, e da quel moment
 
 Il funzionamento di Firebase avviene principalmente in 4 fasi:
 
-1) viene creata la richiesta di notifica da parte del server del provider. In un contesto reale questa responsabilità è affidata al backend aziendale, 
-mentre nel contesto di questo progetto è affidata alla web application.
+1) viene creata la richiesta di notifica da parte del server del provider. In un contesto reale questa responsabilità è affidata al backend aziendale, mentre nel contesto di questo progetto è affidata alla web application.
 2) la richiesta viene passata al backend di FCM, il quale si occupa di inoltrare la richiesta ai vari livelli di trasporto.
-3) la notifica viene indirizzata ai dispositivi di destinazione, applicando la configurazione della piattaforma specifica. Questo passaggio avviene
-al di fuori di Firebase, nello specifico:
+3) la notifica viene indirizzata ai dispositivi di destinazione, applicando la configurazione della piattaforma specifica. Questo passaggio avviene al di fuori di Firebase, nello specifico:
     - nell'Android Transport Layer (ATL) per dispositivi Android che supportano i Google Play Services.
     - nella piattaforma Apple Push Notification Service (APNS) per dispositivi iOS.
     - mediante il protocollo push Web per applicativi web.
 4) i dispositivi ricevono la notifica in base allo stato attuale del dispositivo e alle configurazioni precedenti.
 
 
-Il payload del messaggio è formattato in JSON (uno standard per il trasferimento di dati in rete) e può avere la dimensione massima di 4 KB, con un set di chiavi fissato da Android, con la possibilità di 
-personalizzare le proprie chiavi.
+Il payload del messaggio è formattato in JSON (uno standard per il trasferimento di dati in rete) e può avere la dimensione massima di 4 KB, con un set di chiavi fissato da Android, con la possibilità di personalizzare le proprie chiavi.
 Le chiavi predefinite sono:
 - *token*, che è una stringa alfanumerica generata da Firebase che identifica il collegamento unidirezionale da Firebase al dispositivo.
 - *notification*, che contiene le informazioni base della notifica, ovvero:
@@ -75,11 +68,10 @@ Inoltre è possibile inserire opzioni specifiche per ogni piattaforma che vanno 
 
 ### Apple Push Notification Service (APNS) 
 
-APNS è un PNS di Apple specifico in quanto consente di inviare notifiche solo ai dispositivi Apple. 
+APNS è un PNS specifico di Apple in quanto consente di inviare notifiche solo ai dispositivi Apple. 
 
 La precondizione per il funzionamento di APNS, come per ogni PNS, consiste nella registrazione dei dispositivi per la ricezione dei messaggi da APNS.
-Questa procedura viene avviata da un dispositivo Apple che, una volta avviata l'istanza dell'applicazione, contatta APNS per ricevere il token del 
-dispositivo che identifica in modo univoco l'istanza dell'applicazione associata a quel dispositivo.
+Questa procedura viene avviata da un dispositivo Apple che, una volta avviata l'istanza dell'applicazione, contatta APNS per ricevere il token del dispositivo che identifica in modo univoco l'istanza dell'applicazione associata a quel dispositivo.
 Il token di registrazione viene poi inoltrato al server del provider, e da quel momento il dispositivo è abilitato a ricevere le notifiche.
 
 <div align="center"> 
@@ -89,24 +81,19 @@ Il token di registrazione viene poi inoltrato al server del provider, e da quel 
 Come riportato nella documentazione, la comunicazione tra il server del provider e APNS deve avvenire tramite una connessione protetta.
 
 La creazione di tale connessione richiede l'installazione di un certificato della Certificate Authority(CA) GeoTrust sul server del provider. 
-Se il server del provider non è eseguito su MacOS, è necessario installare un certificato autonomamente, possibilmente da questo 
-[link](https://www.geotrust.com/resources/root-certificates/).
-Per avere l'autorizzazione ad inviare le notifiche e interagire con APNS, il server del provider deve creare un certificato, che può essere il più recente
-basato su token (consigliato, con estensione .p8 che utilizza HTTP/2) oppure il meno recente con estensione .p12 che utilizza TLS.
+Se il server del provider non è eseguito su MacOS, è necessario installare un certificato autonomamente, possibilmente da questo [link](https://www.geotrust.com/resources/root-certificates/).
+Per avere l'autorizzazione ad inviare le notifiche e interagire con APNS, il server del provider deve creare un certificato, che può essere il più recente basato su token (*consigliato*, con estensione .p8 che utilizza HTTP/2) oppure il meno recente con estensione .p12 che utilizza TLS.
 
-Una volta che sono stati rispettati questi prerequisiti, APNS può inviare notifiche gestendo una connessione IP crittografata e permanente al dispositivo
-dell'utente, archiviando e inoltrando le notifiche per un dispositivo attualmente offline e raccogliendo notifiche con lo stesso identificatore.
+Una volta che tali prerequisiti vengono rispettati, APNS può inviare notifiche gestendo una connessione IP crittografata e permanente al dispositivo dell'utente, archiviando ed inoltrando le notifiche per un dispositivo attualmente offline e raccogliendo notifiche con lo stesso identificatore.
 
-
-Il payload del messaggio è formattato in JSON (uno standard per il trasferimento di dati in rete) ed include chiavi definite da Apple. Inoltre possono essere aggiunte
-chiavi personalizzabili. 
+Il payload del messaggio è formattato in JSON (uno standard per il trasferimento di dati in rete) ed include chiavi definite da Apple. Inoltre possono essere aggiunte chiavi personalizzabili. 
 La dimensione massima del payload è di 5 KB per le notifiche VoIP (Voice over Internet Protocol), mentre è di 4 KB per tutte le altre notifiche remote.
 La chiave predefinita è *aps*, che a sua volta può contenere le seguenti sotto-chiavi:
 - *alert*: indica le informazioni per la visualizzazione di una notifica. A sua volta può contenere le sotto-chiavi:
-    - *title*: indica titolo della notifica.
-    - *subtitle*: aggiunge informazioni aggiuntive per spiegare lo scopo della notifica.
-    - *body*: indica il contenuto della notifica.
-- *badge*: indica il numero da visualizzare nel badge posto sull'icona della mobile application in questione.
+    - *title*: il titolo della notifica.
+    - *subtitle*: le informazioni aggiuntive per spiegare lo scopo della notifica.
+    - *body*: il contenuto della notifica.
+- *badge*: indica il numero da visualizzare nel badge posto sull'icona dell'applicazione mobile.
 - eccetera.
 
 Tutte le altre chiavi personalizzabili dall'utente possono essere aggiunte nel payload allo stesso livello gerarchico di *aps*.
