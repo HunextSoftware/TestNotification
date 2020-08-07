@@ -36,7 +36,7 @@ Tutte le fonti sono ufficiali.
 - Tutorial sviluppo completo applicazione mobile e backend con Azure: 
   - https://docs.microsoft.com/it-it/azure/developer/mobile-apps/notification-hubs-backend-service-xamarin-forms
 
-> Codice del tutorial: https://github.com/xamcat/mobcat-samples/tree/master/notification_hub_backend_service
+    > Codice del tutorial: https://github.com/xamcat/mobcat-samples/tree/master/notification_hub_backend_service
 
 - Best practice: 
   - https://docs.microsoft.com/en-us/archive/msdn-magazine/2015/april/microsoft-azure-azure-notification-hubs-best-practices-for-managing-devices#case-2-the-back-end-manages-devices-in-notification-hubs
@@ -62,7 +62,7 @@ Notifiche locali e notifiche head-up: https://docs.microsoft.com/it-it/xamarin/a
 
 Plug-in BadgeCounter: https://github.com/wcoder/ShortcutBadger
 
-Ciclo di vita delle attivit‡: https://docs.microsoft.com/it-it/xamarin/android/app-fundamentals/activity-lifecycle/
+Ciclo di vita delle attivit√†: https://docs.microsoft.com/it-it/xamarin/android/app-fundamentals/activity-lifecycle/
 
 
 ## Apple
