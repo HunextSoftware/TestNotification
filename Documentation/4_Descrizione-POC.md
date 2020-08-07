@@ -37,6 +37,7 @@ Ecco la sequenza di azioni da effettuare:
     - infine cliccare il pulsante *Vai alla console*.
 3) sulla tendina a sinistra, andare sulle impostazioni di *Panoramica del progetto* e selezionare la voce *Impostazioni progetto*.
     - passare alla scheda *Cloud Messaging* e cercare in *Credenziali di progetto* il valore di *Chiave server*. A questo punto, copiare il token e salvarlo in un file per utilizzarlo successivamente.
+<p></p>
 
 <div align="center">
 <img src="Images/4_Document/Configuration/4.1)Create-Firebase-project.png" alt="Creazione progetto Firebase"/>
