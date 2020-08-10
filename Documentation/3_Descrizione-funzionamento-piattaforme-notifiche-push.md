@@ -132,7 +132,7 @@ Nel caso specifico di Azure Notification Hubs, invece, il flusso è il seguente:
 2) il dispositivo inoltra il PNS handle al backend del provider, che infine lo inoltra all'hub di notifica in quanto possiede l'onere di archiviarlo.
 3) il backend deve inviare una notifica, quindi contatta l'hub di notifica che la acquisisce e la inoltra a tutti i PNS, che a loro volta si occupano di inviarla ad utenti specifici oppure a gruppi di interesse.
 
-In questo caso la differenza sostanziale le differenze sono due:
+In questo caso le differenze sostanziali sono due:
 - non è più il backend a salvare i PNS handle, bensì l'hub di notifica.
 - l'invio di una notifica push da parte del server del provider avviene mediante una sola chiamata all'API di Azure Notification Hubs per inviarla a tutte le piattaforme.
 Quindi se l'obiettivo è inviare una notifica a N piattaforme, l'implementazione della stessa funzionalità a livello di codice avviene una sola volta con una sola chiamata.
