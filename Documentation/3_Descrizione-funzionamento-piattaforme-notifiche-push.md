@@ -196,7 +196,7 @@ Nel contesto specifico di Azure Notification Hubs, i processi di registrazione e
 Ora l'attenzione si focalizza sui dati che vengono recuperati sia a livello di dispositivo che a livello backend (in particolare nel layer di persistenza), per poi essere inglobati nel processo di installazione.
 - **InstallationId**: identifica un dispositivo specifico associato all'applicazione dalla quale è partito il processo di installazione. Il suo utilizzo è legato soprattutto alla cancellazione dell'installazione dall'hub di notifica.
     - Questo valore può essere un GUID generato nel momento in cui viene eseguito il codice per l'installazione.
-    - In Android 8.0 e superiori, il codice ```Secure.GetString(Application.Context.ContentResolver, Secure.AndroidId)``` consente di generare una stringa di 64 bit, espressa come stringa esadecimale, ottenuta dalla combinazione dei seguenti dati: chiave firmata della mobile app, utente e dispositivo. Per le restanti versioni di Android, lo stesso codice consente di generare un stringa random di 64 bit, espressa come stringa esadecimale, che rimane unica nel ciclo di vita del dispositivo dell'utente.
+    - In Android 8.0 e superiori, il codice ```Secure.GetString(Application.Context.ContentResolver, Secure.AndroidId)``` consente di generare una stringa di 64 bit, espressa come stringa esadecimale, ottenuta dalla combinazione dei seguenti dati: chiave firmata dell'applicazione mobile, utente e dispositivo. Per le restanti versioni di Android, lo stesso codice consente di generare un stringa random di 64 bit, espressa come stringa esadecimale, che rimane unica nel ciclo di vita del dispositivo dell'utente.
 <p></p>
 
   > Il recupero di questa informazione può avvenire solo lato app.
