@@ -509,7 +509,7 @@ async void RegistrationDevice()
 }
 ```
 
-**5) *AuthorizedUserPage.xaml.cs*
+**5) *AuthorizedUserPage.xaml.cs**
 
 Questa classe contiene tutta la logica della pagina *AuthorizedUserPage*, corrispondente alla seconda activity che contiene le informazioni dell'utente autenticato in TestNotification.
 
