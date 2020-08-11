@@ -105,7 +105,7 @@ dotnet user-secrets set "NotificationHub:ConnectionString" <value>
 ```
 
 Il placeholder *\<value\>* va rimpiazzato in questo modo:
-- **NotificationHub:Name** è la voce *Name** che si trova in *Informazioni di base* nella pagina principale dell'hub di notifica appena creato.
+- **NotificationHub:Name** è la voce *Name* che si trova in *Informazioni di base* nella pagina principale dell'hub di notifica appena creato.
 - **NotificationHub:ConnectionString** è il valore *DefaultFullSharedAccessSignature* copiato nel passaggio 5) della creazione dell'hub di notifica di Azure per l'accesso in lettura e scrittura.
 
 Il passaggio successivo è aggiungere le dipendenze necessarie al backend dal servizio *NuGet* di Visual Studio:
@@ -159,7 +159,7 @@ All'interno sono presenti due classi interne:
         "title" : "TestNotification", 
         "body" : "$(alertMessage)"
     }
-}"
+}
 ```
 
 *Payload generico iOS:*
@@ -252,7 +252,7 @@ In questo caso l'unico endpoint presente è:
 In questa classe sono presenti metodi che, in base al loro scopo, vengono utilizzati sia da *LoginController* che da *NotificationsController*. In particolare vengono gestite tutte le operazioni con LiteDB.
 
 I metodi principali sono i seguenti:
-- *GetAllUsers()*: ritorna la lista di tutti gli utenti, in particolare gli id associati agli username. Viene utilizzato nel codice dell'endpoint GET *~/api/notifications/users/all*
+- *GetAllUsers()*: ritorna la lista di tutti gli utenti, in particolare gli id associati agli username. Viene utilizzato nel codice dell'endpoint GET *~/api/notifications/users/all*.
 - *GetUserByUsername(string username)*: ritorna un utente in base allo username passato come parametro del metodo. Viene utilizzato nel codice dell'endpoint POST *~/login*.
 - *GetUserById(Guid id)*: ritorna un utente in base all'id passato come parametro del metodo. Viene utilizzato nel codice degli endpoint PUT *~/api/notifications/installations* e DELETE *~/api/notifications/installations/\{installationId}* per accertarsi che la richiesta HTTP sia autorizzata, verificando che nell'header sia presente l'id utente.
 - *AuthenticateUser(string username, string password)*: ritorna true se le credenziali dell'utente sono presenti nel database. Viene utilizzato nel codice dell'endpoint POST *~/login*.
@@ -274,11 +274,11 @@ Di seguito vengono elencati in sequenza i passaggi da effettuare per attivare qu
 2) Dalla pagina principale, sotto la voce *Servizi di Azure* selezionare la voce *Crea una risorsa*.
     - nella barra di ricerca digitare *API App*, selezionare il risultato ottenuto e cliccare il pulsante *Crea*.
 3) Inserire i dati nei rispettivi campi:
-    - **Nome app**: inserire un nome univo che identifica l'API App.
+    - **Nome app**: inserire un nome univoco che identifica l'API App.
     - **Sottoscrizione**: selezionare la stessa sottoscrizione scelta durante la creazione dell'hub di notifica.
     - **Gruppo di risorse**: selezionare lo stesso gruppo di risorse scelta durante la creazione dell'hub di notifica.
     - **Località**: scegliere dall'elenco a discesa la zona desiderabile per localizzare il server.
-    - **Application Insights:**: lasciare le opzioni suggerite da Azure.
+    - **Application Insights**: lasciare le opzioni suggerite da Azure.
 4) Una volta inseriti i dati del punto 3), confermare la creazione del servizio ed entrare all'interno della risorsa.
 5) Salvare in un file a parte l'URL *https://<app_name>.azurewebsites.net* che si trova in *Informazioni di base*, in quanto verrà utilizzato nell'applicazione mobile e nella web application.
 6) Dal menu della risorsa, selezionare la voce *Configurazione*.
