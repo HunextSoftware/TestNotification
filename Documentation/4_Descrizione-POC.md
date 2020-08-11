@@ -397,7 +397,7 @@ Questa classe è analoga a quella omonima presente nel codice backend, con l'uni
 Va evidenziato che in questa classe sono presenti solo le informazioni minime che devono essere gestite obbligatoriamente dal dispositivo.
 La responsabilità di ricavare i tag appartiene al backend in quanto è meno vulnerabile rispetto ad un'applicazione mobile e velocizza le operazioni lato client offrendo un'esperienza utente migliore.
 
-**2) NotificationRegistrationService**
+**2) NotificationRegistrationService.cs**
 
 Questa classe contiene tutti i metodi che corrispondono alle richieste che il dispositivo può inoltrare al backend. In particolare, sono presenti i metodi per la gestione dell'installazione del dispositivo.
 
