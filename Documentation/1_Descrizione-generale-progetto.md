@@ -37,7 +37,7 @@ Purtroppo non esiste un sistema standard: ogni sistema, in particolare ogni sist
 Di seguito viene stilato un elenco delle piattaforme principali che vengono utilizzate maggiormente:
 
 - FCM, acronimo di Firebase Cloud Messaging, che è la generazione successiva di GCM (Google Cloud Messaging), per tutti i dispositivi Google. Estende le suo funzionalità anche a dispositivi iOS e Web.
-- APN, acronimo di Apple Push Notification, per tutti i dispositivi Apple.
+- APNS, acronimo di Apple Push Notification Service, per tutti i dispositivi Apple.
 - WNS, acronimo di Windows push Notification Services, per tutti i dispositivi Windows.
 
 Inoltre esiste un servizio molto interessante contenuto nella piattaforma cloud Microsoft Azure, ovvero Notification Hubs, che funge da broker tra il backend che gestisce tutte le richieste che arrivano dai vari dispositivi e le piattaforme di push notification (che saranno chiamate PNS), grazie ad una configurazione minimale delle varie piattaforme.
