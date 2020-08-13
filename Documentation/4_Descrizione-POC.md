@@ -889,7 +889,7 @@ dotnet user-secrets set "NotificationHub:ConnectionString" <value>
 ```
 
 Il placeholder *\<value\>* va rimpiazzato in questo modo:
-- **NotificationHub:Name** è la voce *Name** che si trova in *Informazioni di base* nella pagina principale dell'hub di notifica appena creato.
+- **NotificationHub:Name** è la voce *Name* che si trova in *Informazioni di base* nella pagina principale dell'hub di notifica appena creato.
 - **NotificationHub:ConnectionString** è il valore *DefaultFullSharedAccessSignature* copiato nel passaggio 5) della creazione dell'hub di notifica di Azure per l'accesso in lettura e scrittura.
 
 Il secondo passaggio è creare una classe *Config.cs* che ha il compito di mantenere tutti i valori segreti fuori dal controllo del codice sorgente
@@ -942,7 +942,7 @@ Nello specifico Text va a sostituire $(textNotification), che sostituirà a sua 
 
 **2) NotificationRequestTemplate.cs**
 
-Questa classe contiene la stringa, che può essere serializzato in JSON, che viene inviata come *content* della richiesta HTTP indirizzata al backend, in particolare all'endpoint *~/api/notifications/requests*.
+Questa classe contiene la stringa, che può essere serializzata in JSON, che viene inviata come *content* della richiesta HTTP indirizzata al backend, in particolare all'endpoint *~/api/notifications/requests*.
 
 Ecco il corpo della richiesta:
 ```
