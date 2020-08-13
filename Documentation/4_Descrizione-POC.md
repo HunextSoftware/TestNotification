@@ -1060,7 +1060,7 @@ In seguito vengono illustrate le due modalità per l'utilizzo di Postman.
 **PRIMA MODALITÁ**
 
 La prima cosa da fare è creare una nuova richiesta, rispettando i seguenti passaggi:
-- nella barra in alto, selezionare il metodo **POST** e inserire l'URL relativo all'inoltro della notifica https://serverpushnotification.azurewebsites.net/api/notifications/requests (oppure avviare il backend locale all'indirizzo http://localhost:5000/api/notifications/requests).
+- nella barra in alto, selezionare il metodo **POST** e inserire l'URL completo che identifica la richiesta al server per inoltrare la notifica, ovvero https://serverpushnotification.azurewebsites.net/api/notifications/requests (oppure avviare il backend locale e inserire l'URL http://localhost:5000/api/notifications/requests).
 - selezionare la voce **Headers** presente nel tab, e:
     - Attivare la checkbox della key **Content-Type** e scrivere come value **application/json**.
 - selezionare la voce **Body** presente nel tab, attivare il radio button **raw** e selezionare **JSON** nel menu a tendina. Nella text box sottostante, scrivere il corpo del messaggio di notifica:
