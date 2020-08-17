@@ -77,7 +77,7 @@ namespace TestNotification.Droid.Services
 
             // Instantiate the builder and set notification elements
             var builder = new NotificationCompat.Builder(this, Constants.CHANNEL_ID)
-                //.SetAutoCancel(true)
+                .SetAutoCancel(true)
                 .SetContentIntent(pendingIntent)
                 .SetContentTitle("TestNotification")
                 .SetContentText(body)
