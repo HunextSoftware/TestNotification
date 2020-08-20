@@ -1055,15 +1055,12 @@ L'utente può osservare che sono installati due dispositivi (il numero di tuple 
 
 Lo stagista ha creato una web application che permette di inviare una notifica da un'interfaccia web semplice, presente nel progetto *TestNotificationWebApp*, ma prima della sua creazione si è cimentato nell'utilizzo di [Postman](https://www.postman.com/), un programma adatto per inoltrare richieste a determinati endpoint indipendentemente dalla posizione del server.
 
-In seguito vengono illustrate le due modalità per l'utilizzo di Postman.
+Qui di seguito viene illustrato il procedimento per creare manualmente una richiesta per l'invio di una notifica con il suddetto software.
 
-**PRIMA MODALITÁ**
-
-La prima cosa da fare è creare una nuova richiesta, rispettando i seguenti passaggi:
-- nella barra in alto, selezionare il metodo **POST** e inserire l'URL completo che identifica la richiesta al server per inoltrare la notifica, ovvero https://<your_api_app_url>.azurewebsites.net/api/notifications/requests (oppure avviare il backend locale e inserire l'URL http://localhost:5000/api/notifications/requests).
-- selezionare la voce **Headers** presente nel tab, e:
+- Nella barra in alto, selezionare il metodo **POST** e inserire l'URL completo che identifica la richiesta al server per inoltrare la notifica, ovvero https://<your_api_app_url>.azurewebsites.net/api/notifications/requests (oppure avviare il backend locale e inserire l'URL http://localhost:5000/api/notifications/requests).
+- Selezionare la voce **Headers** presente nel tab, e:
     - Attivare la checkbox della key **Content-Type** e scrivere come value **application/json**.
-- selezionare la voce **Body** presente nel tab, attivare il radio button **raw** e selezionare **JSON** nel menu a tendina. Nella text box sottostante, scrivere il corpo del messaggio di notifica:
+- Selezionare la voce **Body** presente nel tab, attivare il radio button **raw** e selezionare **JSON** nel menu a tendina. Nella text box sottostante, scrivere il corpo del messaggio di notifica:
 ```
 {
     "text": "Hey man! How are things?"
@@ -1081,20 +1078,6 @@ Va evidenziato che, dopo vari tentativi di test, non è possibile inserire più 
 La best practice è inviare una notifica per ogni utente, quindi N notifiche per N utenti.
 
 - cliccare il pulsante **Send** e inviare la notifica.
-
-**SECONDA MODALITÁ**
-
-Nel caso non si volesse preparare manualmente la richiesta, è possibile scaricare il file che si trova, a partire dalla radice di questo repository, in *Archive/PostmanTestNotificationRequests*. 
-
-> In alternativa, è possibile scaricare il suddetto file tramite questo [link](https://drive.google.com/file/d/1oDxEGqBFsqdU1l6WnUaa6LrwBHqt1HEP/view?usp=sharing).
-
-Successivamente, aprire l'applicativo Postman, cliccare il pulsante **Import** presente in alto e selezionare il file appena scaricato.
-
-Il file contiene 6 richieste HTTP, 3 indirizzate al backend localhost e 3 indirizzate all'App Service di Azure. Ogni gruppo ha le stesse richieste, ovvero:
-1) notifica inoltrata a tutti, con la chiave *tags* assente dal body della richiesta.
-2) notifica inoltrata a tutti, con la chiave *tags* presente nel body della richiesta ma vuota.
-3) notifica inoltrata a tutti i dispositivi che sono autenticati con lo username *Mario.Rossi*.
-    - la precondizione è che ci sia almeno un dispositivo autenticato come *Mario.Rossi*, in modo che questi possano ricevere la suddetta notifica.
 
 > Come descritto nella issue [#8](https://github.com/HunextSoftware/TestNotification/issues/8), l'invio della notifica comporta una risposta HTTP 422 (lo si può sia visualizzare da Postman che dalla console della web application). Questo errore semantico è dovuto al fatto che è stata configurata solo la piattaforma FCM, in quanto il codice backend è già predisposto per l'invio di notifiche sia per dispositivi Android che per dispositivi Apple.
 È stato testato che, rimuovendo il codice specifico di TestNotification.Backend in Model/PushTemplates e Services/NotificationHubsService, l'invio della notifica comporta una risposta HTTP 200, con avvenuta ricezione della notifica. Ergo, questo problema verrà risolto non appena verrà effettuata la configurazione della piattaforma APNS, senza che il codice backend subisca ulteriori modifiche.
