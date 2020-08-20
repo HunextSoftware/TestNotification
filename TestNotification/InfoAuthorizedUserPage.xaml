@@ -23,7 +23,7 @@
             <Label Text="- &lt;strong&gt;Sector company&lt;/strong&gt;: the specific sector company in which the user works."
                 TextType="Html"  
                 Margin="10,0,5,10"/>
-            <Label Text="Pressing &lt;strong&gt;Logout&lt;/strong&gt; button, you can log out by the system and the device will be deregistered by Azure Hub Notifications. This operation involves not receiving notifications."
+            <Label Text="Pressing &lt;strong&gt;Logout&lt;/strong&gt; button, you can log out by the system and the device will be deregistered by Azure Notification Hubs. This operation involves not receiving notifications."
                 TextType="Html" 
                 Margin="10,10,5,0"/>
         </StackLayout>
